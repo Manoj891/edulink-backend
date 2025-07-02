@@ -15,7 +15,7 @@ public class DateConverted {
     private static final BikramSambatConverter converter = new BikramSambatConverter();
     private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
     private static final SimpleDateFormat dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static final SimpleDateFormat time = new SimpleDateFormat("HH:mm:ss");
+    private static final SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 
     public static String today() {
         return df.format(new Date());
