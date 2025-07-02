@@ -11,7 +11,9 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "exam_schedule")
+@Table(name = "exam_schedule", indexes = {
+        @Index(name = "index_subject_unique", columnList = "exam_id,program_id,class_id,subject_group,subject_id", unique = true)
+})
 public class ExamSchedule {
     @Id
     @Column(name = "id")
