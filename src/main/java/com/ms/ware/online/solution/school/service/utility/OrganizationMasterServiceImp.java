@@ -58,7 +58,7 @@ public class OrganizationMasterServiceImp implements OrganizationMasterService {
     }
 
     @Override
-    public String logo(HttpServletRequest request, MultipartFile logo, MultipartFile idCardLogo, MultipartFile principleSignature, MultipartFile billBackground) {
+    public String logo(MultipartFile logo, MultipartFile idCardLogo, MultipartFile principleSignature, MultipartFile billBackground) {
         try {
             String location = message.getFilepath(DatabaseName.getDocumentUrl());
             File f = new File(location + "/Organization");
@@ -69,21 +69,33 @@ public class OrganizationMasterServiceImp implements OrganizationMasterService {
             } catch (Exception e) {
                 return message.respondWithError(e.getMessage());
             }
-            if (billBackground != null && billBackground.getSize() > 100) {
-                f = new File(location + "/Organization/bill-background.png");
-                billBackground.transferTo(f);
+            try {
+                if (billBackground != null && billBackground.getSize() > 100) {
+                    f = new File(location + "/Organization/bill-background.png");
+                    billBackground.transferTo(f);
+                }
+            } catch (Exception ignored) {
             }
-            if (idCardLogo != null && idCardLogo.getSize() > 100) {
-                f = new File(location + "/Organization/idCardLogo.png");
-                idCardLogo.transferTo(f);
+            try {
+                if (idCardLogo != null && idCardLogo.getSize() > 100) {
+                    f = new File(location + "/Organization/idCardLogo.png");
+                    idCardLogo.transferTo(f);
+                }
+            } catch (Exception ignored) {
             }
-            if (idCardLogo != null && idCardLogo.getSize() > 100) {
-                f = new File(location + "/Organization/principleSignature.png");
-                principleSignature.transferTo(f);
+            try {
+                if (idCardLogo != null && idCardLogo.getSize() > 100) {
+                    f = new File(location + "/Organization/principleSignature.png");
+                    principleSignature.transferTo(f);
+                }
+            } catch (Exception ignored) {
             }
-            if (idCardLogo != null && idCardLogo.getSize() > 100) {
-                f = new File(location + "/Organization/Logo.png");
-                logo.transferTo(f);
+            try {
+                if (idCardLogo != null && idCardLogo.getSize() > 100) {
+                    f = new File(location + "/Organization/Logo.png");
+                    logo.transferTo(f);
+                }
+            } catch (Exception ignored) {
             }
             return message.respondWithMessage("Success");
         } catch (Exception e) {

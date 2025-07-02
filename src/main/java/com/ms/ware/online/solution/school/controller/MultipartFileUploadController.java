@@ -37,8 +37,8 @@ public class MultipartFileUploadController {
     }
 
     @PostMapping("/upload-logo")
-    public ResponseEntity<String> doLogo(HttpServletRequest request, @RequestParam(required = false) MultipartFile logo, @RequestParam(required = false) MultipartFile billBackground, @RequestParam(required = false) MultipartFile idCardLogo, @RequestParam(required = false) MultipartFile principleSignature) {
-        return ResponseEntity.status(HttpStatus.OK).body(organizationMasterService.logo(request, logo, idCardLogo, principleSignature, billBackground));
+    public ResponseEntity<String> doLogo( @RequestParam(required = false) MultipartFile logo, @RequestParam(required = false) MultipartFile billBackground, @RequestParam(required = false) MultipartFile idCardLogo, @RequestParam(required = false) MultipartFile principleSignature) {
+        return ResponseEntity.status(HttpStatus.OK).body(organizationMasterService.logo(logo, idCardLogo, principleSignature, billBackground));
     }
 
     @PostMapping("/student/photo")

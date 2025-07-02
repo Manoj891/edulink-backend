@@ -12,6 +12,6 @@ public interface OrganizationMasterService {
 
     Object save(OrganizationMaster obj);
 
-    String logo(HttpServletRequest request, MultipartFile logo, MultipartFile idCardLogo, MultipartFile principleSignature, MultipartFile billBackground);
+    String logo(MultipartFile logo, MultipartFile idCardLogo, MultipartFile principleSignature, MultipartFile billBackground);
 
 }
