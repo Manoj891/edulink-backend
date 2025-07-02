@@ -89,7 +89,7 @@ public class ExamScheduleServiceImpl implements ExamScheduleService {
     public Map<String, Object> getEntranceCard(String regNos, long examId, long program, long classId, long groupId) {
         Map<String, Object> map = new HashMap<>();
         map.put("data", db.getRecord("SELECT S.STU_NAME stuName, C.NAME className, S.ROLL_NO rollNo, S.ID regNo, IFNULL(S.SECTION, '') as section, ifnull(remark, '') as remark, board_symbol_no, fathers_name, upper(E.EXAM_NAME) examName FROM student_info S join exam_student_registration R on S.ID = R.STUDENT_ID join exam_master E on R.EXAM = E.ID join class_master C on R.CLASS_ID = C.ID where E.ID=" + examId + " AND R.ID IN(" + regNos + ") ORDER BY section,rollNo"));
-        map.put("schedule",db.getRecord("select exam_date examData, start_time startTime, end_time endTime,m.name subjectName from exam_schedule s join subject_master m on s.subject_id=m.id where exam_id = "+examId+" and program_id = "+  program+" and class_id = "+classId+" and subject_group = "+groupId+" order by examData,startTime"));
+        map.put("schedule",db.getRecord("select get_bs_date(exam_date) examData, start_time startTime, end_time endTime,m.name subjectName from exam_schedule s join subject_master m on s.subject_id=m.id where exam_id = "+examId+" and program_id = "+  program+" and class_id = "+classId+" and subject_group = "+groupId+" order by examData,startTime"));
         return map;
     }
 
