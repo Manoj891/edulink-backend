@@ -14,4 +14,8 @@ public interface ExamScheduleService {
 
     void delete(String id);
 
+    Map<String, Object> getEntranceCard(Long program, Long classId, Long group, Long exam, String section);
+
+    Map<String, Object> getEntranceCard(String regNos, long examId, long program, long classId, long groupId);
+
 }

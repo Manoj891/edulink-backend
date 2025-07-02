@@ -34,10 +34,7 @@ public class ExamStudentRegistrationRestController {
         return service.updateRegistration(examId, regNo, program, classId, groupId);
     }
 
-    @PostMapping("entrance-card")
-    public ResponseEntity<List<Map<String, Object>>> getEntranceCard(@RequestBody String regNos, @RequestParam long examId) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.getEntranceCard(regNos, examId));
-    }
+
 
     @GetMapping("/Pending")
     public Object getPending(@RequestParam(required = false) Long program, @RequestParam Long classId, @RequestParam Long exam) {

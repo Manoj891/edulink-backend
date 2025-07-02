@@ -39,4 +39,14 @@ public class ExamScheduleController {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"success\"}");
     }
+
+    @GetMapping("entrance-card")
+    public ResponseEntity<Map<String, Object>> getEntranceCard(@RequestParam Long group, @RequestParam Long program, @RequestParam Long classId, @RequestParam(defaultValue = "") String section, @RequestParam Long exam) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getEntranceCard(program, classId, group, exam, section));
+    }
+
+    @PostMapping("entrance-card")
+    public ResponseEntity<Map<String, Object>> getEntranceCard(@RequestBody String regNos, @RequestParam long program, @RequestParam long classId, @RequestParam long groupId, @RequestParam long examId) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getEntranceCard(regNos, examId, program, classId, groupId));
+    }
 }

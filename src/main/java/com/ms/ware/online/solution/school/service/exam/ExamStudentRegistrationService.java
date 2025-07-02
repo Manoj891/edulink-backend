@@ -22,7 +22,6 @@ public interface ExamStudentRegistrationService {
 
     Object doStudentAttendance(List<ExamStudentAttendance> req);
 
-    List<Map<String, Object>> getEntranceCard(String regNos, long examId);
 
     Map<String, Object> getRegistration(long examId, long regNo);
 
