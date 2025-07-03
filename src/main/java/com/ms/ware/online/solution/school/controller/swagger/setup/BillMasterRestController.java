@@ -25,7 +25,7 @@ public class BillMasterRestController {
     @Autowired
     BillMasterService service;
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<Object> getALl() {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAllRecord());
     }
