@@ -7,7 +7,9 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.setup.BillMasterDao;
 import com.ms.ware.online.solution.school.entity.setup.BillMaster;
+
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,15 @@ public class BillMasterServiceImp implements BillMasterService {
     int row;
     @Autowired
     private AuthenticationFacade facade;
+
     @Override
     public Object getAll() {
         return da.getAll("from BillMaster where id>0 order by name");
+    }
+
+    @Override
+    public Object getAllRecord() {
+        return da.getAll("from BillMaster order by name");
     }
 
     @Override
@@ -183,6 +191,7 @@ public class BillMasterServiceImp implements BillMasterService {
         return message.respondWithError(msg);
     }
 
+
     @Override
     public Object account() {
         sql = "SELECT IFNULL(STUDENT_FEE_INCOME_ACCOUNT,'') AS acCode FROM organization_master";
@@ -205,6 +214,7 @@ public class BillMasterServiceImp implements BillMasterService {
         sql = "SELECT AC_CODE acCode,AC_NAME acName FROM chart_of_account WHERE (MGR_CODE='" + acCode + "' OR MGR_CODE='" + acCode1 + "' ) AND TRANSACT='Y'";
         return da.getRecord(sql);
     }
+
     String acCode, errorMessage;
 
     public boolean getAcCode(String mgrCode, String acName) {

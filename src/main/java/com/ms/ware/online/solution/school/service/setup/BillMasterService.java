@@ -4,14 +4,15 @@ import com.ms.ware.online.solution.school.entity.setup.BillMaster;
 
 public interface BillMasterService {
 
-    public Object getAll();
+     Object getAll();
 
-    public Object account();
+     Object account();
 
-    public Object save(BillMaster obj);
+     Object save(BillMaster obj);
 
-    public Object update(BillMaster obj, long id);
+     Object update(BillMaster obj, long id);
 
-    public Object delete(String id);
+     Object delete(String id);
 
+    Object getAllRecord();
 }
