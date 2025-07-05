@@ -20,12 +20,12 @@ public class DatabaseName {
 //   private static String database = "bhimmavi";
 //   private static String database = "gaurishankar_dolakha_plustwo";
 //   private static String database = "shree_krishna_ratna_ganga";
-   private static String database = "chaitanya_ncollege";
+//   private static String database = "chaitanya_ncollege";
 //   private static String database = "chaitanya_nplustwo";
-//   private static String database = "bardibas_siddhartha";
+   private static String database = "bardibas_siddhartha";
     @Getter
     @Setter
-    private static String port = "3306";
+    private static String port = "3307";
     @Getter
     private static String documentUrl = "";
     @Getter
