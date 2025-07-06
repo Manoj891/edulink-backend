@@ -244,8 +244,8 @@ public class StudentInfoServiceImp implements StudentInfoService {
 
     @Override
     public Object studentReport(Long academicYear, Long program, Long classId, Long subjectGroup, Long castEthnicity, String gender, String section) {
-        Map map = new HashMap();
-        Map m;
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> m;
         try {
             if (academicYear > 0) {
                 sql = "SELECT YEAR AS name FROM academic_year WHERE ID=" + academicYear;
@@ -300,18 +300,14 @@ public class StudentInfoServiceImp implements StudentInfoService {
             map.put("castEthnicity", "All");
         }
         map.put("gender", "All");
-        if (gender.length() > 0) {
+        if (!gender.isEmpty()) {
+            map.put("gender", gender.equalsIgnoreCase("M") ? "Male" : "Female");
             gender = " AND GENDER='" + gender + "'";
-            if (gender.equalsIgnoreCase("M")) {
-                map.put("gender", "Male");
-            } else {
-                map.put("gender", "Female");
-            }
         }
-        if (section.length() > 0) section = " AND CT.section='" + section + "'";
+        if (!section.isEmpty()) section = " AND CT.section='" + section + "'";
         else section = "";
-        sql = "SELECT ifnull((SELECT CM.NAME FROM cast_ethnicity_master CM where CM.ID=CAST_ETHNICITY),'') castEthnicity,ifnull((SELECT RM.NAME FROM religion_master RM where RM.ID=RELIGION) ,'') religion,SI.GENDER gender,PM.NAME AS program,G.NAME 'group',AY.YEAR academicYear,CM.NAME className,IFNULL(SI.STU_NAME,'') studentName,SI.GUARDIANS_NAME guardiansName,SI.MOTHERS_NAME mothersName,SI.GUARDIANS_RELATION guardiansRelation,IFNULL(FATHERS_MOBILE,'') fathersMobile,IFNULL(SI.FATHERS_NAME,'') fathersName,IFNULL(SI.DATE_OF_BIRTH,'') dob,IFNULL(SI.MOBILE_NO,'') mobileNo,IFNULL(PROVINCE,'') province,IFNULL(DISTRICT,'') district,IFNULL(MUNICIPAL,'') municipal,IFNULL(WARD_NO,'') wardNo,IFNULL(TOL,'') tol,IFNULL(CT.ROLL_NO,'') rollNo,CT.STUDENT_ID regNo,ifnull(CT.SECTION,'') section,ifnull(SI.EMAIL,'') email FROM class_transfer CT,student_info SI ,class_master CM,program_master PM,academic_year AY,subject_group G WHERE G.ID=SI.SUBJECT_GROUP AND CT.STUDENT_ID=SI.ID AND CT.ACADEMIC_YEAR=AY.ID AND CT.CLASS_ID=CM.ID AND CT.PROGRAM=PM.ID AND CT.ACADEMIC_YEAR=IFNULL(" + academicYear + ",CT.ACADEMIC_YEAR) AND CT.PROGRAM=IFNULL(" + program + ",CT.PROGRAM) " + section + " AND CT.CLASS_ID=IFNULL(" + classId + ",CT.CLASS_ID) AND SI.SUBJECT_GROUP=IFNULL(" + subjectGroup + ",SI.SUBJECT_GROUP) AND IFNULL(SI.CAST_ETHNICITY,'')=IFNULL(" + castEthnicity + ",IFNULL(SI.CAST_ETHNICITY,'')) " + gender + " AND IFNULL(DROP_OUT,'')!='Y' ORDER BY academicYear,program,className,SI.STU_NAME";
-        map.put("data", da.getRecord(sql));
+
+        map.put("data", da.getRecord("SELECT ifnull(CM.NAME, '') castEthnicity, ifnull(RM.NAME, '') as religion, SI.GENDER as gender, PM.NAME AS program, G.NAME 'group', AY.YEAR academicYear, CM.NAME className, IFNULL(SI.STU_NAME, '') studentName, SI.GUARDIANS_NAME guardiansName, SI.MOTHERS_NAME mothersName, SI.GUARDIANS_RELATION guardiansRelation, IFNULL(FATHERS_MOBILE, '') fathersMobile, IFNULL(SI.FATHERS_NAME, '') fathersName, IFNULL(SI.DATE_OF_BIRTH, '') dob, IFNULL(SI.MOBILE_NO, '') mobileNo, IFNULL(PROVINCE, '') as province, IFNULL(DISTRICT, '') as district, IFNULL(MUNICIPAL, '') as municipal, IFNULL(WARD_NO, '') wardNo, IFNULL(TOL, '') as tol, IFNULL(CT.ROLL_NO, '') rollNo, CT.STUDENT_ID regNo, ifnull(CT.SECTION, '') as section, ifnull(SI.EMAIL, '') as email FROM class_transfer CT join student_info SI on CT.student_id = SI.id join class_master CM on CT.class_id = CM.id join program_master PM on CT.program = PM.id join academic_year AY on CT.academic_year = AY.id join subject_group G on G.ID = SI.SUBJECT_GROUP left join religion_master RM on RM.ID = RELIGION left join cast_ethnicity_master CM on CM.ID = CAST_ETHNICITY WHERE CT.ACADEMIC_YEAR = IFNULL( " + academicYear + ", CT.ACADEMIC_YEAR) AND CT.PROGRAM = IFNULL( " + program + ", CT.PROGRAM) AND CT.CLASS_ID = IFNULL( " + classId + ", CT.CLASS_ID) AND SI.SUBJECT_GROUP = IFNULL( " + subjectGroup + ", SI.SUBJECT_GROUP) AND IFNULL(SI.CAST_ETHNICITY, '') = IFNULL( " + castEthnicity + ", IFNULL(SI.CAST_ETHNICITY, ''))  " + section + "  " + gender + " AND IFNULL(DROP_OUT,'')!='Y' ORDER BY academicYear, program, className, rollNo"));
         return map;
     }
 
