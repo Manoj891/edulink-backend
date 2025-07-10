@@ -36,8 +36,7 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Object getRecord(Long program, Long classId, Long exam) {
-        sql = "SELECT S.`STUDENT_ID` stuId,SD.STU_NAME stuName,S.ROLL_NO rollNo,(SELECT NAME FROM program_master P where P.ID=S.PROGRAM) programName,(SELECT NAME FROM class_master P where P.ID=S.CLASS_ID) className,S.ACADEMIC_YEAR academicYear,S.SUBJECT_GROUP subjectGroup FROM class_transfer S,student_info SD,exam_master EM WHERE S.STUDENT_ID=SD.ID AND S.ACADEMIC_YEAR=EM.ACADEMIC_YEAR AND EM.ID=" + exam + " AND S.PROGRAM=" + program + " AND S.CLASS_ID=" + classId + " AND S.STUDENT_ID NOT IN(SELECT R.STUDENT_ID FROM exam_student_registration R WHERE R.EXAM=" + exam + ") ORDER BY S.CLASS_ID,stuName,rollNo";
-        return da.getRecord(sql);
+        return da.getRecord("SELECT s.STUDENT_ID AS stuId, sd.STU_NAME AS stuName, s.ROLL_NO AS rollNo, pm.NAME AS programName, cm.NAME AS className, s.ACADEMIC_YEAR AS academicYear, s.SUBJECT_GROUP AS subjectGroup FROM class_transfer s JOIN student_info sd ON s.STUDENT_ID = sd.ID JOIN exam_master em ON s.ACADEMIC_YEAR = em.ACADEMIC_YEAR JOIN program_master pm ON pm.ID = s.PROGRAM JOIN class_master cm ON cm.ID = s.CLASS_ID LEFT JOIN exam_student_registration r ON r.STUDENT_ID = s.STUDENT_ID AND r.EXAM = em.ID WHERE em.ID = "+exam+" AND s.PROGRAM = "+program+" AND s.CLASS_ID = "+classId+" AND r.STUDENT_ID IS NULL AND (sd.DROP_OUT IS NULL OR sd.DROP_OUT != 'Y') ORDER BY s.CLASS_ID, stuName, s.ROLL_NO;");
     }
 
     @Override
