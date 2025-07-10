@@ -46,7 +46,7 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
     @Override
     public Object getAll(Long exam, Long program, Long classId, Long subjectGroup, Long subject, String section, String order) {
         if (!section.isEmpty()) section = "  AND S.SECTION='" + section + "'";
-        return da.getRecord("SELECT R.ID AS examRegNo, R.EXAM_ROLL_NO AS examRollNo, R.STUDENT_ID AS regNo, S.STU_NAME AS stuName, IFNULL(ME.TH_OM, 0) AS thOm, IFNULL(ME.PR_OM, 0) AS prOm, ifnull(extra_activity,'') activity,ifnull(ME.approve_date,'') approve FROM exam_student_registration R JOIN student_info S ON R.STUDENT_ID = S.ID LEFT JOIN exam_mark_entry ME ON ME.EXAM_REG_ID = R.ID AND ME.SUBJECT = " + subject + " WHERE R.APPROVE_DATE IS NOT NULL AND R.EXAM = " + exam + " AND R.PROGRAM = " + program + " AND R.CLASS_ID = " + classId + " AND R.SUBJECT_GROUP =" + subjectGroup + section + "  ORDER BY " + order);
+        return da.getRecord("SELECT R.ID AS examRegNo, R.EXAM_ROLL_NO AS examRollNo, R.STUDENT_ID AS regNo, S.STU_NAME AS stuName, IFNULL(ME.TH_OM, 0) AS thOm, IFNULL(ME.PR_OM, 0) AS prOm, ifnull(extra_activity,'') activity,ifnull(ME.approve_date,'') approve FROM exam_student_registration R JOIN student_info S ON R.STUDENT_ID = S.ID LEFT JOIN exam_mark_entry ME ON ME.EXAM_REG_ID = R.ID AND ME.SUBJECT = " + subject + " WHERE R.APPROVE_DATE IS NOT NULL AND R.EXAM = " + exam + " AND R.PROGRAM = " + program + " AND R.CLASS_ID = " + classId + " AND R.SUBJECT_GROUP =" + subjectGroup + section + " AND (DROP_OUT is null or DROP_OUT!='Y') ORDER BY " + order);
     }
 
     @Override

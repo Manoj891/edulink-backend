@@ -432,7 +432,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
         String dateBs = DateConverted.adToBs(new Date());
         String regNo, rollNo, calssName, studentName, fatherName, mobileNo, MMM = message.getMonthName(month);
 
-        sql = "SELECT S.ID AS regNo,C.NAME 'calssName',STU_NAME studentName,FATHERS_NAME fatherName,MOBILE_NO mobileNo,ROLL_NO rollNo  FROM student_info S,class_master C WHERE S.CLASS_ID=C.ID AND S.ACADEMIC_YEAR='" + academicYear + "' AND S.PROGRAM=IFNULL(" + program + ", S.PROGRAM) AND S.CLASS_ID=IFNULL(" + classId + ",S.CLASS_ID) AND S.ID=IFNULL( " + regN + ",S.ID) AND ROLL_NO=IFNULL( " + roll + ",ROLL_NO) ORDER BY rollNo";
+        sql = "SELECT S.ID AS regNo,C.NAME 'calssName',STU_NAME studentName,FATHERS_NAME fatherName,MOBILE_NO mobileNo,ROLL_NO rollNo  FROM student_info S,class_master C WHERE S.CLASS_ID=C.ID AND S.ACADEMIC_YEAR='" + academicYear + "' AND S.PROGRAM=IFNULL(" + program + ", S.PROGRAM) AND S.CLASS_ID=IFNULL(" + classId + ",S.CLASS_ID) AND S.ID=IFNULL( " + regN + ",S.ID) AND ROLL_NO=IFNULL( " + roll + ",ROLL_NO) AND (DROP_OUT is null or DROP_OUT!='Y') ORDER BY rollNo";
         List stuList = da.getRecord(sql);
 
         for (int s = 0; s < stuList.size(); s++) {
@@ -522,7 +522,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             });
 
             for (int i = 0; i < message.list.size(); i++) {
-                message.map = (Map) message.list.get(i);
+                message.map = message.list.get(i);
                 billId = Long.parseLong(message.map.get("billId").toString());
                 addAmount = Float.parseFloat(message.map.get("addAmount").toString());
                 subAmount = Float.parseFloat(message.map.get("subAmount").toString());
@@ -545,7 +545,6 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
 
     @Override
     public String delete(String id, String reason) {
-        Map<String, Object> map = new HashMap<>();
         AuthenticatedUser td = facade.getAuthentication();
         List<Voucher> voucher = da.getVoucher("from Voucher where feeReceiptNo='" + id + "'");
         if (!voucher.isEmpty()) throw new CustomException("Bill already approved");
@@ -739,7 +738,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
                 } else {
                     System.out.println(ve.getMsg());
                 }
-                message.map = new HashMap();
+                message.map = new HashMap<>();
                 message.map.put("message", "Success");
                 message.map.put("billNo", billNo);
                 return message.map;
