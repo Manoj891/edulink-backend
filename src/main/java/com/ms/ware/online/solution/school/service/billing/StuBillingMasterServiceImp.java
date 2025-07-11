@@ -352,6 +352,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
 
     @Override
     public Object getAll(String billNo) {
+
         OrganizationInformationData data = organizationInformation.getData();
 
         DecimalFormat df = new DecimalFormat("#.##");
@@ -380,6 +381,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             } else {
                 sql = "SELECT ifnull(SUM(D.DR),0) debit, ifnull(SUM(D.CR),0) AS credit, BILL_TYPE billType FROM stu_billing_master M  join stu_billing_detail D ON M.BILL_NO = D.BILL_NO where M.REG_NO = '" + regNo + "' and D.ACADEMIC_YEAR=" + academicYear + " and D.CLASS_ID=" + classId + "  group by BILL_TYPE";
             }
+            System.out.println(sql);
             AtomicReference<Double> dr = new AtomicReference<>((double) 0);
             AtomicReference<Double> cr = new AtomicReference<>((double) 0);
             AtomicReference<Double> wav = new AtomicReference<>((double) 0);
@@ -391,7 +393,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
                 if (billType.equalsIgnoreCase("DR")) {
                     dr.set(dr.get() + debit);
                     cr.set(cr.get() + credit);
-                } else if (billType.equalsIgnoreCase("CR")) {
+                } else if (billType.equalsIgnoreCase("CR") || billType.equalsIgnoreCase("OPN")) {
                     cr.set(cr.get() + credit);
                     dr.set(dr.get() + debit);
                 } else if (billType.equalsIgnoreCase("WAV")) {
