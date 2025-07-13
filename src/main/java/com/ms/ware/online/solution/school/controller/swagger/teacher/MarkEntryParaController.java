@@ -1,10 +1,10 @@
 package com.ms.ware.online.solution.school.controller.swagger.teacher;
 
 import com.ms.ware.online.solution.school.config.DB;
+import com.ms.ware.online.solution.school.dto.ExamMarkEntryReq;
+import com.ms.ware.online.solution.school.service.exam.ExamMarkEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +14,8 @@ import java.util.Map;
 public class MarkEntryParaController {
     @Autowired
     private DB db;
+    @Autowired
+    private ExamMarkEntryService service;
 
     @GetMapping
     public Map<String, Object> getMarkEntry() {
@@ -26,4 +28,15 @@ public class MarkEntryParaController {
         map.put("section", db.getMapRecord("select id,name as name from section"));
         return map;
     }
+
+    @GetMapping("/Entry")
+    public Object index(@RequestParam Long exam, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam Long subject, @RequestParam String section, @RequestParam String order) {
+        return service.getAll(exam, program, classId, subjectGroup, subject, section, order);
+    }
+
+    @PostMapping("/Entry")
+    public Object entryTeacher(@RequestBody ExamMarkEntryReq req) {
+        return service.entryTeacher(req);
+    }
+
 }

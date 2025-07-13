@@ -95,11 +95,6 @@ public class ExamMarkEntryRestController {
         return service.save(req);
     }
 
-    @PostMapping("/Entry/Teacher")
-    public Object entryTeacher(@RequestBody ExamMarkEntryReq req) {
-        return service.entryTeacher(req);
-    }
-
     @PostMapping("/Approve")
     public Object doApprove(@RequestBody String jsonData) {
         return service.doApprove(jsonData);
