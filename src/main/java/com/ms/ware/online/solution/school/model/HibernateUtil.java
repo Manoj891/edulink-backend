@@ -41,7 +41,7 @@ public class HibernateUtil {
     public static void init() {
         String url = "jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase() + "?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false";
         Properties prop = new Properties();
-        prop.setProperty("hibernate.show_sql", "true");
+        prop.setProperty("hibernate.show_sql", "false");
 //        prop.setProperty("hibernate.hbm2ddl.auto","update");
         prop.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
         prop.setProperty("hibernate.connection.url", url);
