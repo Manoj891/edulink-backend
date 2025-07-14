@@ -41,7 +41,7 @@ public class StudentMonthlyReportRestController {
         dateFrom = DateConverted.bsToAd(dateFrom);
         dateTo = DateConverted.bsToAd(dateTo);
         if (reportType.equalsIgnoreCase("Receipt")) {
-            sql = "SELECT S.ID as id, D.ACADEMIC_YEAR academicYear, P.NAME as program, C.NAME AS className, G.NAME as subjectGroup, S.STU_NAME AS stuName, S.ID AS regNo, B.NAME feeName, SUM(D.CR) amount, SUM(D.DR) received FROM stu_billing_master M join stu_billing_detail D on M.BILL_NO = D.BILL_NO join bill_master B on D.BILL_ID = B.ID join program_master P on M.PROGRAM = P.ID join class_master C on D.CLASS_ID = C.ID join student_info S on D.REG_NO = S.ID join subject_group G on S.SUBJECT_GROUP = G.ID WHERE D.ACADEMIC_YEAR = IFNULL(" + academicYear + ", D.ACADEMIC_YEAR) AND M.PROGRAM = IFNULL(" + program + ", M.PROGRAM) AND D.CLASS_ID = IFNULL(" + classId + ", D.CLASS_ID) AND M.SUBJECT_GROPU = IFNULL(" + subjectGroup + ", M.SUBJECT_GROPU) AND D.BILL_ID = IFNULL("+feeId+", D.BILL_ID) AND M.ENTER_DATE BETWEEN '" + dateFrom + "' AND '" + dateTo + "' group by S.ID, D.ACADEMIC_YEAR, P.id, C.id, G.id, B.id, P.NAME, C.NAME, G.NAME, S.STU_NAME, S.ID, B.NAME ORDER BY academicYear, program, className, subjectGroup, regNo, feeName";
+            sql = "SELECT S.ID as id, D.ACADEMIC_YEAR academicYear, P.NAME as program, C.NAME AS className, G.NAME as subjectGroup, S.STU_NAME AS stuName, S.ID AS regNo, B.NAME feeName, SUM(D.CR) amount, SUM(D.DR) received FROM stu_billing_master M join stu_billing_detail D on M.BILL_NO = D.BILL_NO join bill_master B on D.BILL_ID = B.ID join program_master P on M.PROGRAM = P.ID join class_master C on D.CLASS_ID = C.ID join student_info S on D.REG_NO = S.ID join subject_group G on S.SUBJECT_GROUP = G.ID WHERE D.ACADEMIC_YEAR = IFNULL(" + academicYear + ", D.ACADEMIC_YEAR) AND M.PROGRAM = IFNULL(" + program + ", M.PROGRAM) AND D.CLASS_ID = IFNULL(" + classId + ", D.CLASS_ID) AND M.SUBJECT_GROPU = IFNULL(" + subjectGroup + ", M.SUBJECT_GROPU) AND D.BILL_ID = IFNULL(" + feeId + ", D.BILL_ID) AND M.ENTER_DATE BETWEEN '" + dateFrom + "' AND '" + dateTo + "' group by S.ID, D.ACADEMIC_YEAR, P.id, C.id, G.id, B.id, P.NAME, C.NAME, G.NAME, S.STU_NAME, S.ID, B.NAME ORDER BY academicYear, program, className, subjectGroup, regNo, feeName";
         } else if (reportType.equalsIgnoreCase("Sum")) {
             sql = "SELECT '' roleNo,'' billNo,'' academicYear,'' program,'' AS className,'' subjectGroup,'' stuName,'' regNo,SUM(D.DR) amount,B.NAME feeName FROM stu_billing_master M,stu_billing_detail D,bill_master B,program_master P,class_master C WHERE M.BILL_NO=D.BILL_NO AND M.PROGRAM=P.ID AND D.CLASS_ID=C.ID AND D.BILL_ID=B.ID AND M.BILL_TYPE='DR'  AND D.ACADEMIC_YEAR=IFNULL(" + academicYear + ",D.ACADEMIC_YEAR) AND M.PROGRAM=IFNULL(" + program + ",M.PROGRAM) AND D.CLASS_ID=IFNULL(" + classId + ",D.CLASS_ID) AND M.SUBJECT_GROPU=IFNULL(" + subjectGroup + ",M.SUBJECT_GROPU) AND D.BILL_ID=IFNULL(" + feeId + ",D.BILL_ID) AND M.ENTER_DATE BETWEEN '" + dateFrom + "' AND '" + dateTo + "' AND D.DR >0 GROUP BY D.BILL_ID ORDER BY academicYear,program,className,subjectGroup,regNo,feeName";
         } else {
@@ -148,7 +148,7 @@ public class StudentMonthlyReportRestController {
     }
 
     @GetMapping("/ClassWise")
-    public Object classWiseReport(@RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam String opt, @RequestParam String year, @RequestParam String month, @RequestParam(defaultValue = "0") double amountFrom, @RequestParam(defaultValue = "0") double amountTo) {
+    public Object classWiseReport(@RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(defaultValue = "") String opt, @RequestParam String year, @RequestParam String month, @RequestParam(defaultValue = "0") double amountFrom, @RequestParam(defaultValue = "0") double amountTo) {
         String sql;
 
         Map<String, Object> map = new HashMap<>();
@@ -163,8 +163,9 @@ public class StudentMonthlyReportRestController {
         }
         String remainingAmount;
 
-
-        if (opt.equalsIgnoreCase("BETWEEN")) {
+        if (opt.isEmpty()) {
+            remainingAmount = "";
+        } else if (opt.equalsIgnoreCase("BETWEEN")) {
             remainingAmount = " HAVING  remaining between '" + amountFrom + "' and '" + amountTo + "' ";
         } else {
             remainingAmount = " HAVING  remaining " + opt + amountFrom + " ";
@@ -178,7 +179,7 @@ public class StudentMonthlyReportRestController {
         } else {
             map.put("monthTill", "");
         }
-        sql = "SELECT SUM(D.CR) - SUM(D.DR) AS remaining, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'MNG' THEN D.DR - D.CR END), 0) AS managed, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'DR' AND is_extra = 'N' THEN D.DR END), 0) AS paidAmount, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'DR' AND is_extra = 'Y' THEN D.DR END), 0) AS extraPaidAmount, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'WAV' THEN D.DR - D.CR END), 0) AS wavAmount, C.NAME AS className, S.STU_NAME AS studentName, S.FATHERS_NAME AS fatherName, S.MOBILE_NO AS mobileNo, ROLL_NO AS rollNo, D.REG_NO AS regNo FROM stu_billing_master M JOIN stu_billing_detail D ON M.BILL_NO = D.BILL_NO JOIN student_info S ON D.reg_no = S.id LEFT JOIN class_master C ON D.class_id = C.id where D.academic_year = ifnull(" + academicYear + ", D.academic_year) and S.program=ifnull("+program+",S.program) and D.class_id = ifnull(" + classId + ", D.class_id) and D.PAYMENT_DATE <= " + paymentDate + " GROUP BY D.REG_NO, S.CLASS_ID, ROLL_NO, C.NAME, S.STU_NAME, S.FATHERS_NAME, S.MOBILE_NO  " + remainingAmount + " ORDER BY S.CLASS_ID, rollNo;";
+        sql = "SELECT SUM(D.CR) - SUM(D.DR) AS remaining, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'MNG' THEN D.DR - D.CR END), 0) AS managed, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'DR' AND is_extra = 'N' THEN D.DR END), 0) AS paidAmount, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'DR' AND is_extra = 'Y' THEN D.DR END), 0) AS extraPaidAmount, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'WAV' THEN D.DR - D.CR END), 0) AS wavAmount, C.NAME AS className, S.STU_NAME AS studentName, S.FATHERS_NAME AS fatherName, S.MOBILE_NO AS mobileNo, ROLL_NO AS rollNo, D.REG_NO AS regNo FROM stu_billing_master M JOIN stu_billing_detail D ON M.BILL_NO = D.BILL_NO JOIN student_info S ON D.reg_no = S.id LEFT JOIN class_master C ON D.class_id = C.id where D.academic_year = ifnull(" + academicYear + ", D.academic_year) and S.program=ifnull(" + program + ",S.program) and D.class_id = ifnull(" + classId + ", D.class_id) and D.PAYMENT_DATE <= " + paymentDate + " GROUP BY D.REG_NO, S.CLASS_ID, ROLL_NO, C.NAME, S.STU_NAME, S.FATHERS_NAME, S.MOBILE_NO  " + remainingAmount + " ORDER BY S.CLASS_ID, rollNo;";
         map.put("data", db.getRecord(sql));
 
         try {
