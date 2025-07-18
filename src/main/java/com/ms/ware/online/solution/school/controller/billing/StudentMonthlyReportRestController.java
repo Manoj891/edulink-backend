@@ -161,15 +161,8 @@ public class StudentMonthlyReportRestController {
         } catch (Exception e) {
             return new Message().respondWithError("Please provide Academic Year!!");
         }
-        String remainingAmount;
 
-        if (opt.isEmpty()) {
-            remainingAmount = "";
-        } else if (opt.equalsIgnoreCase("BETWEEN")) {
-            remainingAmount = " HAVING  remaining between '" + amountFrom + "' and '" + amountTo + "' ";
-        } else {
-            remainingAmount = " HAVING  remaining " + opt + amountFrom + " ";
-        }
+
         String paymentDate = "NULL";
         if (year.length() == 4 && month.length() == 2) {
             sql = "SELECT MAX(AD_DATE) paymentDate FROM ad_bs_calender WHERE BS_DATE LIKE '" + year + "-" + month + "%'";
@@ -179,9 +172,19 @@ public class StudentMonthlyReportRestController {
         } else {
             map.put("monthTill", "");
         }
-        sql = "SELECT SUM(D.CR) - SUM(D.DR) AS remaining, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'MNG' THEN D.DR - D.CR END), 0) AS managed, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'DR' AND is_extra = 'N' THEN D.DR END), 0) AS paidAmount, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'DR' AND is_extra = 'Y' THEN D.DR END), 0) AS extraPaidAmount, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'WAV' THEN D.DR - D.CR END), 0) AS wavAmount, C.NAME AS className, S.STU_NAME AS studentName, S.FATHERS_NAME AS fatherName, S.MOBILE_NO AS mobileNo, ROLL_NO AS rollNo, D.REG_NO AS regNo FROM stu_billing_master M JOIN stu_billing_detail D ON M.BILL_NO = D.BILL_NO JOIN student_info S ON D.reg_no = S.id LEFT JOIN class_master C ON D.class_id = C.id where D.academic_year = ifnull(" + academicYear + ", D.academic_year) and S.program=ifnull(" + program + ",S.program) and D.class_id = ifnull(" + classId + ", D.class_id) and D.PAYMENT_DATE <= " + paymentDate + " GROUP BY D.REG_NO, S.CLASS_ID, ROLL_NO, C.NAME, S.STU_NAME, S.FATHERS_NAME, S.MOBILE_NO  " + remainingAmount + " ORDER BY S.CLASS_ID, studentName;";
-        map.put("data", db.getRecord(sql));
-
+        sql = "SELECT ifnull(SUM(D.CR) - SUM(D.DR),0) AS remaining, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'MNG' THEN D.DR - D.CR END), 0) AS managed, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'DR' AND is_extra = 'N' THEN D.DR END), 0) AS paidAmount, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'DR' AND is_extra = 'Y' THEN D.DR END), 0) AS extraPaidAmount, IFNULL(SUM(CASE WHEN M.BILL_TYPE = 'WAV' THEN D.DR - D.CR END), 0) AS wavAmount, MAX(C.NAME) AS className, MAX(S.STU_NAME) AS studentName, MAX(S.FATHERS_NAME) AS fatherName, MAX(S.MOBILE_NO) AS mobileNo, MAX(T.ROLL_NO) AS rollNo, T.student_id AS regNo FROM student_info S join class_transfer T on S.id = T.student_id JOIN class_master C ON T.class_id = C.id left JOIN stu_billing_detail D ON T.student_id = D.reg_no left JOIN stu_billing_master M ON D.bill_no = M.bill_no where T.academic_year = ifnull(" + academicYear + ", T.academic_year) and T.program = ifnull(" + program + ", T.program) and T.class_id = ifnull(" + classId + ", T.class_id) and ifnull(drop_out,'')!='Y' and (D.PAYMENT_DATE <= " + paymentDate + " or D.PAYMENT_DATE is null) GROUP BY T.student_id  ORDER BY className, studentName";
+        if (!opt.equalsIgnoreCase("BETWEEN")) {
+            map.put("data", db.getRecord(sql));
+        } else {
+            List<Map<String, Object>> data = new ArrayList<>();
+            for (Map<String, Object> m : db.getRecord(sql)) {
+                double amount = Double.parseDouble(m.get("remaining").toString());
+                if (amount >= amountFrom && amount <= amountTo) {
+                    data.add(m);
+                }
+            }
+            map.put("data", data);
+        }
         try {
             if (classId > 0) {
                 sql = "SELECT NAME AS name FROM class_master WHERE ID=" + classId;
