@@ -154,14 +154,6 @@ public class StudentMonthlyReportRestController {
         Map<String, Object> map = new HashMap<>();
         Message message = new Message();
 
-        try {
-            sql = "SELECT YEAR AS name FROM academic_year WHERE ID=" + academicYear;
-            Map<String, Object> m = db.getRecord(sql).get(0);
-            map.put("academicYear", m.get("name"));
-        } catch (Exception e) {
-            return new Message().respondWithError("Please provide Academic Year!!");
-        }
-
 
         String paymentDate = "NULL";
         if (year.length() == 4 && month.length() == 2) {
@@ -177,12 +169,12 @@ public class StudentMonthlyReportRestController {
             map.put("data", db.getRecord(sql));
         } else {
             List<Map<String, Object>> data = new ArrayList<>();
-            for (Map<String, Object> m : db.getRecord(sql)) {
+            db.getRecord(sql).forEach(m -> {
                 double amount = Double.parseDouble(m.get("remaining").toString());
                 if (amount >= amountFrom && amount <= amountTo) {
                     data.add(m);
                 }
-            }
+            });
             map.put("data", data);
         }
         try {
@@ -193,6 +185,14 @@ public class StudentMonthlyReportRestController {
             }
         } catch (Exception e) {
             map.put("classId", "All");
+        }
+
+        try {
+            sql = "SELECT YEAR AS name FROM academic_year WHERE ID=" + academicYear;
+            Map<String, Object> m = db.getRecord(sql).get(0);
+            map.put("academicYear", m.get("name"));
+        } catch (Exception e) {
+            return new Message().respondWithError("Please provide Academic Year!!");
         }
         return map;
     }
