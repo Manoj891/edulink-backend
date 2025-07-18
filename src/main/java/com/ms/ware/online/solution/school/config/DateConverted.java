@@ -47,6 +47,7 @@ public class DateConverted {
         }
         return null;
     }
+
     public static Date toTime(String date) {
         try {
             return time.parse(date);
@@ -79,8 +80,7 @@ public class DateConverted {
             int bsYear = Integer.parseInt(parts[0]);
             Date adDate = converter.convertBsToAd(bsYear, Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
             String nextBs = adToBs(adDate);
-            assert nextBs != null;
-            if (!nextBs.equalsIgnoreCase(date)) {
+            if (nextBs != null && !nextBs.equalsIgnoreCase(date)) {
                 return null;
             }
             return toString(adDate);
