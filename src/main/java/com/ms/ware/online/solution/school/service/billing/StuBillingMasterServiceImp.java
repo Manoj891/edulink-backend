@@ -428,25 +428,23 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
-        Map map;
+
         String userName = td.getUserName();
-        List StuFeeList = new ArrayList();
+        List<Object> StuFeeList = new ArrayList<>();
         String dateBs = DateConverted.adToBs(new Date());
         String regNo, rollNo, calssName, studentName, fatherName, mobileNo, MMM = message.getMonthName(month);
+        List<Map<String, Object>> stuList = da.getRecord("SELECT S.ID AS regNo, M.NAME 'calssName', STU_NAME studentName, FATHERS_NAME fatherName, MOBILE_NO mobileNo, C.ROLL_NO rollNo FROM student_info S join class_transfer C on S.ID = C.STUDENT_ID join class_master M on C.class_id = M.id WHERE C.ACADEMIC_YEAR = '" + academicYear + "' AND C.PROGRAM = IFNULL(" + program + ", C.PROGRAM) AND C.CLASS_ID = IFNULL(" + classId + ", C.CLASS_ID) AND C.STUDENT_ID = IFNULL(" + regN + ", C.STUDENT_ID) AND C.ROLL_NO = IFNULL(" + roll + ", C.ROLL_NO) AND (DROP_OUT is null or DROP_OUT != 'Y') ORDER BY studentName,rollNo");
+        Map<String, Object> map;
+        for (Map<String, Object> stu : stuList) {
 
-        sql = "SELECT S.ID AS regNo,C.NAME 'calssName',STU_NAME studentName,FATHERS_NAME fatherName,MOBILE_NO mobileNo,ROLL_NO rollNo  FROM student_info S,class_master C WHERE S.CLASS_ID=C.ID AND S.ACADEMIC_YEAR='" + academicYear + "' AND S.PROGRAM=IFNULL(" + program + ", S.PROGRAM) AND S.CLASS_ID=IFNULL(" + classId + ",S.CLASS_ID) AND S.ID=IFNULL( " + regN + ",S.ID) AND ROLL_NO=IFNULL( " + roll + ",ROLL_NO) AND (DROP_OUT is null or DROP_OUT!='Y') ORDER BY rollNo";
-        List stuList = da.getRecord(sql);
+            regNo = stu.get("regNo").toString();
 
-        for (int s = 0; s < stuList.size(); s++) {
-            map = (Map) stuList.get(s);
-            regNo = map.get("regNo").toString();
-
-            calssName = map.get("calssName").toString();
-            studentName = map.get("studentName").toString();
-            fatherName = map.get("fatherName").toString();
-            mobileNo = map.get("mobileNo").toString();
-            rollNo = map.get("rollNo").toString();
-            map = new HashMap();
+            calssName = stu.get("calssName").toString();
+            studentName = stu.get("studentName").toString();
+            fatherName = stu.get("fatherName").toString();
+            mobileNo = stu.get("mobileNo").toString();
+            rollNo = stu.get("rollNo").toString();
+            map = new HashMap<>();
             map.put("fee", getAll(regNo, year, month));
             map.put("mobileNo", mobileNo);
             map.put("fatherName", fatherName);
