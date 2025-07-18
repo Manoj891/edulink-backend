@@ -208,9 +208,8 @@ public class StudentInfoServiceImp implements StudentInfoService {
 
     @Override
     public Object getAll(Long academicYear, Long program, Long classId, Long subjectGroup) {
-        sql = "SELECT s.ID id,s.STU_NAME stuName,s.MOBILE_NO mobileNo,s.FATHERS_NAME fatherName,c.ROLL_NO rollNo FROM student_info s join class_transfer c on s.ID = c.STUDENT_ID WHERE c.ACADEMIC_YEAR=IFNULL(" + academicYear + ",c.ACADEMIC_YEAR) AND c.PROGRAM=IFNULL(" + program + ",c.PROGRAM) AND c.CLASS_ID=IFNULL(" + classId + ",c.CLASS_ID) AND c.SUBJECT_GROUP=IFNULL(" + subjectGroup + ",c.SUBJECT_GROUP) ORDER BY rollNo";
+        sql = "SELECT s.ID id,s.STU_NAME stuName,s.MOBILE_NO mobileNo,s.FATHERS_NAME fatherName,c.ROLL_NO rollNo FROM student_info s join class_transfer c on s.ID = c.STUDENT_ID WHERE c.ACADEMIC_YEAR=IFNULL(" + academicYear + ",c.ACADEMIC_YEAR) AND c.PROGRAM=IFNULL(" + program + ",c.PROGRAM) AND c.CLASS_ID=IFNULL(" + classId + ",c.CLASS_ID) AND c.SUBJECT_GROUP=IFNULL(" + subjectGroup + ",c.SUBJECT_GROUP) AND ifnull(DROP_OUT,'')!='Y' ORDER BY stuName,rollNo";
         return da.getRecord(sql);
-
     }
 
     @Override
