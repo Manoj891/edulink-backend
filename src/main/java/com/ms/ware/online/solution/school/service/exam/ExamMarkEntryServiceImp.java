@@ -58,9 +58,6 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
     @Override
     public Object save(ExamMarkEntryReq req) {
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return new Message().respondWithError("invalid token");
-        }
         return MarkEntry(req, td.getUserName());
     }
 
@@ -85,7 +82,8 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
             Map<String, Object> m = l.get(0);
             thFm = Float.parseFloat(m.get("thFm").toString());
             prFm = Float.parseFloat(m.get("prFm").toString());
-
+            if (thFm > 0) thFm = thFm + 0.01F;
+            if (prFm > 0) prFm = prFm + 0.01F;
 
             List<Map<String, Object>> list;
             ExamMarkEntry obj;
@@ -96,7 +94,6 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
 
                 if (thOm > thFm || prOm > prFm) {
                     msg = "Obtain mark must be less then full mark";
-                    System.out.println(msg);
                     continue;
                 } else {
                     sql = "SELECT IFNULL(APPROVE_DATE,'') AS approveDate FROM exam_mark_entry WHERE EXAM_REG_ID='" + examRegId + "' AND SUBJECT='" + subject + "'";
@@ -286,8 +283,8 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
             if (result.isEmpty() || result.equalsIgnoreCase("TH")) {
                 thFm[i] = Float.parseFloat(m.get("thFm").toString());
                 thPm[i] = Float.parseFloat(m.get("thPm").toString());
-            }else{
-                thFm[i] =0;
+            } else {
+                thFm[i] = 0;
                 thPm[i] = 0;
             }
             if (result.isEmpty() || result.equalsIgnoreCase("PR")) {
