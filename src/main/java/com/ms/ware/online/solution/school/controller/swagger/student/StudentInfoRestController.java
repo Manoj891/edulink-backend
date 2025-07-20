@@ -236,7 +236,7 @@ public class StudentInfoRestController {
     }
 
     @PostMapping("/Certificate-old")
-    public Object certificate(@RequestBody Map<String, Object> req) throws IOException {
+    public Object certificate(@RequestBody Map<String, Object> req) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
         if (!td.isStatus()) {

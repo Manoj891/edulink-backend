@@ -85,17 +85,6 @@ public class PostHostelTransportationController {
 
     private List<PostHostelTransportation> getRecord(String year, String month, Long academicYear, Long program, Long classId) {
         List<PostHostelTransportation> data = new ArrayList<>();
-//        String startDate = DateConverted.bsToAd(year + "-" + month + "-01");
-//        String endDate = DateConverted.bsToAd(year + "-" + month + "-32");
-//        if (endDate == null || endDate.equalsIgnoreCase("invalid"))
-//            endDate = DateConverted.bsToAd(year + "-" + month + "-31");
-//        if (endDate == null || endDate.equalsIgnoreCase("invalid"))
-//            endDate = DateConverted.bsToAd(year + "-" + month + "-30");
-//        if (endDate == null || endDate.equalsIgnoreCase("invalid"))
-//            endDate = DateConverted.bsToAd(year + "-" + month + "-29");
-//        if (endDate == null || endDate.equalsIgnoreCase("invalid"))
-//            endDate = DateConverted.bsToAd(year + "-" + month + "-28");
-
         String sql = "select s.id,s.stu_name name,s.subject_group subject_group,ifnull(t.status,'N') tStatus , ifnull(h.status,'N') hStatus,ifnull(t.monthly_charge,0) transportationCharge,ifnull(h.monthly_charge,0) hostelCharge from student_info s left join student_transportation t on s.id = t.reg_no left join school_hostal h on s.id = h.reg_no left join transportation_hostel_bill_generated g on s.id = g.reg_no and g.generated_month=" + year + month + " where academic_year = " + academicYear + " and s.class_id = " + classId + " and s.program = " + program + " and (t.status ='Y' or h.status ='Y') and ifnull(g.generated_month,0)!=" + year + month + " ";
         List<Map<String, Object>> list = da.getRecord(sql);
 
