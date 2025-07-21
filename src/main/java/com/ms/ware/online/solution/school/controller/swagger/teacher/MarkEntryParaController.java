@@ -21,7 +21,7 @@ public class MarkEntryParaController {
     public Map<String, Object> getMarkEntry() {
         Map<String, Object> map = new HashMap<>();
         map.put("academicYear", db.getMapRecord("select id,year as name from academic_year order by id desc limit 2"));
-        map.put("exam", db.getMapRecord("select id,exam_name as name from exam_master order by id desc limit 4"));
+        map.put("exam", db.getMapRecord("select id,exam_name as name from exam_master order by id desc limit 10"));
         map.put("group", db.getMapRecord("select id,name as name from subject_group"));
         map.put("program", db.getMapRecord("select id,name as name from program_master"));
         map.put("class", db.getMapRecord("select id,name as name from class_master"));
