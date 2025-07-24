@@ -36,7 +36,7 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Object getRecord(Long program, Long classId, Long exam) {
-        return da.getRecord("SELECT s.STUDENT_ID AS stuId, sd.STU_NAME AS stuName, s.ROLL_NO AS rollNo, pm.NAME AS programName, cm.NAME AS className, s.ACADEMIC_YEAR AS academicYear, s.SUBJECT_GROUP AS subjectGroup FROM class_transfer s JOIN student_info sd ON s.STUDENT_ID = sd.ID JOIN exam_master em ON s.ACADEMIC_YEAR = em.ACADEMIC_YEAR JOIN program_master pm ON pm.ID = s.PROGRAM JOIN class_master cm ON cm.ID = s.CLASS_ID LEFT JOIN exam_student_registration r ON r.STUDENT_ID = s.STUDENT_ID AND r.EXAM = em.ID WHERE em.ID = "+exam+" AND s.PROGRAM = "+program+" AND s.CLASS_ID = "+classId+" AND r.STUDENT_ID IS NULL AND (sd.DROP_OUT IS NULL OR sd.DROP_OUT != 'Y') ORDER BY s.CLASS_ID, stuName, s.ROLL_NO;");
+        return da.getRecord("SELECT s.STUDENT_ID AS stuId, sd.STU_NAME AS stuName, s.ROLL_NO AS rollNo, pm.NAME AS programName, cm.NAME AS className, s.ACADEMIC_YEAR AS academicYear, s.SUBJECT_GROUP AS subjectGroup FROM class_transfer s JOIN student_info sd ON s.STUDENT_ID = sd.ID JOIN exam_master em ON s.ACADEMIC_YEAR = em.ACADEMIC_YEAR JOIN program_master pm ON pm.ID = s.PROGRAM JOIN class_master cm ON cm.ID = s.CLASS_ID LEFT JOIN exam_student_registration r ON r.STUDENT_ID = s.STUDENT_ID AND r.EXAM = em.ID WHERE em.ID = " + exam + " AND s.PROGRAM = " + program + " AND s.CLASS_ID = " + classId + " AND r.STUDENT_ID IS NULL AND (sd.DROP_OUT IS NULL OR sd.DROP_OUT != 'Y') ORDER BY s.CLASS_ID, stuName, s.ROLL_NO;");
     }
 
     @Override
@@ -162,6 +162,10 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
     @Override
     public Object delete(String id) {
 
+        for (Map<String, Object> map : da.getRecord("select ifnull(APPROVE_DATE,'') approve_date from exam_mark_entry where exam_reg_id=" + id)) {
+            if (!map.get("approve_date").toString().isEmpty()) throw new CustomException("Exam mark entry approved");
+        }
+        row = da.delete("delete from exam_mark_entry where exam_reg_id=" + id);
         row = da.delete("delete from exam_student_registration where id=" + id);
         msg = da.getMsg();
         if (row > 0) {
