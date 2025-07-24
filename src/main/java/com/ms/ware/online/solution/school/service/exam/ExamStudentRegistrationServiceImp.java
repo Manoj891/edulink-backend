@@ -161,14 +161,8 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        }
 
-        id = "'" + id.replace(",", "','") + "'";
-        sql = "DELETE FROM exam_student_registration WHERE ID IN (" + id + ") ";
-        row = da.delete(sql);
+        row = da.delete("delete from exam_student_registration where id=" + id);
         msg = da.getMsg();
         if (row > 0) {
             return message.respondWithMessage("Success");
