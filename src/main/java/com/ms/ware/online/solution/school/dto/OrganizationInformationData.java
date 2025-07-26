@@ -13,4 +13,5 @@ public class OrganizationInformationData {
     private String street;
     private String tel;
     private String balTotal;
+    private String panNumber;
 }

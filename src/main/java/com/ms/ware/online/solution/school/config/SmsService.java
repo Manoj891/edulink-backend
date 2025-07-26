@@ -48,7 +48,7 @@ public class SmsService {
         new Thread(() -> {
 
             emailService.init();
-            String sql = "select ifnull(organization_name,name) name,ifnull(municipal,'') municipal,ifnull(ward_no,'') wardNo,ifnull(address,'') street,tel,ifnull(bill_bal_total,'N') balTotal from  organization_master";
+            String sql = "select ifnull(organization_name,name) name,ifnull(municipal,'') municipal,ifnull(ward_no,'') wardNo,ifnull(address,'') street,tel,ifnull(bill_bal_total,'N') balTotal,pan_number panNumber from  organization_master";
             List<Map<String, Object>> list = repository.getRecord(sql);
             if (list.isEmpty()) return;
             Map<String, Object> map = list.get(0);
@@ -64,6 +64,7 @@ public class SmsService {
                     .street(street)
                     .municipal(municipal)
                     .tel(tel)
+                    .panNumber(map.get("panNumber").toString())
                     .wardNo(wardNo)
                     .build());
             list = repository.getRecord("select token from sms_configuration where id=1");

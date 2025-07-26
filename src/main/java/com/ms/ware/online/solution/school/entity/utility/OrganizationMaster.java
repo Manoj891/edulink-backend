@@ -43,7 +43,8 @@ public class OrganizationMaster implements java.io.Serializable {
     private String email;
     @Column(name = "URL")
     private String url;
-
+    @Column(name = "pan_number")
+    private String panNumber;
     @Column(name = "BIOMETRIC_DATA_ID", insertable = false, updatable = false)
     private String biometricDataId;
     @Column(name = "BIOMETRIC_DATA_URL", insertable = false, updatable = false)
