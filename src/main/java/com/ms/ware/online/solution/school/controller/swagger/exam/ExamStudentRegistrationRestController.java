@@ -4,8 +4,6 @@ import com.ms.ware.online.solution.school.dto.ExamStudentAttendance;
 import com.ms.ware.online.solution.school.dto.ExamStudentRegistrationApprove;
 import com.ms.ware.online.solution.school.service.exam.ExamStudentRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -17,7 +15,7 @@ import java.util.Map;
 public class ExamStudentRegistrationRestController {
 
     @Autowired
-    ExamStudentRegistrationService service;
+    private ExamStudentRegistrationService service;
 
     @GetMapping
     public Object getRecord(@RequestParam(required = false) Long program, @RequestParam Long classId, @RequestParam Long exam) {
@@ -33,7 +31,6 @@ public class ExamStudentRegistrationRestController {
     public Map<String, Object> updateRegistration(@PathVariable long examId, @PathVariable long regNo, @PathVariable long program, @PathVariable long classId, @PathVariable long groupId) {
         return service.updateRegistration(examId, regNo, program, classId, groupId);
     }
-
 
 
     @GetMapping("/Pending")
