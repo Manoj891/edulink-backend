@@ -22,7 +22,7 @@ public class DatabaseName {
 //   private static String database = "shree_krishna_ratna_ganga";
 //   private static String database = "chaitanya_ncollege";
 //   private static String database = "chaitanya_nplustwo";
-   private static String database = "school_of_scholars";
+   private static String database = "bardibas_siddhartha";
     @Getter
     @Setter
     private static String port = "3307";
