@@ -24,9 +24,7 @@ import org.hibernate.annotations.Index;
 @Builder
 @Entity
 @Table(name = "ledger")
-public class Ledger implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Ledger {
     @Id
     @Column(name = "ID")
     private String id;

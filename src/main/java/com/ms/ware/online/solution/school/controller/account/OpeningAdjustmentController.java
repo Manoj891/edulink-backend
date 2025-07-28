@@ -99,9 +99,17 @@ public class OpeningAdjustmentController {
         sql = "select id from voucher_detail where voucher_no='" + voucherNo + "' and AC_CODE='" + acCode + "'";
         List<Map<String, Object>> data = db.getRecord(sql);
         String id = (data.isEmpty() ? (voucherNo + "-" + acCode) : data.get(0).get("id").toString());
-        session.saveOrUpdate(new VoucherDetail(id, voucherNo, voucherSn, acCode, "OPENING ADJUSTMENT", debit, credit));
-        session.saveOrUpdate(Ledger.builder().id(id).voucherNo(voucherNo).acCode(acCode).drAmt(debit).crAmt(credit).postBy(td.getUserName()).enterBy(td.getUserName()).enterDate(date).postDate(date).narration("OPENING ADJUSTMENT").particular("OPENING ADJUSTMENT").build());
-        tr.commit();
+        VoucherDetail detail = new VoucherDetail(id, voucherNo, voucherSn, acCode, "OPENING ADJUSTMENT", debit, credit);
+        Ledger ledger = Ledger.builder().id(id).voucherNo(voucherNo).acCode(acCode).drAmt(debit).crAmt(credit).postBy(td.getUserName()).enterBy(td.getUserName()).enterDate(date).postDate(date).narration("OPENING ADJUSTMENT").particular("OPENING ADJUSTMENT")
+                .voucherDetail(detail)
+                .build();
+        try {
+            session.saveOrUpdate(detail);
+            session.saveOrUpdate(ledger);
+            tr.commit();
+        } catch (Exception e) {
+            tr.rollback();
+        }
         session.close();
         return ResponseEntity.status(200).body("{\"message\":\"Success\"}");
     }

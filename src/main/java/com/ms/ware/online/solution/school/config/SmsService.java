@@ -48,7 +48,7 @@ public class SmsService {
         new Thread(() -> {
 
             emailService.init();
-            String sql = "select ifnull(organization_name,name) name,ifnull(municipal,'') municipal,ifnull(ward_no,'') wardNo,ifnull(address,'') street,tel,ifnull(bill_bal_total,'N') balTotal,pan_number panNumber from  organization_master";
+            String sql = "select ifnull(organization_name,name) name,ifnull(municipal,'') municipal,ifnull(ward_no,'') wardNo,ifnull(address,'') street,tel,ifnull(bill_bal_total,'N') balTotal,ifnull(pan_number,'') panNumber from  organization_master";
             List<Map<String, Object>> list = repository.getRecord(sql);
             if (list.isEmpty()) return;
             Map<String, Object> map = list.get(0);
