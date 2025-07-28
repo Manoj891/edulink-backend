@@ -613,9 +613,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
     public Object saveOthers(String jsonData) {
 
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        }
+
         String userName = td.getUserName();
         String cashAccount = td.getCashAccount();
         if (cashAccount.isEmpty()) {
