@@ -33,9 +33,9 @@ public class ExamMarkEntry {
     private long studentRegNo;
     @Column(name = "EXAM", nullable = false)
     private long exam;
-    @Column(name = "TH_OM", columnDefinition = "float(5,3) default 0")
+    @Column(name = "TH_OM", columnDefinition = "float(7,4) default 0")
     private Float thOm;
-    @Column(name = "PR_OM", columnDefinition = "float(5,3)  default 0")
+    @Column(name = "PR_OM", columnDefinition = "float(7,4)  default 0")
     private Float prOm;
     @Column(name = "extra_activity", length = 1)
     private String extraActivity;
