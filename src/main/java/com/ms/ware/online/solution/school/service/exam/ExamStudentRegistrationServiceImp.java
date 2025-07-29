@@ -112,11 +112,6 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
     @Override
     public Object approve(ExamStudentRegistrationApprove req) {
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        }
-
-
         try {
             String date = DateConverted.bsToAd(req.getDate());
             String id, year, classId, examRollSn, examRollNo, enterBy = td.getUserName();
@@ -126,11 +121,11 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
             for (int i = 0; i < req.getObj().size(); i++) {
                 id = req.getObj().get(i);
                 sql = "SELECT YEAR year,CLASS_ID classId FROM exam_student_registration WHERE ID=" + id;
-                message.map = (Map) da.getRecord(sql).get(0);
+                message.map = da.getRecord(sql).get(0);
                 year = message.map.get("year").toString();
                 classId = message.map.get("classId").toString();
                 sql = "SELECT IFNULL(MAX(EXAM_ROLL_SN),0)+1 examRollSn FROM exam_student_registration WHERE YEAR='" + year + "' AND CLASS_ID=" + classId;
-                message.map = (Map) da.getRecord(sql).get(0);
+                message.map = da.getRecord(sql).get(0);
                 examRollSn = message.map.get("examRollSn").toString();
                 if (classId.length() == 1) {
                     classId = "0" + classId;
