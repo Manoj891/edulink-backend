@@ -37,7 +37,7 @@ public class MultipartFileUploadController {
     }
 
     @PostMapping("/upload-logo")
-    public ResponseEntity<String> doLogo( @RequestParam(required = false) MultipartFile logo, @RequestParam(required = false) MultipartFile billBackground, @RequestParam(required = false) MultipartFile idCardLogo, @RequestParam(required = false) MultipartFile principleSignature) {
+    public ResponseEntity<String> doLogo(@RequestParam(required = false) MultipartFile logo, @RequestParam(required = false) MultipartFile billBackground, @RequestParam(required = false) MultipartFile idCardLogo, @RequestParam(required = false) MultipartFile principleSignature) {
         return ResponseEntity.status(HttpStatus.OK).body(organizationMasterService.logo(logo, idCardLogo, principleSignature, billBackground));
     }
 
@@ -58,8 +58,8 @@ public class MultipartFileUploadController {
     }
 
     @PostMapping("/billing/receipt-upload")
-    public Object doUpload(HttpServletRequest request, @RequestParam MultipartFile receipt, @RequestParam long academicYear, @RequestParam long fiscalYear) throws IOException {
-        return receiptUploadService.doUpload(request, receipt, academicYear, fiscalYear);
+    public Object doUpload(@RequestParam MultipartFile receipt, @RequestParam long academicYear, @RequestParam long fiscalYear) throws IOException {
+        return receiptUploadService.doUpload(receipt, academicYear, fiscalYear);
     }
 
     @PutMapping("/online/vacancy/{id}")

@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class ReceiptUploadService {
 
-    public Object doUpload(HttpServletRequest request, MultipartFile receipt, long academicYear, long fiscalYear) {
+    public Object doUpload(MultipartFile receipt, long academicYear, long fiscalYear) {
         AtomicInteger count = new AtomicInteger();
         int error = 0;
         ReadJetkingExcelData dd = new ReadJetkingExcelData();
@@ -65,7 +65,7 @@ public class ReceiptUploadService {
                     String date = a.get(1).toString().replace("/", "-");
                     String regNo = a.get(2).toString();
                     double amount = Double.parseDouble(a.get(8).toString());
-                    long classId = dd.getCLassID(a.get(4).toString());
+                    long classId = dd.getClassID(a.get(4).toString());
                     try {
                         String sql = "insert into stu_billing_master(bill_no, academic_year, approve_by, approve_date, auto_generate, bill_amount, bill_sn,bill_type, class_id, create_at, enter_by, enter_date, fiscal_year, program, reg_no,remark, subject_gropu) value ('" + billNo + "','" + academicYear + "','SYSTEM',now(),'N'," + amount + "," + billSn + ",'DR'," + classId + ",now(),'SYSTEM','" + date + "'," + fiscalYear + ",1," + regNo + ",'Excel Import',1);" +
                                 "\ninsert into stu_billing_detail(bill_no,bill_sn,academic_year,bill_id,class_id,cr,dr,is_extra,payment_date,program,reg_no) value ('" + billNo + "',1," + academicYear + ",0," + classId + "," + amount + ",0,'Y','" + date + "',1,'" + regNo + "');" +

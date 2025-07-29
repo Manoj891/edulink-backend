@@ -102,7 +102,7 @@ public class ReadJetkingExcelData {
                     obj.setProgram(1L);
                     obj.setSubjectGroup(1L);
                     obj.setAcademicYear(academicYear);
-                    obj.setClassId(getCLassID(data[i][6].toString()));
+                    obj.setClassId(getClassID(data[i][6].toString()));
                     try {
                         obj.setSection(data[i][7].toString());
                         if (obj.getSection().length() != 1) obj.setSection("A");
@@ -305,16 +305,16 @@ public class ReadJetkingExcelData {
         try {
             busStop = busStop.replace("'", "");
             String sql = "SELECT ID id,CHARGE_AMOUNT chargeAmount FROM bus_station_master  WHERE NAME='" + busStop + "'";
-            List ll = db.getRecord(sql);
+            List<Map<String, Object>>  ll = db.getRecord(sql);
             if (ll.isEmpty()) {
                 sql = "SELECT IFNULL(MAX(ID),0)+1 id FROM bus_station_master";
-                Map map = (Map) db.getRecord(sql).get(0);
+                Map<String, Object> map =  db.getRecord(sql).get(0);
                 long chargeId = Long.parseLong(map.get("id").toString());
                 chargeAmount = 0;
                 sql = "INSERT INTO bus_station_master (ID, NAME, CHARGE_AMOUNT) VALUES (" + chargeId + ", '" + busStop + "', " + chargeAmount + ");";
                 db.save(sql);
             } else {
-                map = (Map) ll.get(0);
+                map =  ll.get(0);
                 chargeId = Long.parseLong(map.get("id").toString());
                 chargeAmount = Float.parseFloat(map.get("chargeAmount").toString());
             }
@@ -353,49 +353,47 @@ public class ReadJetkingExcelData {
             return 6;
         } else if (name.contains("zoro")) {
             return 7;
-        } else if (name.contains("bud")) {
-            return 8;
-        } else if (name.contains("other")) {
+        }else if (name.contains("other")) {
             return 9;
         } else {
             return 0;
         }
     }
 
-   public long getCLassID(String name) {
+   public long getClassID(String name) {
 
         if (name.equalsIgnoreCase("1") || name.contains("One") || name.equalsIgnoreCase("I")) {
-            return 1l;
+            return 1L;
         } else if (name.equalsIgnoreCase("2") || name.contains("Two") || name.equalsIgnoreCase("II")) {
-            return 2l;
+            return 2L;
         } else if (name.equalsIgnoreCase("3") || name.contains("Three") || name.equalsIgnoreCase("III")) {
-            return 3l;
+            return 3L;
         } else if (name.equalsIgnoreCase("4") || name.contains("Four") || name.equalsIgnoreCase("IV")) {
-            return 4l;
+            return 4L;
         } else if (name.equalsIgnoreCase("5") || name.contains("Five") || name.equalsIgnoreCase("V")) {
-            return 5l;
+            return 5L;
         } else if (name.equalsIgnoreCase("6") || name.contains("Six") || name.equalsIgnoreCase("VI")) {
-            return 6l;
+            return 6L;
         } else if (name.equalsIgnoreCase("7") || name.contains("Seven") || name.equalsIgnoreCase("VII")) {
-            return 7l;
+            return 7L;
         } else if (name.equalsIgnoreCase("8") || name.contains("Eight") || name.equalsIgnoreCase("VIII")) {
-            return 8l;
+            return 8L;
         } else if (name.equalsIgnoreCase("9") || name.contains("Nine") || name.equalsIgnoreCase("IX")) {
-            return 9l;
+            return 9L;
         } else if (name.equalsIgnoreCase("10") || name.contains("Ten") || name.equalsIgnoreCase("X")) {
-            return 10l;
+            return 10L;
         } else if (name.equalsIgnoreCase("11") || name.contains("Eleven") || name.equalsIgnoreCase("XI")) {
-            return 11l;
+            return 11L;
         } else if (name.equalsIgnoreCase("12") || name.equalsIgnoreCase("Twelve") || name.equalsIgnoreCase("XII")) {
-            return 12l;
+            return 12L;
         } else if (name.equalsIgnoreCase("NUR") || name.equalsIgnoreCase("NUR") || name.equalsIgnoreCase("NUR")) {
-            return 13l;
+            return 13L;
         } else if (name.equalsIgnoreCase("LKG") || name.equalsIgnoreCase("LKG") || name.equalsIgnoreCase("LKG")) {
-            return 14l;
+            return 14L;
         } else if (name.equalsIgnoreCase("UKG") || name.equalsIgnoreCase("UKG") || name.equalsIgnoreCase("UKG")) {
-            return 15l;
+            return 15L;
         } else if (name.equalsIgnoreCase("PG")) {
-            return 16l;
+            return 16L;
         }
         return 0;
     }
