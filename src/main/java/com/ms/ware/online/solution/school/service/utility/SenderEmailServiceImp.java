@@ -4,6 +4,7 @@
 package com.ms.ware.online.solution.school.service.utility;
 
 
+import com.ms.ware.online.solution.school.config.EmailService;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
@@ -13,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 
 @Service
 public class SenderEmailServiceImp implements SenderEmailService {
@@ -23,6 +22,8 @@ public class SenderEmailServiceImp implements SenderEmailService {
     SenderEmailDao da;
     @Autowired
     private AuthenticationFacade facade;
+    @Autowired
+    private EmailService service;
 
     @Override
     public ResponseEntity getAll() {
@@ -40,21 +41,18 @@ public class SenderEmailServiceImp implements SenderEmailService {
     public ResponseEntity save(SenderEmail obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        } else if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
+
         String msg = "", sql;
         try {
             try {
                 sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM sender_email";
-                message.map = (Map) da.getRecord(sql).get(0);
+                message.map = da.getRecord(sql).get(0);
                 obj.setId(Long.parseLong(message.map.get("id").toString()));
             } catch (Exception e) {
                 return ResponseEntity.status(200).body(message.respondWithError("connection error or invalid table name"));
             }
             int row = da.save(obj);
+            service.init();
             msg = da.getMsg();
             if (row > 0) {
                 return ResponseEntity.status(200).body(message.respondWithMessage("Success"));
