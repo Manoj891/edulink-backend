@@ -422,7 +422,6 @@ public class ConfigureServiceImpl {
         db.save(sql);
     }
 
-    @PostConstruct
     void function() {
         String sql;
         DB db = new DB();
