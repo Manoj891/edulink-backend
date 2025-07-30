@@ -2,6 +2,7 @@ package com.ms.ware.online.solution.school.service.employee;
 
 
 import com.ms.ware.online.solution.school.dao.employee.BiometricDataDao;
+import com.ms.ware.online.solution.school.dto.BiometricData;
 import com.ms.ware.online.solution.school.dto.BiometricReq;
 import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.entity.employee.EmployeeAttendance;
@@ -49,14 +50,14 @@ public class BiometricDataServiceImp implements BiometricDataService {
 
 
     @Override
-    public List<String> save(HttpServletRequest request, List<BiometricReq> list) {
+    public List<String> save(BiometricData req) {
         List<String> res = new ArrayList<>();
-        String password = request.getHeader("password");
-        int branch = Integer.parseInt(request.getHeader("branch"));
+        String password = req.getPassword();
+        int branch = req.getBranch();
         if (!password.equals("6344d6ae-684c-42ad-a7e7-e106caacc87b")) throw new CustomException("Invalid credential");
         String date = DateConverted.now();
 
-        list.forEach(r -> {
+        req.getData().forEach(r -> {
             if (da.save(BiometricLog.builder().status(true).id(r.getId()).userId(r.getUserId()).branch(branch).punchDate(r.getDate()).punchTime(r.getTime()).build()) == 1) {
                 String sql = "select emp_id, student_id,user_type from biometric_device_map where device_id=" + r.getUserId()+" and device_branch="+branch;
                 da.getRecord(sql).forEach(map -> {

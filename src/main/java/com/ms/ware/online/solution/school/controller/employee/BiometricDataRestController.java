@@ -1,5 +1,6 @@
 package com.ms.ware.online.solution.school.controller.employee;
 
+import com.ms.ware.online.solution.school.dto.BiometricData;
 import com.ms.ware.online.solution.school.dto.BiometricReq;
 import com.ms.ware.online.solution.school.service.employee.BiometricDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,8 @@ public class BiometricDataRestController {
     }
 
     @PostMapping("public/api/biometric-data")
-    public ResponseEntity<List<String>> doSave(HttpServletRequest request, @RequestBody List<BiometricReq> obj) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.save(request, obj));
+    public ResponseEntity<List<String>> doSave( @RequestBody BiometricData obj) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.save(obj));
     }
 
 }
