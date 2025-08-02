@@ -20,8 +20,8 @@ public class Message {
     public List<Map<String, Object>> list;
 
     public String getFilepath(String contextPath) {
-//        return "/home/tomcat/webapps" + contextPath + "Document";
-        return "D:/home/tomcat/webapps" + contextPath + "Document";
+        return "/home/tomcat/webapps" + contextPath + "Document";
+//        return "D:/home/tomcat/webapps" + contextPath + "Document";
     }
 
 
