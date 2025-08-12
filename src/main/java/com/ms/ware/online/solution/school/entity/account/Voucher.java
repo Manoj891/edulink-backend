@@ -66,7 +66,7 @@ public class Voucher implements java.io.Serializable {
     private String narration;
     @Column(name = "CHEQUE_NO")
     private String chequeNo;
-    @Column(name = "FEE_RECEIPT_NO", unique = true, nullable = true)
+    @Column(name = "FEE_RECEIPT_NO", unique = true)
     private String feeReceiptNo;
     @JoinColumn(name = "FEE_RECEIPT_NO", referencedColumnName = "BILL_NO", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

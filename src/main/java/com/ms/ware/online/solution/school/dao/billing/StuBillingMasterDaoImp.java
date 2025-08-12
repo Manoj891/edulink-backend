@@ -175,20 +175,25 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
     }
 
     @Override
-    public int save(BillingDeleteMaster obj) {
-
+    public int save(BillingDeleteMaster obj, String voucherNo) {
+        String billNo = obj.getBillNo();
         Session session = HibernateUtil.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
         try {
             session.save(obj);
+            session.createSQLQuery("delete from voucher_detail where voucher_no='" + voucherNo + "';" +
+                    "update voucher set fee_receipt_no=null where voucher_no='" + voucherNo + "';" +
+                    "delete from voucher where voucher_no='" + voucherNo + "';" +
+                    "delete from stu_billing_detail where bill_no='" + billNo + "';" +
+                    "delete from stu_billing_master where bill_no='" + billNo + "';").executeUpdate();
+
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
             row = 0;
-            System.out.println(msg);
         }
         try {
             session.close();

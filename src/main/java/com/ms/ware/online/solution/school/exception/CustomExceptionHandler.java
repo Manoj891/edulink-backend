@@ -1,7 +1,7 @@
 package com.ms.ware.online.solution.school.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -14,15 +14,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
+@Slf4j
 public class CustomExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(CustomExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -72,13 +71,6 @@ public class CustomExceptionHandler {
     }
 
 
-    @ExceptionHandler(value = InvocationTargetException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorMessage> invocationTargetException(InvocationTargetException e) {
-        log.error(e.getCause().getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomException(e.getMessage()).getDto());
-    }
-
     @ExceptionHandler(value = PasswordChangeException.class)
     @ResponseStatus(HttpStatus.UPGRADE_REQUIRED)
     public ResponseEntity<ErrorMessage> passwordChangeException(PasswordChangeException e) {
@@ -86,9 +78,28 @@ public class CustomExceptionHandler {
         return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body(e.getDto());
     }
 
-    @ExceptionHandler(value = Exception.class)
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ErrorMessage> handleDataIntegrityViolation(ConstraintViolationException ex) {
+        Throwable cause = ex.getCause();
+        String message;
+        try {
+            if (cause instanceof java.sql.SQLException) {
+                java.sql.SQLException sqlEx = (java.sql.SQLException) cause;
+                message = sqlEx.getMessage();
+            } else {
+                message = ex.getMessage();
+            }
+        } catch (Exception e) {
+            message = ex.getMessage();
+        }
+        log.info(message);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorMessage.builder().message(message).code(503).build());
+    }
+
+    @ExceptionHandler(value = RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ErrorMessage> handleException(Exception e) {
+    public ResponseEntity<ErrorMessage> handleException(RuntimeException e) {
         log.error(e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorMessage.builder().message(e.getMessage()).code(500).build());
     }

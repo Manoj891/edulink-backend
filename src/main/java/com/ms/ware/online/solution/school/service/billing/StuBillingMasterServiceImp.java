@@ -549,14 +549,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
         List<Voucher> voucher = da.getVoucher("from Voucher where feeReceiptNo='" + id + "'");
         if (!voucher.isEmpty()) throw new CustomException("Bill already approved");
         List<StuBillingMaster> list = da.getAll("from StuBillingMaster where billNo='" + id + "'");
-        row = da.delete(list.get(0));
-        if (row == 0) {
-            msg = da.getMsg();
-            if (msg.contains("FOREIGN KEY")) {
-                msg = "Bill Already posted in Account";
-            }
-            throw new CustomException(msg);
-        }
+
         BillingDeleteMaster obj = new BillingDeleteMaster();
         obj.setAcademicYear(list.get(0).getAcademicYear());
         obj.setAddress(list.get(0).getAddress());
@@ -602,7 +595,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             details1.add(objd);
         }
         obj.setDetail(details1);
-        row = da.save(obj);
+        row = da.save(obj, voucher.get(0).getVoucherNo());
         if (row == 0) {
             throw new CustomException("Bill Backup not Generated");
         }

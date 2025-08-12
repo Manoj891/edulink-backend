@@ -1,13 +1,8 @@
 package com.ms.ware.online.solution.school.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ms.ware.online.solution.school.exception.CustomException;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +77,7 @@ public class Message {
             sql = "SELECT ROUND(SUM(D.CR)-SUM(D.DR),2) AS amount FROM stu_billing_master M,stu_billing_detail D,bill_master B,program_master P,class_master C WHERE M.BILL_NO=D.BILL_NO AND D.BILL_ID=B.ID AND D.PROGRAM=P.ID AND D.CLASS_ID=C.ID AND M.REG_NO='" + regNo + "' AND D.PAYMENT_DATE<='" + endDateAd + "' ";
             list = da.getRecord(sql);
             if (!list.isEmpty()) {
-                map = (Map) list.get(0);
+                map = list.get(0);
                 totalAmount = Double.parseDouble(map.get("amount").toString());
             }
         } catch (Exception e) {
@@ -95,7 +90,7 @@ public class Message {
                 chargeStartDate = map.get("startDate").toString();
                 pardayCharge = Float.parseFloat(map.get("monthlyCharge").toString()) / 30;
                 sql = "SELECT DATEDIFF('" + endDateAd + "',IFNULL(((SELECT MAX(PAYMENT_DATE) FROM stu_billing_detail WHERE DR>0 AND REG_NO='" + regNo + "' AND BILL_ID=(-1))),'" + chargeStartDate + "')) AS chargeDay,IFNULL((SELECT  MAX(PAYMENT_DATE) FROM stu_billing_detail WHERE DR>0 AND REG_NO='" + regNo + "' AND BILL_ID=(-1)),'" + chargeStartDate + "') AS startDate FROM DUAL";
-                map = (Map) da.getRecord(sql).get(0);
+                map =  da.getRecord(sql).get(0);
                 chargeDay = Integer.parseInt(map.get("chargeDay").toString());
                 chargeStartDate = map.get("startDate").toString();
                 String chargeStartDateBs = DateConverted.adToBs(chargeStartDate);
@@ -110,7 +105,7 @@ public class Message {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             sql = "SELECT START_DATE startDate,MONTHLY_CHARGE monthlyCharge,S.ACADEMIC_YEAR academicYear,S.PROGRAM program,S.CLASS_ID AS classId FROM school_hostal T,student_info S WHERE T.REG_NO=S.ID AND T.REG_NO='" + regNo + "' AND '" + startDateAd + "'>=START_DATE AND (END_DATE IS NULL OR  '" + startDateAd + "'<=END_DATE)";
@@ -120,7 +115,7 @@ public class Message {
                 chargeStartDate = map.get("startDate").toString();
                 pardayCharge = Float.parseFloat(map.get("monthlyCharge").toString()) / 30;
                 sql = "SELECT DATEDIFF('" + endDateAd + "',IFNULL(((SELECT MAX(PAYMENT_DATE) FROM stu_billing_detail WHERE DR>0 AND REG_NO='" + regNo + "' AND BILL_ID=(-2))),'" + chargeStartDate + "')) AS chargeDay,IFNULL((SELECT  MAX(PAYMENT_DATE) FROM stu_billing_detail WHERE DR>0 AND REG_NO='" + regNo + "' AND BILL_ID=(-2)),'" + chargeStartDate + "') AS startDate FROM DUAL";
-                map = (Map) da.getRecord(sql).get(0);
+                map = da.getRecord(sql).get(0);
                 chargeDay = Integer.parseInt(map.get("chargeDay").toString());
                 chargeStartDate = map.get("startDate").toString();
                 String chargeStartDateBs = DateConverted.adToBs(chargeStartDate);
@@ -135,7 +130,7 @@ public class Message {
 
                 }
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         return new DecimalFormat("#.##").format(totalAmount);
@@ -172,90 +167,10 @@ public class Message {
         }
     }
 
-    public String callAPI(String apiURL, Map map) {
-        StringBuilder postData = new StringBuilder();
-        try {
-            postData.append(new ObjectMapper().writeValueAsString(map));
-            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-            URL url = new URL(apiURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json");
-//            conn.setRequestProperty("Authorization", Authorization);
-            conn.setDoOutput(true);
-            conn.getOutputStream().write(postDataBytes);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            StringBuilder response = new StringBuilder();
-            String output;
-            while ((output = in.readLine()) != null) {
-                response.append(output);
-            }
-            conn.disconnect();
-            System.out.println(response.toString());
-            return response.toString();
-        } catch (Exception e) {
-            System.out.println(e);
-            return e.getMessage();
-        }
-
-    }
-
-    public String checkDBConfigure(String urlCall, String method) {
-        try {
-            URL url = new URL(urlCall);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-            conn.setRequestMethod(method);
-            conn.setRequestProperty("Content-Type", "application/json");
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            StringBuilder response = new StringBuilder();
-            String output;
-            while ((output = in.readLine()) != null) {
-                response.append(output);
-            }
-            conn.disconnect();
-            return response.toString();
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-
-    }
 
     public boolean isNull(Object obj) {
-        if (obj == null) {
-            return true;
-        }
-        return false;
+        return obj == null;
     }
 
-    public String callAPI(String apiURL, Map map, String Authorization) {
-        System.out.println("Call IAPI " + apiURL);
-        StringBuilder postData = new StringBuilder();
-        try {
-            postData.append(new ObjectMapper().writeValueAsString(map));
-            byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-            URL url = new URL(apiURL);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-            conn.setRequestMethod("POST");
-            conn.setRequestProperty("Content-Type", "application/json");
-            conn.setRequestProperty("Authorization", Authorization);
-            conn.setDoOutput(true);
-            conn.getOutputStream().write(postDataBytes);
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-            StringBuilder response = new StringBuilder();
-            String output;
-            while ((output = in.readLine()) != null) {
-                response.append(output);
-            }
-            conn.disconnect();
-            return response.toString();
-        } catch (Exception e) {
-            return e.getMessage();
-        }
-
-    }
 }

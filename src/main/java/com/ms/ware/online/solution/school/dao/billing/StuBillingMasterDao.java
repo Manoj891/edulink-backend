@@ -25,7 +25,7 @@ public interface StuBillingMasterDao {
 
     int delete(StuBillingMaster obj);
 
-    int save(BillingDeleteMaster obj);
+    int save(BillingDeleteMaster obj, String voucherNo);
 
     List<Map<String, Object>> getRecord(String sql);
 
