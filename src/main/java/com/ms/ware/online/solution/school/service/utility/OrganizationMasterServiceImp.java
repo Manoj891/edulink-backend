@@ -70,36 +70,40 @@ public class OrganizationMasterServiceImp implements OrganizationMasterService {
                 return message.respondWithError(e.getMessage());
             }
             try {
-                if (billBackground != null && billBackground.getSize() > 100) {
+                if (billBackground != null && billBackground.getSize() > 1) {
                     f = new File(location + "/Organization/bill-background.png");
                     billBackground.transferTo(f);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception ex) {
+               return message.respondWithError(ex.getMessage());
             }
             try {
-                if (idCardLogo != null && idCardLogo.getSize() > 100) {
+                if (idCardLogo != null && idCardLogo.getSize() > 1) {
                     f = new File(location + "/Organization/idCardLogo.png");
                     idCardLogo.transferTo(f);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception ex) {
+               return message.respondWithError(ex.getMessage());
             }
             try {
-                if (idCardLogo != null && idCardLogo.getSize() > 100) {
+                if (idCardLogo != null && idCardLogo.getSize() > 1) {
                     f = new File(location + "/Organization/principleSignature.png");
                     principleSignature.transferTo(f);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception ex) {
+               return message.respondWithError(ex.getMessage());
             }
             try {
-                if (idCardLogo != null && idCardLogo.getSize() > 100) {
+                if (idCardLogo != null && idCardLogo.getSize() > 1) {
                     f = new File(location + "/Organization/Logo.png");
                     logo.transferTo(f);
                 }
-            } catch (Exception ignored) {
+            } catch (Exception ex) {
+               return message.respondWithError(ex.getMessage());
             }
             return message.respondWithMessage("Success");
         } catch (Exception e) {
-            throw new CustomException(e.getMessage());
+           return message.respondWithError(e.getMessage());
         }
     }
 
