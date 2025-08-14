@@ -114,9 +114,6 @@ public class FeeSetupServiceImp implements FeeSetupService {
     @Override
     public Object save(OldStudent obj) {
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        }
 
         long academicYear = obj.getAcademicYear();
         long program = obj.getProgram();

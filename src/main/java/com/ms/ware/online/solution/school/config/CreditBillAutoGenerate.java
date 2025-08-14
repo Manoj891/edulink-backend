@@ -83,7 +83,7 @@ public class CreditBillAutoGenerate {
                 return false;
             }
 
-            sql = "SELECT AMOUNT amount,PAY_TIME 'time',FEE_ID feeId FROM fee_setup WHERE ACADEMIC_YEAR='" + academicYear + "' AND PROGRAM='" + program + "' AND CLASS_ID='" + classId + "' AND SUBJECT_GROUP='" + subjectGroup + "'";
+            sql = "SELECT AMOUNT amount,PAY_TIME 'time',FEE_ID feeId,ifnull(fee_month,'01') feeMonth FROM fee_setup WHERE ACADEMIC_YEAR='" + academicYear + "' AND PROGRAM='" + program + "' AND CLASS_ID='" + classId + "' AND SUBJECT_GROUP='" + subjectGroup + "'";
             list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             int record = 1;
             List<String> sqlList = new ArrayList<>();
@@ -91,8 +91,10 @@ public class CreditBillAutoGenerate {
                 amount = Float.parseFloat(stringObjectMap.get("amount").toString());
                 time = Integer.parseInt(stringObjectMap.get("time").toString());
                 feeId = stringObjectMap.get("feeId").toString();
+                String feeMonth = stringObjectMap.get("feeMonth").toString();
+                String paymentDate = feeMonth.equals("01") ? startDate : (DateConverted.bsToAd("20" + academicYear + "-" + feeMonth + "-01"));
                 if (time == 1) {
-                    sqlList.add("INSERT INTO stu_billing_detail(BILL_NO,BILL_SN,REG_NO,BILL_ID,ACADEMIC_YEAR,PROGRAM,CLASS_ID,CR,DR,PAYMENT_DATE) VALUES('" + billNo + "'," + record + ",'" + regNo + "','" + feeId + "','" + academicYear + "','" + program + "','" + classId + "','" + amount + "','0','" + startDate + "');\n");
+                    sqlList.add("INSERT INTO stu_billing_detail(BILL_NO,BILL_SN,REG_NO,BILL_ID,ACADEMIC_YEAR,PROGRAM,CLASS_ID,CR,DR,PAYMENT_DATE) VALUES('" + billNo + "'," + record + ",'" + regNo + "','" + feeId + "','" + academicYear + "','" + program + "','" + classId + "','" + amount + "','0','" + paymentDate + "');\n");
                     record++;
                 } else {
                     for (int j = 0; j < schoolClassSessionBillDate.length; j++) {
@@ -114,7 +116,7 @@ public class CreditBillAutoGenerate {
                 return false;
             }
         } catch (Exception e) {
-           log.error(e.getMessage());
+            log.error(e.getMessage());
             try {
                 tr.rollback();
                 session.close();

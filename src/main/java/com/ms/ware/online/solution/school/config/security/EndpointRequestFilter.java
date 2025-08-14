@@ -40,7 +40,6 @@ public class EndpointRequestFilter extends OncePerRequestFilter {
                 AuthenticatedUser user = jwtHelper.decodeToken(authToken);
                 String method = request.getMethod();
                 String uri = request.getRequestURI();
-                System.out.println(user.getRole());
                 if (!context.equalsIgnoreCase(user.getContext())) {
                     throw new CustomException("Invalid authorization");
                 } else if (user.getRole().equalsIgnoreCase("STU")) {
