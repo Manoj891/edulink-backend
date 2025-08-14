@@ -1,20 +1,22 @@
 package com.ms.ware.online.solution.school.service.student;
 
+import com.ms.ware.online.solution.school.dto.FeeSetupReq;
 import com.ms.ware.online.solution.school.dto.OldStudent;
-import com.ms.ware.online.solution.school.entity.student.FeeSetup;
+
+import java.util.List;
+import java.util.Map;
 
 public interface FeeSetupService {
 
-    public Object getAll(Long program, Long classId, Long academicYear,Long subjectGroup);
+     List<Map<String, Object>> getAll(Long program, Long classId, Long academicYear, Long subjectGroup);
 
-    public Object save(FeeSetup obj);
+     void save(FeeSetupReq obj);
 
-    public Object copy( Long program, Long classId, Long academicYear, Long programTo, Long classIdTo, Long academicYearTo, Long subjectGroup,Long subjectGroupTo);
+     Object copy( Long program, Long classId, Long academicYear, Long programTo, Long classIdTo, Long academicYearTo, Long subjectGroup,Long subjectGroupTo);
 
-    public Object update(FeeSetup obj, String id);
 
-    public Object delete(String id);
+     void delete(String id);
 
-    public Object save(OldStudent jsonData);
+     Object save(OldStudent jsonData);
 
 }

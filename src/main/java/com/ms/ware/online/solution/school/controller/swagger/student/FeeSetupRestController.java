@@ -1,47 +1,38 @@
 package com.ms.ware.online.solution.school.controller.swagger.student;
 
+import com.ms.ware.online.solution.school.dto.FeeSetupReq;
 import com.ms.ware.online.solution.school.dto.OldStudent;
-import com.ms.ware.online.solution.school.entity.student.FeeSetup;
 import com.ms.ware.online.solution.school.service.student.FeeSetupService;
-import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/Student/FeeSetup")
 public class FeeSetupRestController {
 
     @Autowired
-    FeeSetupService service;
+    private FeeSetupService service;
 
     @GetMapping
-    public Object index(@RequestParam(required = false) Long subjectGroup, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(required = false) Long academicYear) {
-
-        return service.getAll(program, classId, academicYear, subjectGroup);
+    public ResponseEntity<List<Map<String, Object>>> index(@RequestParam(required = false) Long subjectGroup, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(required = false) Long academicYear) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getAll(program, classId, academicYear, subjectGroup));
     }
 
     @PostMapping
-    public Object doSave(@RequestBody FeeSetup obj) throws IOException {
-        return service.save(obj);
+    public ResponseEntity<String> doSave(@RequestBody FeeSetupReq obj) throws IOException {
+        service.save(obj);
+        return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"Success\"}");
     }
 
     @PostMapping("/OldStudent")
     public Object doSave(@RequestBody OldStudent oldStudent) throws IOException {
         return service.save(oldStudent);
-    }
-
-    @PutMapping("/{id}")
-    public Object doUpdate(@RequestBody FeeSetup obj, @PathVariable String id) throws IOException {
-        return service.update(obj, id);
     }
 
     @PostMapping("/Copy")
@@ -52,6 +43,7 @@ public class FeeSetupRestController {
 
     @DeleteMapping("/{id}")
     public Object doDelete(@PathVariable String id) {
-        return service.delete(id);
+        service.delete(id);
+        return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"Success\"}");
     }
 }

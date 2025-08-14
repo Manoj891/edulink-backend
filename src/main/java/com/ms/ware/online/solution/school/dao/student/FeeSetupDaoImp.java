@@ -44,7 +44,7 @@ public class FeeSetupDaoImp implements FeeSetupDao {
         msg = "";
         row = 1;
         try {
-            session.save(obj);
+            session.saveOrUpdate(obj);
             tr.commit();
         } catch (Exception e) {
             tr.rollback();

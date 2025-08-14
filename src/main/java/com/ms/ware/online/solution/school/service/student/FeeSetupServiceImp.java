@@ -8,9 +8,11 @@ import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.student.FeeSetupDao;
+import com.ms.ware.online.solution.school.dto.FeeSetupReq;
 import com.ms.ware.online.solution.school.dto.OldStudent;
 import com.ms.ware.online.solution.school.entity.student.FeeSetup;
 import com.ms.ware.online.solution.school.entity.student.FeeSetupPK;
+import com.ms.ware.online.solution.school.exception.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ public class FeeSetupServiceImp implements FeeSetupService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    FeeSetupDao da;
+    private FeeSetupDao da;
     @Autowired
     private CreditBillAutoGenerate crBill;
     Message message = new Message();
@@ -32,80 +34,50 @@ public class FeeSetupServiceImp implements FeeSetupService {
     int row;
 
     @Override
-    public Object getAll(Long program, Long classId, Long academicYear, Long subjectGroup) {
-        return da.getRecord("SELECT CONCAT(PROGRAM,'-',CLASS_ID,'-',ACADEMIC_YEAR,'-',SUBJECT_GROUP,'-',FEE_ID) AS id,F.PROGRAM program,F.CLASS_ID classId,F.ACADEMIC_YEAR academicYear,SUBJECT_GROUP subjectGroup,F.FEE_ID feeId,AMOUNT amount,F.PAY_TIME payTime,F.TOTAL_AMOUNT totalAmount,B.NAME feeName FROM fee_setup F,bill_master B WHERE F.FEE_ID=B.ID AND PROGRAM=IFNULL(" + program + ",PROGRAM) AND CLASS_ID=IFNULL(" + classId + ",CLASS_ID) AND SUBJECT_GROUP=IFNULL(" + subjectGroup + ",SUBJECT_GROUP) AND ACADEMIC_YEAR=IFNULL(" + academicYear + ",ACADEMIC_YEAR) ");
+    public List<Map<String, Object>> getAll(Long program, Long classId, Long academicYear, Long subjectGroup) {
+        return da.getRecord("SELECT CONCAT(PROGRAM,'-',CLASS_ID,'-',ACADEMIC_YEAR,'-',SUBJECT_GROUP,'-',FEE_ID) AS id,F.PROGRAM program,F.CLASS_ID classId,F.ACADEMIC_YEAR academicYear,SUBJECT_GROUP subjectGroup,F.FEE_ID feeId,AMOUNT amount,F.PAY_TIME payTime,F.TOTAL_AMOUNT totalAmount,B.NAME feeName,fee_month feeMonth FROM fee_setup F join bill_master B on  F.FEE_ID=B.ID WHERE  PROGRAM=IFNULL(" + program + ",PROGRAM) AND CLASS_ID=IFNULL(" + classId + ",CLASS_ID) AND SUBJECT_GROUP=IFNULL(" + subjectGroup + ",SUBJECT_GROUP) AND ACADEMIC_YEAR=IFNULL(" + academicYear + ",ACADEMIC_YEAR) ");
     }
 
     @Override
-    public Object save(FeeSetup obj) {
-        AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        }
+    public void save(FeeSetupReq req) {
+
         try {
-            FeeSetupPK pk = new FeeSetupPK();
-            pk.setAcademicYear(obj.getAcademicYear().getId());
-            pk.setClassId(obj.getClassId().getId());
-            pk.setProgram(obj.getProgram().getId());
-            pk.setFeeId(obj.getFeeId().getId());
-            pk.setSubjectGroup(obj.getSubjectGroup().getId());
-            obj.setPk(pk);
-            obj.setTotalAmount(obj.getAmount() * obj.getPayTime());
+            FeeSetupPK pk = FeeSetupPK.builder()
+                    .feeId(req.getFeeId())
+                    .program(req.getProgram())
+                    .classId(req.getClassId())
+                    .academicYear(req.getAcademicYear())
+                    .subjectGroup(req.getSubjectGroup())
+                    .build();
+            FeeSetup obj = FeeSetup.builder()
+                    .payTime(req.getPayTime())
+                    .amount(req.getAmount())
+                    .feeMonth(req.getFeeMonth())
+                    .totalAmount(req.getAmount() * req.getPayTime())
+                    .pk(pk)
+                    .build();
             row = da.save(obj);
             msg = da.getMsg();
-            if (row > 0) {
-                return message.respondWithMessage("Success");
-            } else if (msg.contains("Duplicate entry")) {
-                msg = "This record already exist";
+            if (row == 0 || msg.contains("Duplicate entry")) {
+                throw new CustomException(msg);
             }
-            return message.respondWithError(msg);
+
 
         } catch (Exception e) {
-            return message.respondWithError(e.getMessage());
+            throw new CustomException(e.getMessage());
         }
     }
 
-    @Override
-    public Object update(FeeSetup obj, String id) {
-        AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        }
-        FeeSetupPK pk = new FeeSetupPK();
-        pk.setAcademicYear(obj.getAcademicYear().getId());
-        pk.setClassId(obj.getClassId().getId());
-        pk.setProgram(obj.getProgram().getId());
-        pk.setFeeId(obj.getFeeId().getId());
-        pk.setSubjectGroup(obj.getSubjectGroup().getId());
-        obj.setPk(pk);
-        obj.setTotalAmount(obj.getAmount() * obj.getPayTime());
-        row = da.update(obj);
-        msg = da.getMsg();
-        if (row > 0) {
-            return message.respondWithMessage("Success");
-        } else if (msg.contains("Duplicate entry")) {
-            msg = "This record already exist";
-        } else if (msg.contains("foreign key")) {
-            msg = "this record already used in reference tables, Cannot delete of this record";
-        }
-        return message.respondWithError(msg);
-    }
 
     @Override
-    public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        }
+    public void delete(String id) {
         sql = "DELETE FROM fee_setup WHERE CONCAT(PROGRAM,'-',CLASS_ID,'-',ACADEMIC_YEAR,'-',SUBJECT_GROUP,'-',FEE_ID)= '" + id + "'";
         row = da.delete(sql);
         msg = da.getMsg();
-        if (row > 0) {
-            return message.respondWithMessage("Success");
-        } else if (msg.contains("foreign key")) {
-            msg = "this record already used in reference tables, Cannot delete of this record";
+        if (row == 0) {
+            throw new CustomException(msg);
         }
-        return message.respondWithError(msg);
+
     }
 
     @Override
