@@ -8,10 +8,6 @@ public interface FeeSetupDao {
 
      List<FeeSetup> getAll(String hql);
 
-     int save(FeeSetup obj);
-
-     int update(FeeSetup obj);
-
      int saveOrUpdate(FeeSetup obj);
 
      int delete(String sql);

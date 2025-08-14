@@ -37,47 +37,7 @@ public class FeeSetupDaoImp implements FeeSetupDao {
         return list;
     }
 
-    @Override
-    public int save(FeeSetup obj) {
-        Session session = HibernateUtil.getSession();
-        Transaction tr = session.beginTransaction();
-        msg = "";
-        row = 1;
-        try {
-            session.saveOrUpdate(obj);
-            tr.commit();
-        } catch (Exception e) {
-            tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
-        }
-        try {
-            session.close();
-        } catch (HibernateException e) {
-        }
-        return row;
-    }
 
-    @Override
-    public int update(FeeSetup obj) {
-        Session session = HibernateUtil.getSession();
-        Transaction tr = session.beginTransaction();
-        row = 1;
-        msg = "";
-        try {
-            session.update(obj);
-            tr.commit();
-        } catch (HibernateException e) {
-            tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
-        }
-        try {
-            session.close();
-        } catch (HibernateException e) {
-        }
-        return row;
-    }
 
     @Override
     public int delete(String sql) {

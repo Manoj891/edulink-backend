@@ -56,7 +56,7 @@ public class FeeSetupServiceImp implements FeeSetupService {
                     .totalAmount(req.getAmount() * req.getPayTime())
                     .pk(pk)
                     .build();
-            row = da.save(obj);
+            row = da.saveOrUpdate(obj);
             msg = da.getMsg();
             if (row == 0 || msg.contains("Duplicate entry")) {
                 throw new CustomException(msg);
