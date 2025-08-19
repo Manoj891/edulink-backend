@@ -196,9 +196,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
     public Object openingVoucher(Voucher obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid authorization");
-        }
+
         List<VoucherDetail> objList = obj.getDetail();
         String sql, msg, voucherType = "OPN";
         Map<String, Object> map;
@@ -216,27 +214,19 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
         String voucherNo = fiscalYear + voucherType;
 
         List<Voucher> vList = da.getAll("from Voucher where voucherNo='" + voucherNo + "'");
-        if (vList.size() == 1) {
-            try {
-                if (vList.get(0).getApproveDate() != null) {
-                    return message.respondWithError("Opening already posted in ledger");
-                }
-            } catch (Exception ignored) {
-            }
+        if (vList.isEmpty()) {
+            obj.setEnterDateAd(enterDate);
+            obj.setVoucherNo(voucherNo);
+            obj.setVoucherSn(0);
+            obj.setVoucherType(voucherType);
+            obj.setFiscalYear(fiscalYear);
+            obj.setTotalAmount(0d);
+            obj.setFeeReceiptNo(null);
+            obj.setChequeNo(null);
+            obj.setEnterBy(td.getUserName());
+            obj.setDetail(null);
+            da.save(obj);
         }
-        obj.setEnterDateAd(enterDate);
-        obj.setVoucherNo(voucherNo);
-        obj.setVoucherSn(0);
-        obj.setVoucherType(voucherType);
-        obj.setFiscalYear(fiscalYear);
-        obj.setTotalAmount(0d);
-        obj.setFeeReceiptNo(null);
-        obj.setChequeNo(null);
-        obj.setEnterBy(td.getUserName());
-        obj.setDetail(null);
-        int row = da.save(obj);
-
-
         VoucherDetail detail;
         for (VoucherDetail voucherDetail : objList) {
             if (voucherDetail.getAcCode().length() < 3) {
@@ -256,18 +246,16 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
             da.save(detail);
         }
         da.delete("delete from ledger where VOUCHER_NO='" + voucherNo + "'");
-        da.delete("INSERT INTO ledger (ID, AC_CODE, DR_AMT, CR_AMT, PARTICULAR, VOUCHER_NO, FEE_RECEIPT_NO, CHEQUE_NO, NARRATION, ENTER_DATE, ENTER_BY, POST_DATE, POST_BY) SELECT ID    AS id, AC_CODE  acCode, DR_AMT   drAmt, CR_AMT   crAmt, PARTICULAR, M.VOUCHER_NO, FEE_RECEIPT_NO, D.CHEQUE_NO, M.NARRATION, ENTER_DATE, ENTER_BY, now() AS POST_DATE, 'SYSTEM' POST_BY FROM voucher M join voucher_detail D on M.VOUCHER_NO = D.VOUCHER_NO WHERE M.VOUCHER_NO ='" + voucherNo + "'");
+        int row = da.delete("INSERT INTO ledger (ID, AC_CODE, DR_AMT, CR_AMT, PARTICULAR, VOUCHER_NO, FEE_RECEIPT_NO, CHEQUE_NO, NARRATION, ENTER_DATE, ENTER_BY, POST_DATE, POST_BY) SELECT ID    AS id, AC_CODE  acCode, DR_AMT   drAmt, CR_AMT   crAmt, PARTICULAR, M.VOUCHER_NO, FEE_RECEIPT_NO, D.CHEQUE_NO, M.NARRATION, ENTER_DATE, ENTER_BY, now() AS POST_DATE, 'SYSTEM' POST_BY FROM voucher M join voucher_detail D on M.VOUCHER_NO = D.VOUCHER_NO WHERE M.VOUCHER_NO ='" + voucherNo + "'");
         msg = da.getMsg();
         if (row == 0) {
             msg = msg.toLowerCase().replace("`", "");
-
             if (msg.contains("foreign key (ac_code) references chart_of_account (ac_code)")) {
                 msg = "Provided account code not valid!! Please check account code.";
             }
             return message.respondWithError(msg);
         }
         return message.respondWithMessage("Success", voucherNo);
-
     }
 
     @Override
