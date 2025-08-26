@@ -183,12 +183,11 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         row = 1;
         try {
             session.save(obj);
-            session.createSQLQuery("delete from voucher_detail where voucher_no='" + voucherNo + "';" +
-                    "update voucher set fee_receipt_no=null where voucher_no='" + voucherNo + "';" +
-                    "delete from voucher where voucher_no='" + voucherNo + "';" +
-                    "delete from stu_billing_detail where bill_no='" + billNo + "';" +
-                    "delete from stu_billing_master where bill_no='" + billNo + "';").executeUpdate();
-
+            session.createSQLQuery("delete from voucher_detail where voucher_no='" + voucherNo + "';").executeUpdate();
+            session.createSQLQuery("update voucher set fee_receipt_no=null where voucher_no='" + voucherNo + "'").executeUpdate();
+            session.createSQLQuery("delete from voucher where voucher_no='" + voucherNo + "'").executeUpdate();
+            session.createSQLQuery("delete from stu_billing_detail where bill_no='" + billNo + "'").executeUpdate();
+            session.createSQLQuery("delete from stu_billing_master where bill_no='" + billNo + "'").executeUpdate();
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
@@ -197,8 +196,6 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         }
         try {
             session.close();
-            session.flush();
-            session.clear();
         } catch (HibernateException ignored) {
         }
 
