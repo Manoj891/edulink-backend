@@ -547,7 +547,14 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
     public String delete(String id, String reason) {
         AuthenticatedUser td = facade.getAuthentication();
         List<Voucher> voucher = da.getVoucher("from Voucher where feeReceiptNo='" + id + "'");
-        if (!voucher.isEmpty()) throw new CustomException("Bill already approved");
+        String voucherNo;
+        if (!voucher.isEmpty() || voucher.size() == 0) {
+            voucherNo = "--";
+        } else {
+            if (voucher.get(0).getApproveDate() != null) throw new CustomException("Voucher already approved");
+            voucherNo = voucher.get(0).getVoucherNo();
+        }
+
         List<StuBillingMaster> list = da.getAll("from StuBillingMaster where billNo='" + id + "'");
 
         BillingDeleteMaster obj = new BillingDeleteMaster();
@@ -595,7 +602,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             details1.add(objd);
         }
         obj.setDetail(details1);
-        row = da.save(obj, voucher.get(0).getVoucherNo());
+        row = da.save(obj, voucherNo);
         if (row == 0) {
             throw new CustomException("Bill Backup not Generated");
         }

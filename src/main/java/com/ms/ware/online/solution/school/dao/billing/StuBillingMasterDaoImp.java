@@ -199,7 +199,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
             session.close();
             session.flush();
             session.clear();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
 
         return row;
