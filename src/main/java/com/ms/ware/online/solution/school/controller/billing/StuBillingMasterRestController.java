@@ -49,7 +49,7 @@ public class StuBillingMasterRestController {
     }
 
     @GetMapping("/Report")
-    public Object report(@RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam String regNo, @RequestParam String dateFrom, @RequestParam String dateTo) {
+    public Object report(@RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam String regNo, @RequestParam String dateFrom, @RequestParam String dateTo, @RequestParam String username) {
         String sql = "", dateRange = "";
         DB db = new DB();
         if (dateFrom.length() == 10 && dateTo.length() == 10) {
@@ -62,9 +62,12 @@ public class StuBillingMasterRestController {
         if (!regNo.isEmpty()) {
             regNo = " AND IFNULL(REG_NO,'N/A')='" + regNo + "'";
         }
-        sql = "SELECT ROUND(IFNULL((SELECT SUM(DR) FROM stu_billing_detail D WHERE D.BILL_NO=B.BILL_NO),0),2) billAmount,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,B.ACADEMIC_YEAR academicYear,BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class' FROM stu_billing_master B,program_master P,class_master C WHERE BILL_TYPE='DR' AND REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND B.ACADEMIC_YEAR=IFNULL(" + academicYear + ",B.ACADEMIC_YEAR) AND B.PROGRAM=IFNULL(" + program + ",B.PROGRAM) AND B.CLASS_ID=IFNULL(" + classId + ",B.CLASS_ID) " + regNo + dateRange
+        if(username.length()>5){
+            username=" AND B.ENTER_BY='"+username+"'";
+        }else  username="";
+        sql = "SELECT ROUND(IFNULL((SELECT SUM(DR) FROM stu_billing_detail D WHERE D.BILL_NO=B.BILL_NO),0),2) billAmount,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,B.ACADEMIC_YEAR academicYear,BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class' FROM stu_billing_master B,program_master P,class_master C WHERE BILL_TYPE='DR' AND REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND B.ACADEMIC_YEAR=IFNULL(" + academicYear + ",B.ACADEMIC_YEAR) AND B.PROGRAM=IFNULL(" + program + ",B.PROGRAM) AND B.CLASS_ID=IFNULL(" + classId + ",B.CLASS_ID) " + regNo + dateRange+username
                 + " UNION "
-                + " SELECT ROUND(IFNULL((SELECT SUM(DR) FROM stu_billing_detail D WHERE D.BILL_NO=B.BILL_NO),0),2) billAmount,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,B.ACADEMIC_YEAR academicYear,BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,S.STU_NAME studentName,S.FATHERS_NAME fatherName,S.MOBILE_NO mobileNo,CONCAT(DISTRICT,' ',MUNICIPAL,' ',WARD_NO) address,P.NAME program,C.NAME 'class' FROM stu_billing_master B,program_master P,class_master C,student_info S WHERE BILL_TYPE='DR' AND B.REG_NO=S.ID AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND B.ACADEMIC_YEAR=IFNULL(" + academicYear + ",B.ACADEMIC_YEAR) AND B.PROGRAM=IFNULL(" + program + ",B.PROGRAM) AND B.CLASS_ID=IFNULL(" + classId + ",B.CLASS_ID) " + regNo + dateRange;
+                + " SELECT ROUND(IFNULL((SELECT SUM(DR) FROM stu_billing_detail D WHERE D.BILL_NO=B.BILL_NO),0),2) billAmount,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,B.ACADEMIC_YEAR academicYear,BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,S.STU_NAME studentName,S.FATHERS_NAME fatherName,S.MOBILE_NO mobileNo,CONCAT(DISTRICT,' ',MUNICIPAL,' ',WARD_NO) address,P.NAME program,C.NAME 'class' FROM stu_billing_master B,program_master P,class_master C,student_info S WHERE BILL_TYPE='DR' AND B.REG_NO=S.ID AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND B.ACADEMIC_YEAR=IFNULL(" + academicYear + ",B.ACADEMIC_YEAR) AND B.PROGRAM=IFNULL(" + program + ",B.PROGRAM) AND B.CLASS_ID=IFNULL(" + classId + ",B.CLASS_ID) " + regNo + dateRange+username;
         return db.getRecord(sql);
     }
 
