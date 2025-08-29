@@ -36,7 +36,7 @@ public class CreditBillAutoGenerate {
             }
             map = list.get(0);
             masterId = map.get("masterId").toString();
-            startDate = DateConverted.toString(DateConverted.addDate(map.get("startDate").toString(), -2));
+            startDate = map.get("startDate").toString();
             sql = "SELECT PAYMENT_DATE paydate FROM school_class_session_bill_date WHERE MASTER_ID=" + masterId + " ORDER BY PAYMENT_TIME";
             list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             String[] schoolClassSessionBillDate = new String[list.size()];
