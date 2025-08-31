@@ -29,7 +29,7 @@ public class ShareHolderController {
     @GetMapping
     public Object index() {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -39,7 +39,7 @@ public class ShareHolderController {
     @PostMapping
     public Object doSave(@RequestBody ShareHolder obj) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -64,7 +64,7 @@ public class ShareHolderController {
     @PutMapping("/{id}")
     public Object doUpdate(@RequestBody ShareHolder obj, @PathVariable String id) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -89,7 +89,7 @@ public class ShareHolderController {
     @DeleteMapping("/{id}")
     public Object doDelete(@PathVariable String id) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

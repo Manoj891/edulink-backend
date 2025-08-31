@@ -21,7 +21,7 @@ public class BiometricDeviceMapService {
     private AuthenticationFacade facade;
 
     public List<BiometricDeviceMap> findAll(String type) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             throw new CustomException("Invalid Access");
         }
@@ -32,7 +32,7 @@ public class BiometricDeviceMapService {
     }
 
     public void save(BiometricDeviceMap obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             throw new CustomException("Invalid Access");
         }
@@ -48,7 +48,7 @@ public class BiometricDeviceMapService {
     }
 
     public void update(BiometricDeviceMap obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             throw new CustomException("Invalid Access");
         }
@@ -63,7 +63,7 @@ public class BiometricDeviceMapService {
     }
 
     public void delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             throw new CustomException("Invalid Access");
         }

@@ -128,7 +128,7 @@ public class StuBillingMasterRestController {
     public Object pendingBillApprove(@PathVariable String billNos, @RequestParam String cashAccount) throws IOException {
 
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

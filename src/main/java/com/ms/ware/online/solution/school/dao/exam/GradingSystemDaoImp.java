@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.exam;
-import javax.validation.ConstraintViolationException;
+import  javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.ArrayList;
 import com.ms.ware.online.solution.school.config.Message;
@@ -28,7 +28,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
+             session.close();
             tr.rollback();
         }
         try {
@@ -49,8 +49,9 @@ public class GradingSystemDaoImp implements GradingSystemDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -68,9 +69,10 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -88,9 +90,10 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         try {
             row = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -110,7 +113,8 @@ public class GradingSystemDaoImp implements GradingSystemDao {
             tr.commit();
         } catch (HibernateException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -135,8 +139,9 @@ public class GradingSystemDaoImp implements GradingSystemDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -156,8 +161,9 @@ public class GradingSystemDaoImp implements GradingSystemDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -178,8 +184,9 @@ public class GradingSystemDaoImp implements GradingSystemDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -200,8 +207,9 @@ public class GradingSystemDaoImp implements GradingSystemDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();

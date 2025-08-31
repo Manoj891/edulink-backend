@@ -35,7 +35,7 @@ public class StudentSMSRestController {
         if (!o.isConfigured()) throw new CustomException("SMS Not Configured");
         List<Long> ids = new ArrayList<>();
         DB db = new DB();
-        String username = facade.getAuthentication().getUserName();
+        String username = facade.getAuthentication().getUserName();;
         Map<String, Object> map = db.getRecord("select ifnull(organization_name,name) name from organization_master").get(0);
         String orgName = (map.get("name").toString()).trim().replace("  ", " ");
         req.getData().forEach(d -> db.getRecord("SELECT STU_NAME name,MOBILE_NO mobile FROM student_info where id=" + d.getId()).forEach(m -> {

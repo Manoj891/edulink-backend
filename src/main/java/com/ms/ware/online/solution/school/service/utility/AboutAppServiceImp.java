@@ -32,9 +32,6 @@ public class AboutAppServiceImp implements AboutAppService {
     public ResponseEntity save(AboutApp obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
             obj.setId(1l);

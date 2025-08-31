@@ -33,7 +33,7 @@ public class DistrictMasterServiceImp implements DistrictMasterService {
 
     @Override
     public Object save(DistrictMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -61,7 +61,7 @@ public class DistrictMasterServiceImp implements DistrictMasterService {
 
     @Override
     public Object update(DistrictMaster obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -80,7 +80,7 @@ public class DistrictMasterServiceImp implements DistrictMasterService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

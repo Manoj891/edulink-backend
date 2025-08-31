@@ -32,9 +32,6 @@ public class LibBookTypeServiceImp implements LibBookTypeService {
     public ResponseEntity save(LibBookType obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "", sql;
         try {
             try {
@@ -62,9 +59,6 @@ public class LibBookTypeServiceImp implements LibBookTypeService {
     public ResponseEntity update(LibBookType obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "";
         obj.setId(id);
@@ -84,9 +78,6 @@ public class LibBookTypeServiceImp implements LibBookTypeService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM lib_book_type WHERE ID='" + id + "'";

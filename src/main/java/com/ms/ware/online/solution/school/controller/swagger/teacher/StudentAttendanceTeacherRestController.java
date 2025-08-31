@@ -30,7 +30,7 @@ public class StudentAttendanceTeacherRestController {
 
     @GetMapping("/Teacher")
     public ResponseEntity<List<Map<String, Object>>> indexTeacher(@RequestParam Long acadeicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam String date) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             throw new CustomException("invalid token");
         }

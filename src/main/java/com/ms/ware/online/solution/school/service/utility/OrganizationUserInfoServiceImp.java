@@ -38,7 +38,7 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
 
     @Override
     public Object save(OrganizationUserInfo obj, HttpServletRequest request) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -96,7 +96,7 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
 
     @Override
     public Object update(OrganizationUserInfo obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -123,7 +123,7 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -175,7 +175,7 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
 
     @Override
     public Object resetPassword(long id, HttpServletRequest request) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

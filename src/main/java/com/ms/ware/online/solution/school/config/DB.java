@@ -1,16 +1,16 @@
 package com.ms.ware.online.solution.school.config;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import lombok.Getter;
 import lombok.Setter;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.PersistenceException;
+import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -22,19 +22,18 @@ public class DB {
     public int save(String sql) {
         Session session = HibernateUtil.getSession();
         Transaction tr = session.beginTransaction();
-        int a = 0;
+        int a;
         try {
             a = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
+            session.close();
             setMsg("Success");
         } catch (Exception e) {
-            setMsg(Message.exceptionMsg(e));
             tr.rollback();
-        }
-        try {
             session.close();
-        } catch (Exception ignored) {
+            throw new PersistenceException();
         }
+
         return a;
     }
 
@@ -48,16 +47,14 @@ public class DB {
                 query.setParameter(i, parameterValue[i]);
             }
             a = query.executeUpdate();
-            tr.commit();
+            session.close();
             setMsg("Success");
         } catch (Exception e) {
-            setMsg(Message.exceptionMsg(e));
             tr.rollback();
-        }
-        try {
             session.close();
-        } catch (Exception e) {
+            throw new PersistenceException();
         }
+
         return a;
     }
 
@@ -72,15 +69,14 @@ public class DB {
             }
             a = query.executeUpdate();
             tr.commit();
+            session.close();
             setMsg("Success");
         } catch (Exception e) {
-            setMsg(Message.exceptionMsg(e));
             tr.rollback();
-        }
-        try {
             session.close();
-        } catch (Exception e) {
+            throw new PersistenceException();
         }
+
         return a;
     }
 
@@ -90,16 +86,14 @@ public class DB {
         Transaction tr = session.beginTransaction();
         try {
             a = session.createSQLQuery(sql).executeUpdate();
-            tr.commit();
+            session.close();
             setMsg("Success");
         } catch (Exception e) {
-            setMsg(Message.exceptionMsg(e));
             tr.rollback();
-        }
-        try {
             session.close();
-        } catch (Exception e) {
+            throw new PersistenceException();
         }
+
         return a;
     }
 
@@ -110,14 +104,10 @@ public class DB {
             session.close();
             return list;
         } catch (Exception e) {
-            msg = Message.exceptionMsg(e);
-            System.out.println(msg);
-        }
-        try {
             session.close();
-        } catch (Exception e) {
+            throw new PersistenceException();
         }
-        return null;
+
     }
 
     public List<Map<String, Object>> getRecord(String sql) {
@@ -127,14 +117,9 @@ public class DB {
             session.close();
             return list;
         } catch (Exception e) {
-            msg = Message.exceptionMsg(e);
-            System.out.println(msg);
-        }
-        try {
             session.close();
-        } catch (Exception e) {
+            throw new PersistenceException();
         }
-        return new ArrayList<>();
     }
 
 }

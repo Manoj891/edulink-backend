@@ -31,7 +31,7 @@ public class MunicipalMasterServiceImp implements MunicipalMasterService {
 
     @Override
     public Object save(MunicipalMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         } else if (!td.getUserType().equalsIgnoreCase("ADM")) return message.respondWithError("invalid Access");
@@ -60,7 +60,7 @@ public class MunicipalMasterServiceImp implements MunicipalMasterService {
 
     @Override
     public Object update(MunicipalMaster obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }else if (!td.getUserType().equalsIgnoreCase("ADM")) return message.respondWithError("invalid Access");
@@ -79,7 +79,7 @@ public class MunicipalMasterServiceImp implements MunicipalMasterService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }else if (!td.getUserType().equalsIgnoreCase("ADM")) return message.respondWithError("invalid Access");

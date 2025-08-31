@@ -31,7 +31,7 @@ public class ReligionMasterServiceImp implements ReligionMasterService {
 
     @Override
     public Object save(ReligionMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -59,7 +59,7 @@ public class ReligionMasterServiceImp implements ReligionMasterService {
 
     @Override
     public Object update(ReligionMaster obj, int id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -78,7 +78,7 @@ public class ReligionMasterServiceImp implements ReligionMasterService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

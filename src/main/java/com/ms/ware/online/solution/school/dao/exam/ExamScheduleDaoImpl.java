@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.exam;
-import javax.validation.ConstraintViolationException;
+import  javax.persistence.PersistenceException;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.exam.ExamSchedule;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
@@ -25,8 +25,9 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-            tr.rollback();
+                     tr.rollback();session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -48,8 +49,9 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -69,9 +71,10 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -89,9 +92,10 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
         try {
             row = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();

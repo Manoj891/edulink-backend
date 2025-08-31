@@ -209,7 +209,7 @@ public class LibBookStockServiceImp implements LibBookStockService {
 
     @Override
     public void delete(long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         int row;
         String msg, sql;
         Session session = HibernateUtil.getSession();

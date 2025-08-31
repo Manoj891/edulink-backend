@@ -72,7 +72,7 @@ public class StudentInfoRestController {
     @PostMapping("/SendSMS/{option}")
     public Object sendSMS(@PathVariable int option, @RequestBody List<SmsSendingReq> req, HttpServletRequest request) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -238,7 +238,7 @@ public class StudentInfoRestController {
     @PostMapping("/Certificate-old")
     public Object certificate(@RequestBody Map<String, Object> req) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

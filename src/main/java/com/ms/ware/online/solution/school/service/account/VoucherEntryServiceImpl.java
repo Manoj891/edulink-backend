@@ -34,7 +34,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
     @Override
     public Object journalVoucher(Voucher obj, String voucherType) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid authorization");
         }
@@ -107,7 +107,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
         msg = da.getMsg();
         if (row == 0) {
             msg = msg.toLowerCase().replace("`", "");
-            System.out.println(msg);
+           
             if (msg.contains("foreign key (ac_code) references chart_of_account (ac_code)")) {
                 msg = "Provided account code not valid!! Please check account code.";
             }
@@ -133,7 +133,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
     @Override
     public Object voucherEdit(Voucher obj) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid authorization");
         }
@@ -195,7 +195,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
     @Override
     public Object openingVoucher(Voucher obj) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         List<VoucherDetail> objList = obj.getDetail();
         String sql, msg, voucherType = "OPN";
@@ -261,7 +261,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
     @Override
     public String voucherUnApprove(String voucherNo) {
         Message message = new Message();
-        AuthenticatedUser user = facade.getAuthentication();
+        AuthenticatedUser user = facade.getAuthentication();;
         String sql = "select ifnull(voucher_un_approve,'N') voucher_un_approve from organization_user_info where login_id='" + user.getUserName() + "'";
         Map<String, Object> map = da.getRecord(sql).get(0);
         String status = map.get("voucher_un_approve").toString();

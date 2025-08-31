@@ -30,7 +30,7 @@ public class SmsConfigurationController {
 
     @PostMapping
     public Object doSave(HttpServletRequest request, @RequestBody SmsConfiguration obj) throws IOException {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.getUserId().equalsIgnoreCase("1")) {
             return new Message().respondWithMessage("Permission Denied");
         }

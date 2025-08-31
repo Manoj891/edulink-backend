@@ -29,9 +29,6 @@ public class TaxSlabServiceImp implements TaxSlabService {
     public ResponseEntity save(TaxSlab obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "", sql;
         try {
             try {
@@ -59,9 +56,6 @@ public class TaxSlabServiceImp implements TaxSlabService {
     public ResponseEntity update(TaxSlab obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "";
         obj.setId(id);
@@ -81,9 +75,6 @@ public class TaxSlabServiceImp implements TaxSlabService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM tax_slab WHERE ID='" + id + "'";

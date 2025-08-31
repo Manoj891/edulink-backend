@@ -51,7 +51,7 @@ public class ConfigureServiceImpl {
                 System.out.println("Success " + sql);
             } catch (Exception e) {
                 msg = e.getMessage();
-                System.out.println(msg);
+               
             }
             sql = "CREATE DATABASE " + DatabaseName.getDatabase();
             try {
@@ -59,7 +59,7 @@ public class ConfigureServiceImpl {
                 System.out.println("Success " + sql);
             } catch (Exception e) {
                 msg = e.getMessage();
-                System.out.println(msg);
+               
             }
             con = java.sql.DriverManager.getConnection("jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase(), DatabaseName.getUsername(), DatabaseName.getPassword());
             sql = "CREATE TABLE temp_not_import (`ID` BIGINT, `MSG` TEXT);";
@@ -68,7 +68,7 @@ public class ConfigureServiceImpl {
                 ps.executeUpdate();
             } catch (Exception e) {
                 msg = e.getMessage();
-                System.out.println(msg);
+               
             }
             ps.close();
             con.close();

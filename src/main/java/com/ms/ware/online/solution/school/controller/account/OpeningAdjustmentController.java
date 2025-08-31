@@ -78,7 +78,7 @@ public class OpeningAdjustmentController {
     @PutMapping
     public ResponseEntity<String> postVoucher(@RequestParam String acCode, @RequestParam long fiscalYear, @RequestParam double debit, @RequestParam double credit) {
 
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             throw new PermissionDeniedException();
         }

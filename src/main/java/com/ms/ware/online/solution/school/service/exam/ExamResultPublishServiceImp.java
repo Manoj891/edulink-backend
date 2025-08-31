@@ -30,7 +30,7 @@ public class ExamResultPublishServiceImp implements ExamResultPublishService {
 
     @Override
     public Object save(ExamResultPublish obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -57,7 +57,7 @@ public class ExamResultPublishServiceImp implements ExamResultPublishService {
 
     @Override
     public Object update(ExamResultPublish obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -82,7 +82,7 @@ public class ExamResultPublishServiceImp implements ExamResultPublishService {
     @Override
     public Object delete(String id) {
 
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

@@ -33,9 +33,6 @@ public class TeachersClassSubjectServiceImp implements TeachersClassSubjectServi
     public ResponseEntity save(TeachersClassSubject obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
             obj.setPk(new TeachersClassSubjectPK(obj.getTeacher(), obj.getAcademicYear(), obj.getProgram(), obj.getClassId(), obj.getSubjectGroup(), obj.getSubject(), obj.getSection()));
@@ -58,9 +55,6 @@ public class TeachersClassSubjectServiceImp implements TeachersClassSubjectServi
     public ResponseEntity update(TeachersClassSubject obj, String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
             String sql = "UPDATE teachers_class_subject SET SUBJECT_GROUP='" + obj.getSubjectGroup() + "',SUBJECT='" + obj.getSubject() + "',CLASS_ID='" + obj.getClassId() + "',PROGRAM='" + obj.getProgram() + "',ACADEMIC_YEAR='" + obj.getAcademicYear() + "',TEACHER='" + obj.getTeacher() + "',section='" + obj.getSection() + "' WHERE entity_id='" + id + "'";
@@ -87,9 +81,6 @@ public class TeachersClassSubjectServiceImp implements TeachersClassSubjectServi
     public ResponseEntity<String> delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         da.delete("DELETE FROM teachers_class_subject  WHERE entity_id='" + id + "'");
         return ResponseEntity.status(200).body(message.respondWithMessage("Success"));
     }

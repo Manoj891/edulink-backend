@@ -36,7 +36,7 @@ public class OpeningUploadService {
 
     public String markUpload(@RequestParam MultipartFile opening) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         String username = td.getUserName();
 
         if (!td.isStatus()) {

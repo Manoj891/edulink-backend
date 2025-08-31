@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 import com.ms.ware.online.solution.school.config.Message;
-import javax.validation.ConstraintViolationException;
+import  javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +29,9 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-            tr.rollback();
+                     tr.rollback();session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -49,8 +50,9 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-            tr.rollback();
+                     tr.rollback();session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -71,9 +73,10 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
-            System.out.println(obj.getId() + " Error " + msg);
+              session.close();
+            throw new PersistenceException();
+     
+          
         }
         try {
             session.close();
@@ -94,9 +97,10 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
-            System.out.println(obj.getId() + " Error " + msg);
+              session.close();
+            throw new PersistenceException();
+     
+          
         }
         try {
             session.close();
@@ -117,8 +121,9 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
 
         }
         try {
@@ -137,9 +142,10 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -157,9 +163,10 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         try {
             row = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -181,7 +188,8 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             tr.commit();
         } catch (HibernateException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -207,8 +215,9 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -229,8 +238,9 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -251,8 +261,9 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -274,8 +285,9 @@ public class StudentInfoDaoImp implements StudentInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();

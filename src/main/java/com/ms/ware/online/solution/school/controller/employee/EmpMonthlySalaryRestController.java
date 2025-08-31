@@ -46,7 +46,7 @@ public class EmpMonthlySalaryRestController {
 
     @GetMapping("/report")
     public ResponseEntity<List<EmpMonthlySalary>> salaryReport(@RequestParam String month, HttpServletRequest request) throws IOException {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             throw new CustomException("Invalid Token");
         }
@@ -57,10 +57,7 @@ public class EmpMonthlySalaryRestController {
     @GetMapping
     public Object generateSalary(@RequestParam String month, HttpServletRequest request) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
+        AuthenticatedUser td = facade.getAuthentication();;
         String[] tt = month.split("-");
         String date = month + "-01";
         date = DateConverted.bsToAd(date);
@@ -79,9 +76,6 @@ public class EmpMonthlySalaryRestController {
 
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         Map map;
         String maritalStatus, sql, enterBy = td.getUserName();
 
@@ -238,9 +232,6 @@ public class EmpMonthlySalaryRestController {
     public ResponseEntity<?> approveSalary(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long empId, HttpServletRequest request) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         Date date = new Date();
         String sql = "SELECT IFNULL(ac_code,'') ac_code,CONCAT(IFNULL(first_name,''),' ',IFNULL(middle_name,''),' ',IFNULL(last_name,''),'[',IFNULL(code,''),']') AS empName FROM employee_info WHERE id=" + empId;
         List l = dao.getRecord(sql);
@@ -312,9 +303,6 @@ public class EmpMonthlySalaryRestController {
     public ResponseEntity<?> removeSalary(@RequestParam Integer year, @RequestParam Integer month, @RequestParam Long empId, HttpServletRequest request) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         dao.getAll("from EmpMonthlySalary where empId=" + empId + " AND year=" + year + " AND month=" + month).forEach(empMonthlySalary -> {
             if (empMonthlySalary.getApproveDate() != null) {
                 throw new CustomException("Record Already Approved");

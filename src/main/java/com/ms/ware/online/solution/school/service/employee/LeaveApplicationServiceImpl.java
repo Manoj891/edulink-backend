@@ -63,9 +63,6 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     public ResponseEntity save(LeaveApplication obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         try {
             String sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM leave_application";
             message.map = (Map) da.getRecord(sql).get(0);
@@ -84,9 +81,6 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     public ResponseEntity update(LeaveApplication obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         obj.setId(id);
         obj.setEnterDate(new Date());
         obj.setEnterBy(td.getUserName());
@@ -105,9 +99,6 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     public ResponseEntity leaveApprove(List<EmpLeaveDetail> obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         for (int i = 0; i < obj.size(); i++) {
             obj.get(i).setLeaveId(id);
             obj.get(i).setPk(new EmpLeaveDetailPK(DateConverted.bsToAdDate(obj.get(i).getLeaveDate()), obj.get(i).getEmpId()));

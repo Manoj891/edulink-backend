@@ -33,7 +33,7 @@ public class PostHostelTransportationController {
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody HostelTransportation r) {
-        AuthenticatedUser user = facade.getAuthentication();
+        AuthenticatedUser user = facade.getAuthentication();;
         String username = user.getUserName();
         String today = DateConverted.today();
         String effectDate = DateConverted.bsToAd(r.getYear() + "-" + r.getMonth() + "-01");

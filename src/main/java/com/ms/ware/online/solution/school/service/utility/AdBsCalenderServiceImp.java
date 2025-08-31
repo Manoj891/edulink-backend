@@ -27,7 +27,7 @@ public class AdBsCalenderServiceImp implements AdBsCalenderService {
 
     @Override
     public Object update(AdBsCalender obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

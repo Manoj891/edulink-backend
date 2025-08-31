@@ -1,7 +1,7 @@
 package com.ms.ware.online.solution.school.exception;
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import  javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,10 +77,22 @@ public class CustomExceptionHandler {
         log.error(e.getDto().getMessage());
         return ResponseEntity.status(HttpStatus.UPGRADE_REQUIRED).body(e.getDto());
     }
-
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler(value = javax.persistence.PersistenceException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<ErrorMessage> handleDataIntegrityViolation(ConstraintViolationException ex) {
+    public ResponseEntity<ErrorMessage> passwordChangeException(PersistenceException e) {
+
+        String message = e.getMessage();
+        Throwable cause = e.getCause();
+        while (cause != null) {
+            message = cause.getMessage();
+            cause = cause.getCause();
+        }
+        log.error("PersistenceException root cause: {}", message);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorMessage.builder().code(1000).message(message).build());
+    }
+    @ExceptionHandler(org.hibernate.exception.ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ErrorMessage> handleDataIntegrityViolation(org.hibernate.exception.ConstraintViolationException ex) {
         Throwable cause = ex.getCause();
         String message;
         try {
@@ -95,18 +108,18 @@ public class CustomExceptionHandler {
         log.info(message);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ErrorMessage.builder().message(message).code(503).build());
     }
-
-    @ExceptionHandler(value = RuntimeException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException e) {
-        log.error(e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorMessage.builder().message(e.getMessage()).code(500).build());
-    }
-    @ExceptionHandler(value = Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ErrorMessage> handleException(RuntimeException e) {
-        log.error(e.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorMessage.builder().message(e.getMessage()).code(500).build());
-    }
+//
+//    @ExceptionHandler(value = RuntimeException.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ResponseEntity<ErrorMessage> handleRuntimeException(RuntimeException e) {
+//        log.error(e.getMessage());
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorMessage.builder().message(e.getMessage()).code(500).build());
+//    }
+//    @ExceptionHandler(value = Exception.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ResponseEntity<ErrorMessage> handleException(RuntimeException e) {
+//        log.error(e.getMessage());
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ErrorMessage.builder().message(e.getMessage()).code(500).build());
+//    }
 
 }

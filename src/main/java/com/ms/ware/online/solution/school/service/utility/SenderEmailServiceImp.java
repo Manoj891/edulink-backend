@@ -29,9 +29,7 @@ public class SenderEmailServiceImp implements SenderEmailService {
     public ResponseEntity getAll() {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        } else if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
+        if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
             return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
         }
         return ResponseEntity.status(200).body(da.getAll("from SenderEmail"));
@@ -41,6 +39,7 @@ public class SenderEmailServiceImp implements SenderEmailService {
     public ResponseEntity save(SenderEmail obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
+        ;
 
         String msg = "", sql;
         try {
@@ -70,9 +69,7 @@ public class SenderEmailServiceImp implements SenderEmailService {
     public ResponseEntity update(SenderEmail obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        } else if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
+        if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
             return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
         }
         int row;
@@ -94,9 +91,7 @@ public class SenderEmailServiceImp implements SenderEmailService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        } else if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
+        if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
             return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
         }
         int row;

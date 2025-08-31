@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.library;
-import javax.validation.ConstraintViolationException;
+import  javax.persistence.PersistenceException;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.library.LibBookType;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
@@ -29,8 +29,10 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-             tr.rollback();
+              session.close();
+                    tr.rollback(); session.close();throw new PersistenceException();
+     
+     
         }
         try {
             session.close();
@@ -50,8 +52,9 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -69,9 +72,10 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -89,9 +93,10 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
         try {
             row = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -111,7 +116,8 @@ Transaction tr = session.beginTransaction();
          tr.commit();
 } catch (HibernateException e) {
        tr.rollback();
-      msg = Message.exceptionMsg(e);
+        session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();

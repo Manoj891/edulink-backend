@@ -37,7 +37,7 @@ public class GradingSystemServiceImpTwo implements GradingSystemServiceTwo {
 
     @Override
     public Object save(GradingSystemTwo obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -65,7 +65,7 @@ public class GradingSystemServiceImpTwo implements GradingSystemServiceTwo {
 
     @Override
     public Object update(GradingSystemTwo obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -84,7 +84,7 @@ public class GradingSystemServiceImpTwo implements GradingSystemServiceTwo {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

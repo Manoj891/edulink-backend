@@ -13,26 +13,28 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class OnlineAdmissionDao {
-       String msg = "";
+    String msg = "";
 
 
     public int save(OnlineAdmission obj) {
-            int row = 1;
+        int row = 1;
         Session session = HibernateUtil.getSession();
         Transaction tr = session.beginTransaction();
-        msg = "";       
+        msg = "";
         try {
             session.save(obj);
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+            session.close();
+            throw new PersistenceException();
+
         }
         try {
             session.close();
@@ -51,8 +53,10 @@ public class OnlineAdmissionDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-             tr.rollback();
+            tr.rollback();
+            session.close();
+            throw new PersistenceException();
+
         }
         try {
             session.close();
@@ -68,5 +72,5 @@ public class OnlineAdmissionDao {
     public void setMsg(String msg) {
         this.msg = msg;
     }
-    
+
 }

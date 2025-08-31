@@ -41,7 +41,7 @@ public class StuInformationRestController {
     @GetMapping
     public Object index() {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -51,7 +51,7 @@ public class StuInformationRestController {
     @GetMapping("/ClassYear")
     public Object indexClass() {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -64,7 +64,7 @@ public class StuInformationRestController {
     @PostMapping
     public Object doSave(@RequestBody StudentInfo obj) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -91,7 +91,7 @@ public class StuInformationRestController {
     @PostMapping("/Photo")
     public Object doSave(@RequestParam MultipartFile photo) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (photo.getSize() < 100) {
             return message.respondWithError("Please provide file");
         }
@@ -119,7 +119,7 @@ public class StuInformationRestController {
     @GetMapping("/ChangePassword")
     public Object doChangePassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String rePassword) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

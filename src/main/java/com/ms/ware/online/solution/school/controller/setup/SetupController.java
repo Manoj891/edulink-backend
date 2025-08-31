@@ -54,7 +54,7 @@ public class SetupController {
 
     @PostMapping("api/setup/login-init/organization")
     public ResponseEntity<Map<String, Object>> initData() {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         Map<String, Object> data = new HashMap<>();
         data.put("username", td.getUserName());
         data.put("userType", td.getUserType());
@@ -103,7 +103,7 @@ public class SetupController {
     @PostMapping("/api/TeacherPanel/login-init")
     public ResponseEntity<Map<String, String>> initTeacherData() {
 
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         Map<String, String> map = new HashMap<>();
         map.put("teacherId", td.getUserId());
         map.put("teacherName", td.getUserName());
@@ -139,7 +139,7 @@ public class SetupController {
     @PostMapping("/api/panel/student/login-init")
     public ResponseEntity<Map<String, String>> initStudentData(HttpServletRequest request) {
         String today = DateConverted.today();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         Map<String, String> map = new HashMap<>();
         map.put("stuId", td.getUserId());
         map.put("stuName", td.getUserName());

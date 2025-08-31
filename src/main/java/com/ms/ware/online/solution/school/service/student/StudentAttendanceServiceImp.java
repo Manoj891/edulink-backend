@@ -67,9 +67,6 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
     public ResponseEntity save(List<StudentAttendance> list) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String enterBy = td.getUserName();
         String enterDate = DateConverted.now();
         int row = 0;
@@ -103,9 +100,6 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
     public ResponseEntity update(StudentAttendance obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "";
         row = da.update(obj);
@@ -124,9 +118,6 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM student_attendance WHERE ID='" + id + "'";
@@ -145,9 +136,6 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
 
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row = 0;
         String msg;
         String enterBy = td.getUserName();

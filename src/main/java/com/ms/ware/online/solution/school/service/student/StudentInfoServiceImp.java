@@ -77,7 +77,7 @@ public class StudentInfoServiceImp implements StudentInfoService {
 
     @Override
     public Object save(StudentInfo obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         try {
             long program = obj.getProgram();
             long classId = obj.getClassId();
@@ -143,7 +143,7 @@ public class StudentInfoServiceImp implements StudentInfoService {
         }
 
 
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -175,7 +175,7 @@ public class StudentInfoServiceImp implements StudentInfoService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -211,7 +211,7 @@ public class StudentInfoServiceImp implements StudentInfoService {
 
     @Override
     public String classTransfer(ClassTransferReq req) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         long program = req.getProgram();
         long classId = req.getClassId();
         long subjectGroup = req.getSubjectGroup();

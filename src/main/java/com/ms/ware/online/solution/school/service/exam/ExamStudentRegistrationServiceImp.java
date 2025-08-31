@@ -52,7 +52,7 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Object save(String jsonData) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -111,7 +111,7 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Object approve(ExamStudentRegistrationApprove req) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         try {
             String date = DateConverted.bsToAd(req.getDate());
             String id, year, classId, examRollSn, examRollNo, enterBy = td.getUserName();
@@ -203,7 +203,7 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Map<String, Object> updateRegistration(long examId, long regNo, long program, long classId, long groupId) {
-        AuthenticatedUser user = facade.getAuthentication();
+        AuthenticatedUser user = facade.getAuthentication();;
         if (!user.getUserType().equalsIgnoreCase("ADM")) {
             throw new PermissionDeniedException();
         }

@@ -24,7 +24,7 @@ public class StuPreviousEducationRestController {
     @GetMapping
     public Object index() {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -36,9 +36,6 @@ public class StuPreviousEducationRestController {
 
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
             obj.setPk(new PreviousEducationPK(Long.parseLong(td.getUserId()), obj.getEducation()));
@@ -61,9 +58,6 @@ public class StuPreviousEducationRestController {
 
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM previous_education WHERE CONCAT(REG_NO,'-',EDUCATION)='" + id + "' AND REG_NO='" + td.getUserId() + "'";

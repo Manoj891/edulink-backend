@@ -27,9 +27,6 @@ public class BillingDeleteRestController {
     public Object index(@RequestParam String dateFrom, @RequestParam String dateTo) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         dateFrom = DateConverted.bsToAd(dateFrom);
         dateTo = DateConverted.bsToAd(dateTo);
         return new DB().getRecord("SELECT BILL_NO billNo,ENTER_BY enterBy,GET_BS_DATE(ENTER_DATE) enterDate,DELETE_BY deleteBy,GET_BS_DATE(DELETE_DATE) deleteDateBs,CONCAT(DELETE_DATE,'') deleteDate,BILL_AMOUNT billAmount,IFNULL(REASON,'') reason  FROM billing_delete_master WHERE ENTER_DATE BETWEEN '" + dateFrom + "' AND  '" + dateTo + "' ORDER BY DELETE_DATE DESC");

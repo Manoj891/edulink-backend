@@ -28,9 +28,6 @@ public class BusStationTimeServiceImp implements BusStationTimeService {
     public ResponseEntity save(BusStationTime obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
             obj.setPk(new BusStationTimePK(obj.getBus(), obj.getStation(), obj.getGoReturn()));
@@ -52,9 +49,6 @@ public class BusStationTimeServiceImp implements BusStationTimeService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM bus_station_time WHERE CONCAT(BUS,'-',STATION)='" + id + "'";

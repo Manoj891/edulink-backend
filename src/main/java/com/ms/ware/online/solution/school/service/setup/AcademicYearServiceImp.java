@@ -47,7 +47,7 @@ public class AcademicYearServiceImp implements AcademicYearService {
 
     @Override
     public Object deleteSection(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -66,7 +66,7 @@ public class AcademicYearServiceImp implements AcademicYearService {
 
     @Override
     public Object save(AcademicYear obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -90,7 +90,7 @@ public class AcademicYearServiceImp implements AcademicYearService {
 
     @Override
     public Object save(Section obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -116,7 +116,7 @@ public class AcademicYearServiceImp implements AcademicYearService {
 
     @Override
     public Object update(AcademicYear obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -138,7 +138,7 @@ public class AcademicYearServiceImp implements AcademicYearService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

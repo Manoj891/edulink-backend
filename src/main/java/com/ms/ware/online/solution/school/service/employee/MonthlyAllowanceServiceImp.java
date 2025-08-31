@@ -47,9 +47,6 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
     public ResponseEntity save(MonthlyAllowance obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
             int year = obj.getYear();
@@ -80,9 +77,6 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
     public ResponseEntity save(RegularAllowance obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
             obj.setPk(new RegularAllowancePK(obj.getEmpId(), obj.getAllowance()));
@@ -105,9 +99,6 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM monthly_allowance WHERE ID='" + id + "'";
@@ -125,9 +116,6 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
     public ResponseEntity deleteRegularAllowance(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
 

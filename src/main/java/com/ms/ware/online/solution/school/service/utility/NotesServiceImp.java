@@ -27,7 +27,7 @@ public class NotesServiceImp implements NotesService {
     @Override
     public Object getAll() {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -37,7 +37,7 @@ public class NotesServiceImp implements NotesService {
     @Override
     public Object save(Notes obj) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -69,7 +69,7 @@ public class NotesServiceImp implements NotesService {
     @Override
     public Object update(Notes obj, long id) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -93,7 +93,7 @@ public class NotesServiceImp implements NotesService {
     @Override
     public Object delete(String id) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

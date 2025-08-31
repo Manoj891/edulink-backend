@@ -31,7 +31,7 @@ public class TeachersHomeworkRestController {
 
     @GetMapping("/Subject")
     public Object subject(@RequestParam(defaultValue = "0") Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup) {
-         AuthenticatedUser td = facade.getAuthentication();;
+         AuthenticatedUser td = facade.getAuthentication();;;
         if (!td.isStatus()) {
             return ResponseEntity.status(200).body(new Message().respondWithError("invalid token"));
         }
@@ -41,7 +41,7 @@ public class TeachersHomeworkRestController {
 
     @GetMapping("/Subject/{academicYear}")
     public Object subject(@PathVariable long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup) {
-         AuthenticatedUser td = facade.getAuthentication();;
+         AuthenticatedUser td = facade.getAuthentication();;;
         if (!td.isStatus()) {
             return ResponseEntity.status(200).body(new Message().respondWithError("invalid token"));
         }
@@ -53,7 +53,7 @@ public class TeachersHomeworkRestController {
      */
     @GetMapping("/HomeworkCheck")
     public Object homeworkCheck(@RequestParam String date, @RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam Long subject) {
-         AuthenticatedUser td = facade.getAuthentication();;
+         AuthenticatedUser td = facade.getAuthentication();;;
         if (!td.isStatus()) {
             return ResponseEntity.status(200).body(new Message().respondWithError("invalid token"));
         }
@@ -73,9 +73,6 @@ public class TeachersHomeworkRestController {
     public Object doSave(@RequestBody StudentHomework obj) throws IOException {
         Message message = new Message();
          AuthenticatedUser td = facade.getAuthentication();;
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "", remark = obj.getRemark();
         long homeworkId = obj.getHomework();
         String checkDate = obj.getCheckDateAd();

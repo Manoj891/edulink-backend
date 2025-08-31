@@ -57,7 +57,7 @@ public class ExamTerminalServiceImp implements ExamTerminalService {
 
     @Override
     public Object save(ExamTerminal obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         if (!td.getUserId().equals("1")) return message.respondWithError("Permission Denied.");
         try {
@@ -84,7 +84,7 @@ public class ExamTerminalServiceImp implements ExamTerminalService {
 
     @Override
     public Object update(ExamTerminal obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -103,7 +103,7 @@ public class ExamTerminalServiceImp implements ExamTerminalService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

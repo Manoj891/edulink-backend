@@ -67,7 +67,7 @@ public class StudentMonthlyReportRestController {
 
     @DeleteMapping("/IndividualFee/{billNo}/{sn}")
     public String index(@PathVariable String billNo, @PathVariable int sn) {
-        AuthenticatedUser user = facade.getAuthentication();
+        AuthenticatedUser user = facade.getAuthentication();;
         if (!user.getUserName().equalsIgnoreCase("ADMIN")) {
             throw new CustomException("Permission denied");
         }

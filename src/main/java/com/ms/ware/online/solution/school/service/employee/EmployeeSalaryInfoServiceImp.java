@@ -32,9 +32,6 @@ public class EmployeeSalaryInfoServiceImp implements EmployeeSalaryInfoService {
     public ResponseEntity save(EmployeeSalaryInfo obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         pfCitValidation(obj, message);
         String msg = "", sql;
         try {
@@ -69,9 +66,6 @@ public class EmployeeSalaryInfoServiceImp implements EmployeeSalaryInfoService {
     public ResponseEntity update(EmployeeSalaryInfo obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "";
         obj.setId(id);
@@ -92,9 +86,6 @@ public class EmployeeSalaryInfoServiceImp implements EmployeeSalaryInfoService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM employee_salary_info WHERE ID='" + id + "'";

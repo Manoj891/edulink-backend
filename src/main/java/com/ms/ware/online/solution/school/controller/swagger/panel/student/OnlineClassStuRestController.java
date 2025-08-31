@@ -23,7 +23,7 @@ public class OnlineClassStuRestController {
     @GetMapping
     public Object homework() {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

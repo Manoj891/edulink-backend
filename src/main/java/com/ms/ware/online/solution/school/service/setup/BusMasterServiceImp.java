@@ -28,9 +28,6 @@ public class BusMasterServiceImp implements BusMasterService {
     public ResponseEntity save(BusMaster obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "", sql;
         try {
             try {
@@ -58,9 +55,6 @@ public class BusMasterServiceImp implements BusMasterService {
     public ResponseEntity update(BusMaster obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "";
         obj.setId(id);
@@ -80,9 +74,6 @@ public class BusMasterServiceImp implements BusMasterService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM bus_master WHERE ID='" + id + "'";

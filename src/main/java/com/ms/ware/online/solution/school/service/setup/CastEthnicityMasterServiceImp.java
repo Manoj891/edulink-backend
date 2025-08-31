@@ -32,7 +32,7 @@ public class CastEthnicityMasterServiceImp implements CastEthnicityMasterService
 
     @Override
     public Object save(CastEthnicityMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -60,7 +60,7 @@ public class CastEthnicityMasterServiceImp implements CastEthnicityMasterService
 
     @Override
     public Object update(CastEthnicityMaster obj, int id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -79,7 +79,7 @@ public class CastEthnicityMasterServiceImp implements CastEthnicityMasterService
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

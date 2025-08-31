@@ -53,7 +53,7 @@ public class CertificateDataServiceImpl implements CertificateDataService {
 
     @Override
     public String save(CertificateData obj) {
-        AuthenticatedUser user = facade.getAuthentication();
+        AuthenticatedUser user = facade.getAuthentication();;
         obj.setId(UUID.randomUUID().toString());
         obj.setCreateBy(user.getUserName());
         obj.setCreateDate(new Date());
@@ -76,7 +76,7 @@ public class CertificateDataServiceImpl implements CertificateDataService {
 
     @Override
     public String update(CertificateData obj, String id) {
-        AuthenticatedUser user = facade.getAuthentication();
+        AuthenticatedUser user = facade.getAuthentication();;
         obj.setId(id);
         obj.setModifyBy(user.getUserName());
         obj.setModifyDate(new Date());

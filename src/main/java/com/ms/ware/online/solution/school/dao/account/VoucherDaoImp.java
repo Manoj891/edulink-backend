@@ -11,7 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
-import javax.validation.ConstraintViolationException;
+import  javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,8 +31,9 @@ public class VoucherDaoImp implements VoucherDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-            tr.rollback();
+                     tr.rollback();session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -52,8 +53,9 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -71,9 +73,10 @@ public class VoucherDaoImp implements VoucherDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -91,9 +94,10 @@ public class VoucherDaoImp implements VoucherDao {
         try {
             row = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -113,7 +117,8 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (HibernateException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -138,8 +143,9 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -159,8 +165,9 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -180,8 +187,9 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();

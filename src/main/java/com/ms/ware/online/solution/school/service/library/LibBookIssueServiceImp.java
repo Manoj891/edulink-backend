@@ -87,7 +87,7 @@ public class LibBookIssueServiceImp implements LibBookIssueService {
     public String update(String date, List<String> bookIds) {
         Message message = new Message();
         int row = 0;
-        String msg = "", sql, userName = facade.getAuthentication().getUserName();
+        String msg = "", sql, userName = facade.getAuthentication().getUserName();;
         try {
             String receiveDate = DateConverted.bsToAd(date);
             for (String bookId : bookIds) {

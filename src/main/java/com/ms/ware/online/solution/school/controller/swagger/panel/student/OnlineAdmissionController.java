@@ -96,7 +96,7 @@ public class OnlineAdmissionController {
     @PutMapping("/Student/OnlineAdmission/{id}")
     public Object onlineAdmissionApprove(@PathVariable long id) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -146,7 +146,7 @@ public class OnlineAdmissionController {
     @DeleteMapping("/Student/OnlineAdmission/{id}")
     public Object onlineAdmissionReject(@PathVariable long id, HttpServletRequest request) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

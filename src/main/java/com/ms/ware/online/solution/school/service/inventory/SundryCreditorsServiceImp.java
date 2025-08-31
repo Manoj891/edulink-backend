@@ -28,7 +28,7 @@ public class SundryCreditorsServiceImp implements SundryCreditorsService {
 
     @Override
     public Object save(SundryCreditors obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -62,7 +62,7 @@ public class SundryCreditorsServiceImp implements SundryCreditorsService {
 
     @Override
     public Object update(SundryCreditors obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -95,7 +95,7 @@ public class SundryCreditorsServiceImp implements SundryCreditorsService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

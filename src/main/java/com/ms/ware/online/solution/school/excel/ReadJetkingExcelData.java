@@ -166,7 +166,7 @@ public class ReadJetkingExcelData {
                         }
                     }
                     if (row == 0) {
-                        System.out.println(msg);
+                       
                         if (msg.contains("foreign key") && msg.contains("academic_year")) {
                             sql = "INSERT INTO academic_year (ID, STATUS,YEAR) VALUES (" + obj.getAcademicYear() + ", 'N', ' 20" + obj.getAcademicYear() + "');";
                             da.delete(sql);

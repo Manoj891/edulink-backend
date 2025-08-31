@@ -31,7 +31,7 @@ public class StudentAttendanceRestController {
     @GetMapping
     public Object attendance() {
         Message message = new Message();
-         AuthenticatedUser td = facade.getAuthentication();
+         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

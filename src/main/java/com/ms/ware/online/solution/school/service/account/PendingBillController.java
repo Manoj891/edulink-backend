@@ -37,7 +37,7 @@ public class PendingBillController {
 
     @PostMapping
     public List<String> postBill(@RequestBody List<AccountPost> req, @RequestParam String date) {
-        AuthenticatedUser user = facade.getAuthentication();
+        AuthenticatedUser user = facade.getAuthentication();;
         String approveBy = user.getUserName();
         Date approveDate = DateConverted.bsToAdDate(date);
         String today = DateConverted.toString(approveDate);

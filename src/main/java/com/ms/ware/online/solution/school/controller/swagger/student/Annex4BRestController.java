@@ -184,7 +184,7 @@ public class Annex4BRestController {
             @RequestParam String[] rem1, @RequestParam String[] rem2, @RequestParam String[] rem3, @RequestParam String[] rem4, @RequestParam String[] rem5, @RequestParam String[] rem6, @RequestParam String[] rem7,
             @RequestParam Long[] subject, @RequestParam String[] remark) {
         Message message = new Message();
-        AuthenticatedUser tv = facade.getAuthentication();
+        AuthenticatedUser tv = facade.getAuthentication();;
         if (tv.isStatus()) {
             return message.respondWithError("invalid token");
         }

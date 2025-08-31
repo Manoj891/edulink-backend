@@ -30,9 +30,6 @@ public class NoticeBoardServiceImp implements NoticeBoardService {
     public ResponseEntity save(NoticeBoard obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "", sql;
         String adDate = DateConverted.bsToAd(obj.getEnterDate());
         if (adDate.length() != 10) {
@@ -76,9 +73,6 @@ public class NoticeBoardServiceImp implements NoticeBoardService {
     public ResponseEntity update(NoticeBoard obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "";
 
@@ -108,9 +102,6 @@ public class NoticeBoardServiceImp implements NoticeBoardService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM notice_board WHERE ID='" + id + "'";

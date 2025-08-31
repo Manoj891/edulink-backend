@@ -30,7 +30,7 @@ public class ProgramMasterServiceImp implements ProgramMasterService {
 
     @Override
     public Object save(ProgramMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -58,7 +58,7 @@ public class ProgramMasterServiceImp implements ProgramMasterService {
 
     @Override
     public Object update(ProgramMaster obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -77,7 +77,7 @@ public class ProgramMasterServiceImp implements ProgramMasterService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

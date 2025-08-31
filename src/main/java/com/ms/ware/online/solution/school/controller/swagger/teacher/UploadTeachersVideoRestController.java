@@ -30,9 +30,6 @@ public class UploadTeachersVideoRestController {
     public Object index(@RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam Long subject) {
         Message message = new Message();
          AuthenticatedUser td = facade.getAuthentication();;
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         return da.getAll("from UploadTeachersVideo where teacher='" + td.getUserId() + "' and academicYear=ifnull(" + academicYear + ",academicYear) and subjectGroup=ifnull(" + subjectGroup + ",subjectGroup) and program=ifnull(" + program + ",program) and classId=ifnull(" + classId + ",classId) and subject=IFNULL(" + subject + ",subject)");
     }
 
@@ -40,9 +37,6 @@ public class UploadTeachersVideoRestController {
     public Object doSave(@RequestBody UploadTeachersVideo obj) throws IOException {
         Message message = new Message();
          AuthenticatedUser td = facade.getAuthentication();;
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "", sql;
         try {
             sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM upload_teachers_video";
@@ -68,9 +62,6 @@ public class UploadTeachersVideoRestController {
         System.out.println(obj);
         Message message = new Message();
          AuthenticatedUser td = facade.getAuthentication();;
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
 
         String msg = "";
         try {
@@ -93,9 +84,6 @@ public class UploadTeachersVideoRestController {
     public Object doDelete(@PathVariable Long id) {
         Message message = new Message();
          AuthenticatedUser td = facade.getAuthentication();;
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
 

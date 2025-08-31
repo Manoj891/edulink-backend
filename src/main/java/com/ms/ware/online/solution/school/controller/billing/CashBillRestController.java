@@ -41,9 +41,6 @@ public class CashBillRestController {
     public Object index() {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         return dao.getAll("from CashBill where approveDate is null");
     }
 
@@ -51,9 +48,6 @@ public class CashBillRestController {
     public Object index(@PathVariable String billNo) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         List list = dao.getAll("from CashBill where billNo='" + billNo + "'");
         if (list.isEmpty()) {
             return ResponseEntity.status(200).body(message.respondWithError("invalid Bill No"));
@@ -65,9 +59,6 @@ public class CashBillRestController {
     public Object doSave(@Valid @RequestBody CashBill obj) throws IOException {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String billNo;
         Map map;
         String enterDate = obj.getEnterDateAd();
@@ -148,9 +139,6 @@ public class CashBillRestController {
     public Object doApprove(@PathVariable String date, @PathVariable String receiveAc, @RequestBody List<String> list) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String dateAd = DateConverted.bsToAd(date);
         String userName = td.getUserName();
         String sql = "SELECT ID id FROM fiscal_year WHERE '" + dateAd + "' BETWEEN START_DATE AND END_DATE;";

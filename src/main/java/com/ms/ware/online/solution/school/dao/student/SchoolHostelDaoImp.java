@@ -1,6 +1,5 @@
 package com.ms.ware.online.solution.school.dao.student;
 
-import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.student.SchoolHostal;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.HibernateException;
@@ -8,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
-import javax.validation.ConstraintViolationException;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +28,11 @@ public class SchoolHostelDaoImp implements SchoolHostelDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-             tr.rollback();
+            tr.rollback();
+            session.close();
+            throw new PersistenceException();
+
+
         }
         try {
             session.close();
@@ -50,8 +52,9 @@ public class SchoolHostelDaoImp implements SchoolHostelDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+            session.close();
+            throw new PersistenceException();
+
         }
         try {
             session.close();
@@ -69,9 +72,10 @@ public class SchoolHostelDaoImp implements SchoolHostelDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+            session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -89,9 +93,10 @@ public class SchoolHostelDaoImp implements SchoolHostelDao {
         try {
             row = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+            session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -104,14 +109,15 @@ public class SchoolHostelDaoImp implements SchoolHostelDao {
     public List getRecord(String sql) {
         msg = "";
         Session session = HibernateUtil.getSession();
-Transaction tr = session.beginTransaction();
+        Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {
             list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
-         tr.commit();
-} catch (HibernateException e) {
-       tr.rollback();
-      msg = Message.exceptionMsg(e);
+            tr.commit();
+        } catch (HibernateException e) {
+            tr.rollback();
+            session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -119,6 +125,7 @@ Transaction tr = session.beginTransaction();
         }
         return list;
     }
+
     @Override
     public String getMsg() {
         return msg;

@@ -31,7 +31,7 @@ public class SubjectGroupServiceImp implements SubjectGroupService {
 
     @Override
     public Object save(SubjectGroup obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -60,7 +60,7 @@ public class SubjectGroupServiceImp implements SubjectGroupService {
 
     @Override
     public Object update(SubjectGroup obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -79,7 +79,7 @@ public class SubjectGroupServiceImp implements SubjectGroupService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

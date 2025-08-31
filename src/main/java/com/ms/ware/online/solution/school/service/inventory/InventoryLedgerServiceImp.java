@@ -30,7 +30,7 @@ public class InventoryLedgerServiceImp implements InventoryLedgerService {
 
     @Override
     public Object save(InventoryLedger obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -54,7 +54,7 @@ public class InventoryLedgerServiceImp implements InventoryLedgerService {
 
     @Override
     public Object update(InventoryLedger obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -73,7 +73,7 @@ public class InventoryLedgerServiceImp implements InventoryLedgerService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

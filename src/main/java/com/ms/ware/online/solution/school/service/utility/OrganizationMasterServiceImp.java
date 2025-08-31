@@ -35,7 +35,7 @@ public class OrganizationMasterServiceImp implements OrganizationMasterService {
 
     @Override
     public Object save(OrganizationMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

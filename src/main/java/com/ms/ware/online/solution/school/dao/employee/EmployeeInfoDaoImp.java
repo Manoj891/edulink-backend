@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.employee;
-import javax.validation.ConstraintViolationException;
+import  javax.persistence.PersistenceException;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.employee.EmpWorkingHour;
 import com.ms.ware.online.solution.school.entity.employee.EmployeeInfo;
@@ -29,8 +29,9 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-            tr.rollback();
+                     tr.rollback();session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -50,8 +51,9 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -69,9 +71,10 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -89,9 +92,10 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         try {
             row = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
-        } catch (ConstraintViolationException e) {
+        } catch (PersistenceException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -111,7 +115,8 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
             tr.commit();
         } catch (HibernateException e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
+              session.close();
+            throw new PersistenceException();
         }
         try {
             session.close();
@@ -137,8 +142,9 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -159,8 +165,9 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -180,8 +187,9 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-            tr.rollback();
+                     tr.rollback();session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -201,8 +209,9 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-            msg = Message.exceptionMsg(e);
-            tr.rollback();
+                     tr.rollback();session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();
@@ -222,8 +231,9 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();

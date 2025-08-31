@@ -69,7 +69,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
 
     @Override
     public String save(BillingMasterReq req) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         String userName = td.getUserName();
         StuBillingMaster obj = new StuBillingMaster();
         List<StuBillingDetail> detail = new ArrayList<>();
@@ -214,7 +214,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
     @Override
     public Object wavFee(StuBillingMasterWav req) {
 
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         String userName = td.getUserName();
         List<Map<String, Object>> tempList;
@@ -424,7 +424,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
 
     @Override
     public Object findCreditBill(Long regN, Long roll, Long academicYear, Long program, Long classId, String year, String month) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -463,7 +463,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
 
     @Override
     public Object manageCredit(String jsonData) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -545,7 +545,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
 
     @Override
     public String delete(String id, String reason) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         List<Voucher> voucher = da.getVoucher("from Voucher where feeReceiptNo='" + id + "'");
         String voucherNo;
         if (!voucher.isEmpty() || voucher.size() == 0) {
@@ -612,7 +612,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
     @Override
     public Object saveOthers(String jsonData) {
 
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         String userName = td.getUserName();
         String cashAccount = td.getCashAccount();

@@ -30,9 +30,6 @@ public class HostalTypeMasterServiceImp implements HostalTypeMasterService {
     public ResponseEntity save(HostalTypeMaster obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "", sql;
         try {
             try {
@@ -60,9 +57,6 @@ public class HostalTypeMasterServiceImp implements HostalTypeMasterService {
     public ResponseEntity update(HostalTypeMaster obj, long id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "";
         obj.setId(id);
@@ -89,9 +83,6 @@ public class HostalTypeMasterServiceImp implements HostalTypeMasterService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM hostal_type_master WHERE ID='" + id + "'";

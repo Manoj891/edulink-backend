@@ -35,9 +35,6 @@ public class TeachersHomeworkServiceImp implements TeachersHomeworkService {
     public Object save(HttpServletRequest request, TeachersHomework obj, MultipartFile photo) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "", sql;
         try {
             sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM teachers_homework";
@@ -90,9 +87,6 @@ public class TeachersHomeworkServiceImp implements TeachersHomeworkService {
     public Object update(HttpServletRequest request, TeachersHomework obj, long id, MultipartFile photo) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg;
         obj.setId(id);
@@ -139,11 +133,8 @@ public class TeachersHomeworkServiceImp implements TeachersHomeworkService {
     @Override
     public ResponseEntity delete(String id) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
-        ;
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
+        AuthenticatedUser td = facade.getAuthentication();;
+        
         int row;
         String msg = "", sql;
         sql = "DELETE FROM teachers_homework WHERE ID='" + id + "'";

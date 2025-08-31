@@ -35,9 +35,6 @@ public class PreviousEducationServiceImp implements PreviousEducationService {
     public ResponseEntity save(PreviousEducation obj) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         String msg = "";
         try {
             obj.setPk(new PreviousEducationPK(obj.getRegNo(), obj.getEducation()));
@@ -60,9 +57,6 @@ public class PreviousEducationServiceImp implements PreviousEducationService {
     public ResponseEntity delete(String id) {
         Message message = new Message();
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
         int row;
         String msg = "", sql;
         sql = "DELETE FROM previous_education WHERE CONCAT(REG_NO,'-',EDUCATION)='" + id + "'";

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.PersistenceException;
 import java.io.IOException;
 
 @RestController
@@ -29,11 +30,8 @@ public class OnlineClassTeacherRestController {
     @GetMapping
     public Object getOnlineClass(@RequestParam(required = false) Long acadeicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(required = false) Long subjectGroup) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
-        ;
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
+        AuthenticatedUser td = facade.getAuthentication();;
+        
         String sql = "SELECT ACADEMIC_YEAR academicYear,CLASS_ID classId,PROGRAM program,SUBJECT_GROUP subjectGroup,SUBJECT subject,LINK link,START_TIME startTime,END_TIME endTime,S.NAME subjectName,C.NAME className FROM online_class O,subject_master S ,class_master C WHERE O.SUBJECT=S.ID AND C.ID=O.CLASS_ID AND ACADEMIC_YEAR=IFNULL(" + acadeicYear + ",ACADEMIC_YEAR) AND CLASS_ID=IFNULL(" + classId + ",CLASS_ID) AND PROGRAM=IFNULL(" + program + ",PROGRAM) AND SUBJECT_GROUP=IFNULL(" + subjectGroup + ",SUBJECT_GROUP) AND TEACHER='" + td.getUserId() + "'";
         return new DB().getRecord(sql);
     }
@@ -41,11 +39,8 @@ public class OnlineClassTeacherRestController {
     @PostMapping
     public Object doSave(@RequestBody OnlineClass obj) throws IOException {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
-        ;
-        if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
-        }
+        AuthenticatedUser td = facade.getAuthentication();;
+        
         String msg = "";
         int row;
         Session session = HibernateUtil.getSession();
@@ -64,8 +59,9 @@ public class OnlineClassTeacherRestController {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-            msg = Message.exceptionMsg(e);
-            row = 0;
+              session.close();
+            throw new PersistenceException();
+     
         }
         try {
             session.close();

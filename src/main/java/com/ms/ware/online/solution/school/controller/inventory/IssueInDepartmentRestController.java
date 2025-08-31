@@ -39,7 +39,7 @@ public class IssueInDepartmentRestController {
     @PostMapping
     public Object doSave(@RequestBody List<InventoryLedger> list) {
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid Authorization");
         }

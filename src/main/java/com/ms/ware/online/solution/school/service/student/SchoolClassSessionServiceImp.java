@@ -33,7 +33,7 @@ public class SchoolClassSessionServiceImp implements SchoolClassSessionService {
 
     @Override
     public Object save(SchoolClassSession obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -99,7 +99,7 @@ public class SchoolClassSessionServiceImp implements SchoolClassSessionService {
 
     @Override
     public Object update(SchoolClassSession obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -155,7 +155,7 @@ public class SchoolClassSessionServiceImp implements SchoolClassSessionService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

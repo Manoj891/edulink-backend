@@ -113,7 +113,7 @@ public class FeeSetupServiceImp implements FeeSetupService {
 
     @Override
     public Object save(OldStudent obj) {
-        AuthenticatedUser td = facade.getAuthentication();
+        AuthenticatedUser td = facade.getAuthentication();;
 
         long academicYear = obj.getAcademicYear();
         long program = obj.getProgram();
