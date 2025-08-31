@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,9 +26,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class ReadDBStudentData {
-
-    private DB db = new DB();
+    @Autowired
+    private DB db;
 
     public void doImport(String fileName) {
 

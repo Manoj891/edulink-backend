@@ -10,47 +10,47 @@ import com.ms.ware.online.solution.school.dao.library.LibBookStockDao;
 import com.ms.ware.online.solution.school.dao.library.LibBookStockDaoImp;
 import com.ms.ware.online.solution.school.entity.library.LibBookStock;
 import com.ms.ware.online.solution.school.entity.setup.SubjectMaster;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import com.ms.ware.online.solution.school.config.DB;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
- *
  * @author MS
  */
+@Service
 public class ReadLibraryData {
-    private DB db = new DB();
-    public List<LibBookStock> bookStocks = new ArrayList<LibBookStock>();
-   
-    Map map;
+    @Autowired
+    private DB db;
+    public List<LibBookStock> bookStocks = new ArrayList<>();
+
+    private Map<String, Object> map;
     String sql;
     List<SubjectMaster> subjectMasters = new ArrayList<>();
 
     public ReadLibraryData() {
 
-        List l;
+        List<Map<String, Object>> l;
 
         sql = "SELECT ID id,NAME name FROM subject_master ";
         l = db.getRecord(sql);
-        for (int i = 0; i < l.size(); i++) {
-            map = (Map) l.get(i);
+        for (Map<String, Object> stringObjectMap : l) {
+            map = stringObjectMap;
             subjectMasters.add(new SubjectMaster(Long.parseLong(map.get("id").toString()), map.get("name").toString()));
         }
-
-//        System.out.println(programMasters);
-//        System.out.println(classMasters);
-//        System.out.println(subjectMasters);
-//        System.exit(0);
     }
 
     long matchSubject(String subjectName) {
-        if (subjectName.length() == 0) {
-            return 0l;
+        if (subjectName.isEmpty()) {
+            return 0L;
         }
-        for (int i = 0; i < subjectMasters.size(); i++) {
-            if (subjectName.contains(subjectMasters.get(i).getName())) {
-                return subjectMasters.get(i).getId();
+        for (SubjectMaster subjectMaster : subjectMasters) {
+            if (subjectName.contains(subjectMaster.getName())) {
+                return subjectMaster.getId();
             }
         }
         return getId("subject_master", subjectName);
@@ -58,7 +58,7 @@ public class ReadLibraryData {
 
     long getId(String tableName, String value) {
         sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM " + tableName;
-        map = (Map) db.getRecord(sql).get(0);
+        map = db.getRecord(sql).get(0);
         long id = Long.parseLong(map.get("id").toString());
         sql = "INSERT INTO " + tableName + " (ID, NAME) VALUES (" + id + ", '" + value + "');";
         db.save(sql);
@@ -76,7 +76,6 @@ public class ReadLibraryData {
         Object[][] data = new Excel().read(fileName, totalColumn, 0);
         String sql = "DELETE FROM lib_book_stock";
         db.delete(sql);
-        System.out.println(data.length);
         for (Object[] datum : data) {
             try {
                 bookId = Integer.parseInt(datum[0].toString());
@@ -136,7 +135,7 @@ public class ReadLibraryData {
                     bookStock.setBookSn(k);
                     bookStock.setIsbn(bookId + "");
                     bookStock.setAuthor(author);
-                    bookStock.setBookType(1l);
+                    bookStock.setBookType(1L);
                     bookStock.setClassId(classId);
                     bookStock.setProgram(program);
                     bookStock.setLanguage("English");
@@ -156,12 +155,8 @@ public class ReadLibraryData {
 
                 }
 
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
     }
-
-//    public static void main(String[] args) {
-//        new ReadLibraryData().run();
-//    }
 }

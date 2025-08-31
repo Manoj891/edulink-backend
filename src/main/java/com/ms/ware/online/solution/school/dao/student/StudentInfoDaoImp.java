@@ -26,7 +26,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
     public List<StudentInfo> getAll(String hql) {
         msg = "";
         Session session = util.getSession();
-        List<StudentInfo> list = new ArrayList<>();
+        List<StudentInfo> list;
         Transaction tr = session.beginTransaction();
         try {
             list = session.createQuery(hql).list();
@@ -47,7 +47,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
     public List<StudentImport> getStudentImport(String hql) {
         msg = "";
         Session session = util.getSession();
-        List<StudentImport> list = new ArrayList<>();
+        List<StudentImport> list;
         Transaction tr = session.beginTransaction();
         try {
             list = session.createQuery(hql).list();

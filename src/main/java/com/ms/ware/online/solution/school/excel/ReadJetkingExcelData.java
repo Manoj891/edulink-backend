@@ -13,48 +13,28 @@ import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.dao.student.StudentInfoDao;
 import com.ms.ware.online.solution.school.dao.student.StudentInfoDaoImp;
 import com.ms.ware.online.solution.school.entity.student.StudentInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class ReadJetkingExcelData {
-    private DB db = new DB();
+    @Autowired
+    private DB db;
+    @Autowired
+    private StudentInfoDao da ;
     public static int totalRecord = 0;
-
-    private Message message=new Message();
-//
-//    public static void main(String[] args) {
-//        Object[][] data = new Excel().read("E:\\ms\\ware\\student.xlsx", 60, 0);
-//        int i;
-//        long id;
-//        double opening;
-//        ReadJetkingExcelData d = new ReadJetkingExcelData();
-//        for (i = 0; i < data.length; i++) {
-//
-//            try {
-//                id = Long.parseLong(data[i][0].toString());
-//                try {
-//                    opening = Double.parseDouble(data[i][39].toString());
-//                } catch (Exception e) {
-//                    opening = 0;
-//                }
-//                if (opening > 0) {
-//                    id = Long.parseLong(data[i][0].toString());
-//
-//
-//                    d.saveOpening(id, i, 80L, 1L, d.getCLassID(data[i][6].toString()), 1L, 8081L, "2023-08-17", opening);
-//                }
-//            } catch (Exception e) {
-//            }
-//        }
-//    }
+    @Autowired
+    private Message message;
 
     public Object doImport(String fileName, String importDate, long academicYear) {
         try {
             importDate = DateConverted.bsToAd(importDate);
-            StudentInfoDao da = new StudentInfoDaoImp();
+
             double opening;
             int totalColumn = 60, sheet = 0, count = 0, i;
             Object[][] data = new Excel().read(fileName, totalColumn, sheet);
@@ -64,7 +44,7 @@ public class ReadJetkingExcelData {
             int province;
             String district = "", municipal = "", wardNo = "", sql;
             sql = "SELECT IFNULL(PROVINCE,'') province,IFNULL(DISTRICT,'') district,IFNULL(MUNICIPAL,'') municipal,IFNULL(WARD_NO,'') wardNo FROM organization_master ";
-            Map map = da.getRecord(sql).get(0);
+            Map<String, Object> map = da.getRecord(sql).get(0);
             province = Integer.parseInt(map.get("province").toString());
             district = map.get("district").toString();
             municipal = map.get("municipal").toString();
@@ -81,16 +61,9 @@ public class ReadJetkingExcelData {
                 da.delete(sql);
                 sql = "INSERT INTO subject_group (ID, NAME) VALUES (1, 'General Group');";
                 da.delete(sql);
-
-
-//                sql = "DELETE FROM class_transfer";
-//                da.delete(sql);
-//                sql = "DELETE FROM student_info";
-//                da.delete(sql);
                 sql = "DELETE FROM temp_not_import";
                 da.delete(sql);
-            } catch (Exception e) {
-
+            } catch (Exception ignored) {
             }
             Date date = new Date();
             String busStop;
@@ -160,7 +133,7 @@ public class ReadJetkingExcelData {
                     row = da.save(obj);
                     msg = da.getMsg().replace("`", "").toLowerCase();
                     if (row == 0) {
-                        if (msg.contains("roll_no") || msg.indexOf("roll_no") >= 0) {
+                        if (msg.contains("roll_no")) {
                             obj.setSection("B");
                             obj.setRollNo(Integer.parseInt(i + "0" + 1));
                             row = da.save(obj);
@@ -168,7 +141,7 @@ public class ReadJetkingExcelData {
                         }
                     }
                     if (row == 0) {
-                       
+
                         if (msg.contains("foreign key") && msg.contains("academic_year")) {
                             sql = "INSERT INTO academic_year (ID, STATUS,YEAR) VALUES (" + obj.getAcademicYear() + ", 'N', ' 20" + obj.getAcademicYear() + "');";
                             da.delete(sql);
@@ -199,7 +172,7 @@ public class ReadJetkingExcelData {
                             if (obj.getClassId() != 0) {
                                 sql = "INSERT INTO subject_group (ID,NAME) VALUES (1, 'General');";
                                 da.delete(sql);
-                                obj.setSubjectGroup(1l);
+                                obj.setSubjectGroup(1L);
                                 row = da.save(obj);
                             }
                             msg = da.getMsg().replace("`", "").toLowerCase();
@@ -214,7 +187,6 @@ public class ReadJetkingExcelData {
                         } else if (hostelStatus.equalsIgnoreCase("3")) {
                             saveSchoolHostel(i, "2", importDate, id);
                         }
-//                        void saveOpening(Long regNo, Long academcYear, Long program, Long classId, Long subjectGroup, Long fiscalYear, String date, double amount) {
                         if (opening > 0) {
                             saveOpening(id, i, obj.getAcademicYear(), obj.getProgram(), obj.getClassId(), obj.getSubjectGroup(), 8081L, obj.getEnterDate(), opening);
                         }
@@ -297,7 +269,7 @@ public class ReadJetkingExcelData {
         return "";
     }
 
-   
+
     long chargeId;
     float chargeAmount;
     Map map;
@@ -307,16 +279,16 @@ public class ReadJetkingExcelData {
         try {
             busStop = busStop.replace("'", "");
             String sql = "SELECT ID id,CHARGE_AMOUNT chargeAmount FROM bus_station_master  WHERE NAME='" + busStop + "'";
-            List<Map<String, Object>>  ll = db.getRecord(sql);
+            List<Map<String, Object>> ll = db.getRecord(sql);
             if (ll.isEmpty()) {
                 sql = "SELECT IFNULL(MAX(ID),0)+1 id FROM bus_station_master";
-                Map<String, Object> map =  db.getRecord(sql).get(0);
+                Map<String, Object> map = db.getRecord(sql).get(0);
                 long chargeId = Long.parseLong(map.get("id").toString());
                 chargeAmount = 0;
                 sql = "INSERT INTO bus_station_master (ID, NAME, CHARGE_AMOUNT) VALUES (" + chargeId + ", '" + busStop + "', " + chargeAmount + ");";
                 db.save(sql);
             } else {
-                map =  ll.get(0);
+                map = ll.get(0);
                 chargeId = Long.parseLong(map.get("id").toString());
                 chargeAmount = Float.parseFloat(map.get("chargeAmount").toString());
             }
@@ -355,14 +327,14 @@ public class ReadJetkingExcelData {
             return 6;
         } else if (name.contains("zoro")) {
             return 7;
-        }else if (name.contains("other")) {
+        } else if (name.contains("other")) {
             return 9;
         } else {
             return 0;
         }
     }
 
-   public long getClassID(String name) {
+    public long getClassID(String name) {
 
         if (name.equalsIgnoreCase("1") || name.contains("One") || name.equalsIgnoreCase("I")) {
             return 1L;

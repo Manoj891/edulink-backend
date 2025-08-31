@@ -12,14 +12,18 @@ import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.dao.student.StudentInfoDao;
 import com.ms.ware.online.solution.school.dao.student.StudentInfoDaoImp;
 import com.ms.ware.online.solution.school.entity.student.StudentInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class ExcelData {
-    private DB db = new DB();
+    @Autowired
+    private DB db;
     public static int totalRecord = 0;
 
     private Message message = new Message();
