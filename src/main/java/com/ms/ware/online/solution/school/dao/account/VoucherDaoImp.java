@@ -4,7 +4,7 @@ import com.ms.ware.online.solution.school.entity.account.Ledger;
 import com.ms.ware.online.solution.school.entity.account.Voucher;
 import com.ms.ware.online.solution.school.entity.account.VoucherDelete;
 import com.ms.ware.online.solution.school.entity.account.VoucherDetail;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

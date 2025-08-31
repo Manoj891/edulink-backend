@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.exam.ExamMaster;

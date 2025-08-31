@@ -4,7 +4,7 @@ import  javax.persistence.PersistenceException;
 import com.ms.ware.online.solution.school.entity.employee.EmpLeaveDetail;
 import com.ms.ware.online.solution.school.entity.employee.LeaveApplication;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

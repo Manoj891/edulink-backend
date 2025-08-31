@@ -5,7 +5,7 @@ import com.ms.ware.online.solution.school.entity.utility.OrganizationMaster;
 import com.ms.ware.online.solution.school.entity.utility.SentSms;
 import com.ms.ware.online.solution.school.entity.utility.SmsCreditAmount;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

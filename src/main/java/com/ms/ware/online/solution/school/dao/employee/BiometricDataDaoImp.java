@@ -1,6 +1,6 @@
 package com.ms.ware.online.solution.school.dao.employee;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import com.ms.ware.online.solution.school.entity.employee.EmployeeAttendance;
 import com.ms.ware.online.solution.school.entity.student.StudentAttendance;
 import com.ms.ware.online.solution.school.entity.utility.BiometricLog;

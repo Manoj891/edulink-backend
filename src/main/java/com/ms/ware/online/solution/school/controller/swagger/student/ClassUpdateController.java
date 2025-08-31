@@ -1,7 +1,7 @@
 package com.ms.ware.online.solution.school.controller.swagger.student;
 
 
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;

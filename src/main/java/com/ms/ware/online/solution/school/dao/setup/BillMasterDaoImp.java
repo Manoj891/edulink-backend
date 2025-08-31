@@ -3,7 +3,7 @@ package com.ms.ware.online.solution.school.dao.setup;
 import com.ms.ware.online.solution.school.entity.setup.BillMaster;
 import com.ms.ware.online.solution.school.entity.utility.SmsConfiguration;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

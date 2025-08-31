@@ -4,7 +4,7 @@ import  javax.persistence.PersistenceException;
 import com.ms.ware.online.solution.school.entity.inventory.PurchaseOrder;
 import com.ms.ware.online.solution.school.entity.inventory.PurchaseOrderDetail;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

@@ -5,7 +5,7 @@ import com.ms.ware.online.solution.school.entity.employee.EmpWorkingHour;
 import com.ms.ware.online.solution.school.entity.employee.EmployeeInfo;
 import com.ms.ware.online.solution.school.entity.employee.OnlineVacancy;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

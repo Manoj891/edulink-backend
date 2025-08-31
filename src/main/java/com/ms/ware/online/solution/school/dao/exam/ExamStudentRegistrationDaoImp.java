@@ -2,7 +2,7 @@ package com.ms.ware.online.solution.school.dao.exam;
 
 import com.ms.ware.online.solution.school.entity.exam.ExamStudentRegistration;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

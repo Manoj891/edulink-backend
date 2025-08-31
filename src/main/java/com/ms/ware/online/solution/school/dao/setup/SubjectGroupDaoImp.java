@@ -2,7 +2,7 @@ package com.ms.ware.online.solution.school.dao.setup;
 
 import com.ms.ware.online.solution.school.entity.setup.SubjectGroup;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

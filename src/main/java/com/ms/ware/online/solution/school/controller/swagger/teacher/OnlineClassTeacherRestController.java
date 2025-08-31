@@ -12,7 +12,7 @@ import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.entity.teacherpanel.OnlineClass;
 import com.ms.ware.online.solution.school.entity.teacherpanel.OnlineClassPK;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

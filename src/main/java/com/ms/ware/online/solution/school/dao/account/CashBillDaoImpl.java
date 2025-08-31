@@ -8,7 +8,7 @@ package com.ms.ware.online.solution.school.dao.account;
 import javax.persistence.PersistenceException;
 
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import com.ms.ware.online.solution.school.entity.account.CashBill;
 import com.ms.ware.online.solution.school.entity.account.CashBillDetail;
 

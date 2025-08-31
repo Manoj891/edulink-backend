@@ -13,7 +13,7 @@ import com.ms.ware.online.solution.school.dto.LibBookStockRes;
 import com.ms.ware.online.solution.school.entity.library.BookRemoved;
 import com.ms.ware.online.solution.school.entity.library.LibBookStock;
 import com.ms.ware.online.solution.school.exception.CustomException;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,8 @@ public class LibBookStockServiceImp implements LibBookStockService {
     private AuthenticationFacade facade;
     @Autowired
     private JsonStringConverter json;
-
+    @Autowired
+    private HibernateUtil util;
     @Override
     public List<Map<String, Object>> bookStock() {
         return da.getRecord("select p.name as program, c.name class, s.name as subject, t.name as type, sum(quantity) as quantity from lib_book_stock b join program_master p on b.program = p.id join class_master c on c.id = class_id  join subject_master s on subject = s.id join lib_book_type t on book_type = t.id group by program, class_id, subject, book_type order by program,class,subject");

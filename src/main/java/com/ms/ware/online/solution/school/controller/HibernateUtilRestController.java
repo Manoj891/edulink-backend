@@ -4,7 +4,7 @@ import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import com.ms.ware.online.solution.school.service.configure.ConfigureServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

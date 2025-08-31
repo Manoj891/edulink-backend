@@ -3,7 +3,7 @@ package com.ms.ware.online.solution.school.dao.utility;
 import com.ms.ware.online.solution.school.entity.utility.MenuUserAccess;
 import com.ms.ware.online.solution.school.entity.utility.OrganizationUserInfo;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

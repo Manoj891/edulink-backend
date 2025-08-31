@@ -5,7 +5,7 @@ import com.ms.ware.online.solution.school.entity.billing.BillingDeleteMaster;
 import com.ms.ware.online.solution.school.entity.billing.StuBillingDetail;
 import com.ms.ware.online.solution.school.entity.billing.StuBillingMaster;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

@@ -3,7 +3,7 @@ package com.ms.ware.online.solution.school.dao.employee;
 import com.ms.ware.online.solution.school.entity.employee.MonthlyAllowance;
 import com.ms.ware.online.solution.school.entity.employee.RegularAllowance;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

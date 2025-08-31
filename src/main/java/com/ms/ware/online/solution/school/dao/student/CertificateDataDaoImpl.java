@@ -2,7 +2,7 @@ package com.ms.ware.online.solution.school.dao.student;
 import  javax.persistence.PersistenceException;
 
 import com.ms.ware.online.solution.school.model.HibernateUtil;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+
 import com.ms.ware.online.solution.school.entity.student.CertificateData;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
