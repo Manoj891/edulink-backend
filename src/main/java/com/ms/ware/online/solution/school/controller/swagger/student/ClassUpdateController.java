@@ -7,6 +7,7 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.student.StudentInfoDao;
 import com.ms.ware.online.solution.school.dto.RollNumberUpdate;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ import com.ms.ware.online.solution.school.config.Message;
 @RestController
 @RequestMapping("api/Student/Update")
 public class ClassUpdateController {
-
+    @Autowired
+    private HibernateUtil util;
     @Autowired
     private StudentInfoDao dao;
     @Autowired

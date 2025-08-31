@@ -6,6 +6,7 @@ import com.ms.ware.online.solution.school.dto.OrganizationInformation;
 import com.ms.ware.online.solution.school.dto.OrganizationInformationData;
 import com.ms.ware.online.solution.school.entity.utility.SentSms;
 import com.ms.ware.online.solution.school.exception.CustomException;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
@@ -40,13 +41,15 @@ public class SmsService {
     private OrganizationInformation organizationInformation;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private HibernateUtil util;
 
     @PostConstruct
     public void setConfigured() {
 
         BikramSambatConverter.set();
         new Thread(() -> {
-
+            util.init();
             emailService.init();
             String sql = "select ifnull(organization_name,name) name,ifnull(municipal,'') municipal,ifnull(ward_no,'') wardNo,ifnull(address,'') street,tel,ifnull(bill_bal_total,'N') balTotal,ifnull(pan_number,'') panNumber from  organization_master";
             List<Map<String, Object>> list = repository.getRecord(sql);

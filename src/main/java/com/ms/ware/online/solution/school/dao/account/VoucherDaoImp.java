@@ -5,6 +5,7 @@ import com.ms.ware.online.solution.school.entity.account.Voucher;
 import com.ms.ware.online.solution.school.entity.account.VoucherDelete;
 import com.ms.ware.online.solution.school.entity.account.VoucherDetail;
 
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -21,7 +22,7 @@ public class VoucherDaoImp implements VoucherDao {
     String msg = "";
     int row = 1;
     @Autowired
-    private HibernateUtilImpl util;
+    private HibernateUtil util;
 
     @Override
     public List<Voucher> getAll(String hql) {
