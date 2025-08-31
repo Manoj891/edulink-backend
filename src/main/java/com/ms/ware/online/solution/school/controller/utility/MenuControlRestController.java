@@ -20,6 +20,8 @@ import java.util.List;
 public class MenuControlRestController {
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
     @GetMapping
     public Object findMenu() {
        
@@ -51,6 +53,6 @@ public class MenuControlRestController {
             }
         }
 
-        return new Message().respondWithMessage(count+" Record Saved!!");
+        return message.respondWithMessage(count+" Record Saved!!");
     }
 }

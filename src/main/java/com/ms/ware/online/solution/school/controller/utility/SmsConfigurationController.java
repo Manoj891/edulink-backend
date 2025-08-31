@@ -27,12 +27,13 @@ public class SmsConfigurationController {
     private AuthenticationFacade facade;
     @Autowired
     private SmsService service;
-
+    @Autowired
+    private Message message;
     @PostMapping
     public Object doSave(HttpServletRequest request, @RequestBody SmsConfiguration obj) throws IOException {
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.getUserId().equalsIgnoreCase("1")) {
-            return new Message().respondWithMessage("Permission Denied");
+            return message.respondWithMessage("Permission Denied");
         }
         String url = request.getRequestURL().toString();
         String uri = request.getRequestURI();
@@ -45,7 +46,7 @@ public class SmsConfigurationController {
         obj.setCreatedDate(DateConverted.now());
         da.save(obj);
         service.setConfigured(obj.getToken());
-        return new Message().respondWithMessage("Success");
+        return message.respondWithMessage("Success");
     }
 
 }

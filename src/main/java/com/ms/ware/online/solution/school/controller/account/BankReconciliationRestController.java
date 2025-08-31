@@ -16,16 +16,19 @@ import org.springframework.web.bind.annotation.*;
 public class BankReconciliationRestController {
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
+
     @GetMapping("/Bank")
     public Object getBank() {
-       
+
         String sql = "SELECT AC_CODE acCode,AC_NAME acName FROM chart_of_account  WHERE AC_CODE  LIKE '1020202%' AND TRANSACT='Y'";
         return db.getRecord(sql);
     }
 
     @GetMapping
     public Object getStatement(@RequestParam String bankAc, @RequestParam String dateTo, @RequestParam String dateFrom, @RequestParam String status) {
-       
+
         if (bankAc.length() > 0) {
             bankAc = " AND L.AC_CODE='" + bankAc + "'";
         } else {
@@ -44,10 +47,10 @@ public class BankReconciliationRestController {
 
     @PutMapping("/{ids}")
     public Object doBankReconciliation(@PathVariable String ids, @RequestParam String date) {
-       
+
         ids = "'" + ids.replace(",", "','") + "'";
         String sql = "UPDATE ledger SET BANK_RECONCILIATION='Y',BANK_RECONCILIATION_DATE='" + date + "' WHERE ID IN(" + ids + ");";
         int row = db.save(sql);
-        return new Message().respondWithMessage(row + " Record Saved!!");
+        return message.respondWithMessage(row + " Record Saved!!");
     }
 }

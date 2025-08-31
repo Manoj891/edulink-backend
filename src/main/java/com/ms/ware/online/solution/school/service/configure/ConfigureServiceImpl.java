@@ -83,9 +83,9 @@ public class ConfigureServiceImpl {
             c.function();
             c.configure();
         } catch (Exception e) {
-            return new Message().respondWithError(e.getMessage());
+            return message.respondWithError(e.getMessage());
         }
-        return new Message().respondWithMessage("Success");
+        return message.respondWithMessage("Success");
     }
 
     public void configureDistrictMunicipality() {
@@ -617,14 +617,14 @@ public class ConfigureServiceImpl {
             } catch (Exception e) {
             }
         }
-        return new Message().respondWithMessage(adDate + "Till Created!!");
+        return message.respondWithMessage(adDate + "Till Created!!");
     }
 
     @PostMapping("/District")
     public Object districtConfig() {
         new DistrictMunicipalData().setDistrict();
         new DistrictMunicipalData().setMunicipal();
-        return new Message().respondWithMessage("Success");
+        return message.respondWithMessage("Success");
     }
 
 }

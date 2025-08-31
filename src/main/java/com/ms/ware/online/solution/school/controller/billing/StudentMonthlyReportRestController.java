@@ -96,7 +96,7 @@ public class StudentMonthlyReportRestController {
         try {
             map.put("student", db.getRecord(sql).get(0));
         } catch (Exception e) {
-            return new Message().respondWithError("Invalid Reg No!!");
+            return message.respondWithError("Invalid Reg No!!");
         }
         String billId;
         float paidAmount;
@@ -105,7 +105,7 @@ public class StudentMonthlyReportRestController {
             sql = "SELECT MAX(AD_DATE) paymentDate FROM ad_bs_calender WHERE BS_DATE LIKE '" + year + "-" + month + "%'";
             Map m = db.getRecord(sql).get(0);
             paymentDate = "'" + m.get("paymentDate").toString() + "'";
-            map.put("monthTill", "Till " + year + " " + new Message().getMonthName(month));
+            map.put("monthTill", "Till " + year + " " + message.getMonthName(month));
         } else {
             map.put("monthTill", "");
         }
@@ -193,7 +193,7 @@ public class StudentMonthlyReportRestController {
             Map<String, Object> m = db.getRecord(sql).get(0);
             map.put("academicYear", m.get("name"));
         } catch (Exception e) {
-            return new Message().respondWithError("Please provide Academic Year!!");
+            return message.respondWithError("Please provide Academic Year!!");
         }
         return map;
     }

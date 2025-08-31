@@ -22,6 +22,8 @@ import java.util.Map;
 public class ReadJetkingExcelData {
     private DB db = new DB();
     public static int totalRecord = 0;
+
+    private Message message=new Message();
 //
 //    public static void main(String[] args) {
 //        Object[][] data = new Excel().read("E:\\ms\\ware\\student.xlsx", 60, 0);
@@ -231,9 +233,9 @@ public class ReadJetkingExcelData {
 
             sql = "INSERT INTO class_transfer (ACADEMIC_YEAR, STUDENT_ID, CLASS_ID, PROGRAM,  SUBJECT_GROUP,ROLL_NO, SECTION) SELECT ACADEMIC_YEAR,ID,CLASS_ID,PROGRAM,SUBJECT_GROUP,ROLL_NO,SECTION FROM student_info S WHERE S.`ID` NOT IN(SELECT CLL.`STUDENT_ID` FROM class_transfer CLL)";
             da.delete(sql);
-            return new Message().respondWithMessage(count + " Record Saved!!");
+            return message.respondWithMessage(count + " Record Saved!!");
         } catch (Exception e) {
-            return new Message().respondWithError(e.getMessage());
+            return message.respondWithError(e.getMessage());
         }
     }
 

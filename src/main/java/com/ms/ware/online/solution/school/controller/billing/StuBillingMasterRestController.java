@@ -81,12 +81,11 @@ public class StuBillingMasterRestController {
 
     @GetMapping("/StudentByRollNo")
     public Object index(@RequestParam long program, @RequestParam long academicYear, @RequestParam long classId, @RequestParam long rollNo) {
-        Message msg = new Message();
 
         String sql = "SELECT ID AS regNo,STU_NAME AS stuName,FATHERS_NAME fatherName from student_info WHERE PROGRAM = " + program + " and ACADEMIC_YEAR = " + academicYear + " and CLASS_ID = " + classId + "  and ROLL_NO=" + rollNo;
         List l = db.getRecord(sql);
         if (l.isEmpty()) {
-            return msg.respondWithError("Roll No not found in system record!!");
+            return message.respondWithError("Roll No not found in system record!!");
         }
         return l.get(0);
     }

@@ -7,6 +7,7 @@ package com.ms.ware.online.solution.school.controller.inventory;
 
 import java.util.List;
 import java.util.Map;
+
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.Message;
 
@@ -20,14 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChartOfItemRestController {
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
+
     @GetMapping
     public Object index() {
         String sql;
-       
+
         sql = "SELECT `INVENTORY_ACCOUNT` AS inventoryAccount FROM organization_master";
         List list = db.getRecord(sql);
         if (list.isEmpty()) {
-            return new Message().respondWithError("Please define INVENTORY_ACCOUNT in organization_master");
+            return message.respondWithError("Please define INVENTORY_ACCOUNT in organization_master");
         }
         Map map = (Map) list.get(0);
         String inventoryAccount = map.get("inventoryAccount").toString();

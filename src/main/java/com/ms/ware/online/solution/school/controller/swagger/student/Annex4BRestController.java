@@ -90,7 +90,7 @@ public class Annex4BRestController {
                     academicYear = Long.parseLong(map.get("ACADEMIC_YEAR").toString());
                     subjectGroup = Long.parseLong(map.get("SUBJECT_GROUP").toString());
                 } catch (Exception e) {
-                    return new Message().respondWithError("Invalid Reg No!!");
+                    return message.respondWithError("Invalid Reg No!!");
                 }
             } else {
                 regNo = null;
@@ -228,7 +228,7 @@ try {
                     academicYear = Long.parseLong(map.get("ACADEMIC_YEAR").toString());
                     subjectGroup = Long.parseLong(map.get("SUBJECT_GROUP").toString());
                 } catch (Exception e) {
-                    return new Message().respondWithError("Invalid Reg No!!");
+                    return message.respondWithError("Invalid Reg No!!");
                 }
             } else {
                 regNo = null;

@@ -22,6 +22,8 @@ import java.util.Map;
 public class AccountReportRestController {
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
     @GetMapping("/DailyTransaction")
     public Object index(@RequestParam(defaultValue = "") String acCode, @RequestParam(defaultValue = "") String group, @RequestParam String dateFrom, @RequestParam String dateTo, @RequestParam(defaultValue = "") String enterBy) {
        
@@ -44,15 +46,13 @@ public class AccountReportRestController {
 
     @GetMapping("/AccountLedger")
     public Object accountLedger(@RequestParam(required = false) String acCode, @RequestParam String dateFrom, @RequestParam String dateTo) {
-       
 
-        Message msg = new Message();
         try {
             if (acCode.length() < 2) {
-                return msg.respondWithError("Please provode Account");
+                return message.respondWithError("Please provode Account");
             }
         } catch (Exception e) {
-            return msg.respondWithError("Please provode Account");
+            return message.respondWithError("Please provode Account");
         }
         String dateFromAd = DateConverted.bsToAd(dateFrom);
         String sql, dateToAd = DateConverted.bsToAd(dateTo);

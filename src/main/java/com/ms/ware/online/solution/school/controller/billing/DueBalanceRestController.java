@@ -96,7 +96,7 @@ public class DueBalanceRestController {
                 startDateAd = map.get("startDateAd").toString();
             }
         }
-        mapData.put("dueAmount", new Message().getFeeDueAmount(regNo, startDateAd, endDateAd));
+        mapData.put("dueAmount", message.getFeeDueAmount(regNo, startDateAd, endDateAd));
         return message.respondWithMessage("Success", mapData);
 
     }

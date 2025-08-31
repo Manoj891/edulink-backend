@@ -5,6 +5,7 @@ import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.dao.exam.ExamMarkEntryDao;
 import com.ms.ware.online.solution.school.dao.exam.ExamMarkEntryDaoImp;
 import com.ms.ware.online.solution.school.dto.StudentResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -15,7 +16,8 @@ import java.util.Map;
 
 @Service
 public class MarkReportGenerate {
-
+    @Autowired
+    private Message message;
 
     private final ExamMarkEntryDao da = new ExamMarkEntryDaoImp();
 
@@ -24,11 +26,11 @@ public class MarkReportGenerate {
         sql = "SELECT  ifnull(T.final_percent, 0) percent,T.final_terminal terminal FROM exam_master M,exam_terminal T where M.TERMINAL = T.ID and M.ID=" + exam;
         List<Map<String, Object>> maps = da.getRecord(sql);
         if (maps.isEmpty()) {
-            return new Message().respondWithError("Invalid Exam");
+            return message.respondWithError("Invalid Exam");
         }
         double finalTerminalPercent = Float.parseFloat(maps.get(0).get("percent").toString());
         if (!maps.get(0).get("terminal").equals("Y")) {
-            return new Message().respondWithError("Not Final Terminal");
+            return message.respondWithError("Not Final Terminal");
         }
         String publishDate, resultPublishDate, workingDays = "";
         boolean publishStatus;
@@ -56,11 +58,11 @@ public class MarkReportGenerate {
                 sql = "SELECT RANG_FROM rangFrom,GRADE grade,GPA gpa,REMARK remark FROM percentage_system WHERE '" + publishDate + "' BETWEEN EFFECTIVE_DATE_FROM AND IFNULL(EFFECTIVE_DATE_TO,'" + publishDate + "') ORDER BY RANG_FROM DESC ";
                 break;
             default:
-                return new Message().respondWithError("Invalid System");
+                return message.respondWithError("Invalid System");
         }
         List<Map<String, Object>> gradingSystem = da.getRecord(sql);
         if (gradingSystem.isEmpty()) {
-            return new Message().respondWithError("Please define Result Rule.");
+            return message.respondWithError("Please define Result Rule.");
         }
         this.rangFrom = new float[gradingSystem.size()];
         this.gpa = new float[gradingSystem.size()];

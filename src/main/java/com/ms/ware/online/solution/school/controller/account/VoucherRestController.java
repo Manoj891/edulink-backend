@@ -55,7 +55,7 @@ public class VoucherRestController {
         sql = "SELECT IFNULL(GET_BS_DATE(APPROVE_DATE),'Pending') AS approveDate,IFNULL(APPROVE_BY,'') approveBy,VOUCHER_NO voucherNo,TOTAL_AMOUNT voucherAmount,IFNULL(CHEQUE_NO,'') chequeNo,IFNULL(NARRATION,'') narration,GET_BS_DATE(ENTER_DATE) AS enterDate,ENTER_BY enterBy FROM voucher WHERE VOUCHER_NO='" + voucherNo + "'";
         List list = db.getRecord(sql);
         if (list.isEmpty()) {
-            return new Message().respondWithError("Invalid voucher no");
+            return message.respondWithError("Invalid voucher no");
         }
         map = (Map) list.get(0);
         sql = "SELECT V.AC_CODE acCode,C.AC_NAME acName,V.DR_AMT dr,V.CR_AMT cr,IFNULL(V.PARTICULAR,'') particular,IFNULL(V.BILL_NO,'') billNo,IFNULL(V.CHEQUE_NO,'') chequeNo FROM voucher_detail V,chart_of_account C WHERE V.AC_CODE=C.AC_CODE AND VOUCHER_NO='" + voucherNo + "'";

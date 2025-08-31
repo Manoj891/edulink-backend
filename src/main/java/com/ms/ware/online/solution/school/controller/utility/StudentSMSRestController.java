@@ -30,13 +30,17 @@ public class StudentSMSRestController {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
+    private Message message;
+    @Autowired
     private DB db;
+
     @PostMapping("/exam")
     public ResponseEntity<List<Long>> doSave(@RequestBody ResultSMS req) throws IOException {
         if (!o.isConfigured()) throw new CustomException("SMS Not Configured");
         List<Long> ids = new ArrayList<>();
-       
-        String username = facade.getAuthentication().getUserName();;
+
+        String username = facade.getAuthentication().getUserName();
+        ;
         Map<String, Object> map = db.getRecord("select ifnull(organization_name,name) name from organization_master").get(0);
         String orgName = (map.get("name").toString()).trim().replace("  ", " ");
         req.getData().forEach(d -> db.getRecord("SELECT STU_NAME name,MOBILE_NO mobile FROM student_info where id=" + d.getId()).forEach(m -> {
@@ -53,8 +57,8 @@ public class StudentSMSRestController {
 
     @GetMapping
     public Object studentBillSms(@RequestParam long billYear, @RequestParam String month, @RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(required = false) Long subjectGroup) {
-       
-        Message msg = new Message();
+
+
         Map map;
         String sql = "", regNo, studentName, message, mobileNo;
         sql = "SELECT COUNT(AD_DATE)  AS totalDay FROM ad_bs_calender WHERE BS_DATE LIKE '" + billYear + "-" + month + "%'";
@@ -63,7 +67,7 @@ public class StudentSMSRestController {
         String endDateAd = DateConverted.bsToAd(billYear + "-" + month + "-" + totalDay);
         String startDateAd = DateConverted.bsToAd(billYear + "-" + month + "-01");
         if (startDateAd.length() != 10) {
-            return msg.respondWithError("year " + billYear + " month " + month + " not list in school calendar!!");
+            return this.message.respondWithError("year " + billYear + " month " + month + " not list in school calendar!!");
         }
         sql = "SELECT ROLL_NO rollNo,SECTION section,ID regNo,STU_NAME studentName,FATHERS_NAME fathersName,MOBILE_NO mobileNo,IFNULL(email,'') email FROM student_info WHERE ACADEMIC_YEAR=" + academicYear + " AND PROGRAM=" + program + " AND CLASS_ID=IFNULL(" + classId + ",CLASS_ID) AND SUBJECT_GROUP=IFNULL(" + subjectGroup + ",SUBJECT_GROUP) ORDER BY PROGRAM,CLASS_ID,ROLL_NO";
         List list = db.getRecord(sql);
@@ -79,7 +83,7 @@ public class StudentSMSRestController {
                 if (mobileNo.length() != 10 || (!mobileNo.startsWith("98") && !mobileNo.startsWith("97"))) {
                     continue;
                 }
-                message = "Dear " + studentName.substring(0, studentName.indexOf(" ")) + ", Your due amount of " + billYear + " " + msg.getMonthName(month) + " Rs. " + msg.getFeeDueAmount(regNo, startDateAd, endDateAd) + " please pay within the time";
+                message = "Dear " + studentName.substring(0, studentName.indexOf(" ")) + ", Your due amount of " + billYear + " " + this.message.getMonthName(month) + " Rs. " + this.message.getFeeDueAmount(regNo, startDateAd, endDateAd) + " please pay within the time";
                 map.put("message", message);
                 l.add(map);
             } catch (Exception e) {

@@ -20,7 +20,8 @@ public class AdBsCalenderRestController {
     private DB db;
     @Autowired
     AdBsCalenderService service;
-
+    @Autowired
+    private Message message;
     @GetMapping
     public Object index(@RequestParam String yearMonth) {
 
@@ -100,7 +101,7 @@ public class AdBsCalenderRestController {
             sql = "UPDATE ad_bs_calender SET SCHOOL_HOLYDAY='" + isHoliday + "',STUDENT_HOLYDAY='" + isHoliday + "',EVENT='' WHERE DAY='" + day + "' AND BS_DATE LIKE '" + year + month + "%'";
 
         }
-        return new Message().respondWithMessage(db.save(sql) + " Record Updated");
+        return message.respondWithMessage(db.save(sql) + " Record Updated");
     }
 
 //    @DeleteMapping("/{id}")

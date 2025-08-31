@@ -79,7 +79,7 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
             sql = "SELECT IFNULL(TH_FM,0) thFm,IFNULL(PR_FM,0) prFm FROM subject_group_detail WHERE PROGRAM=" + program + " AND CLASS_ID=" + classId + " AND SUBJECT_GROUP=" + subjectGroup + " AND SUBJECT=" + subject;
             List<Map<String, Object>> l = da.getRecord(sql);
             if (l.isEmpty()) {
-                return new Message().respondWithError("Invalid Subject");
+                return message.respondWithError("Invalid Subject");
             }
             Map<String, Object> m = l.get(0);
             thFm = Float.parseFloat(m.get("thFm").toString());
@@ -113,14 +113,14 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
             }
 
             if (row > 0) {
-                return new Message().respondWithMessage(row + " Record Saved!!");
+                return message.respondWithMessage(row + " Record Saved!!");
             } else if (msg.contains("Duplicate entry")) {
                 msg = "This record already exist";
             }
-            return new Message().respondWithError(msg);
+            return message.respondWithError(msg);
 
         } catch (Exception e) {
-            return new Message().respondWithError(e.getMessage());
+            return message.respondWithError(e.getMessage());
         }
     }
 
@@ -201,7 +201,7 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
             sql = "SELECT EXAM_ROLL_NO examRollNo,SUBJECT_GROUP subjectGroup,PROGRAM program,CLASS_ID classId FROM exam_student_registration WHERE EXAM='" + exam + "' AND STUDENT_ID='" + studentId + "'";
             List<Map<String, Object>> ll = da.getRecord(sql);
             if (ll.isEmpty()) {
-                return new Message().respondWithError("Exam not appppp token");
+                return message.respondWithError("Exam not appppp token");
             }
             Map<String, Object> mm = ll.get(0);
             classId = Long.parseLong(mm.get("classId").toString());
@@ -219,7 +219,7 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
             publishDate = DateConverted.today();
             resultPublishDate = "Not Publish.";
             if (type.equalsIgnoreCase("STU")) {
-                return new Message().respondWithError("Result Not Published!!");
+                return message.respondWithError("Result Not Published!!");
             }
             publishStatus = false;
         } else {
@@ -240,7 +240,7 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
                 sql = "SELECT RANG_FROM rangFrom,GRADE grade,GPA gpa,REMARK remark FROM percentage_system WHERE '" + publishDate + "' BETWEEN EFFECTIVE_DATE_FROM AND IFNULL(EFFECTIVE_DATE_TO,'" + publishDate + "') ORDER BY RANG_FROM DESC ";
                 break;
             default:
-                return new Message().respondWithError("Invalid System");
+                return message.respondWithError("Invalid System");
         }
 
         List<GradingSystemReq> gradingSystem = da.getRecord(sql).stream()
@@ -252,7 +252,7 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
                         .build())
                 .collect(Collectors.toList());
         if (gradingSystem.isEmpty()) {
-            return new Message().respondWithError("Please define Result Rule.");
+            return message.respondWithError("Please define Result Rule.");
         }
 
         reportGenerate.rangFrom = new float[gradingSystem.size()];
@@ -337,9 +337,9 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
         AuthenticatedUser td = facade.getAuthentication();
         ;
         if (!td.isStatus()) {
-            return new Message().respondWithError("invalid token");
+            return message.respondWithError("invalid token");
         } else if (!td.getUserType().equalsIgnoreCase("TCR"))
-            return new Message().respondWithError("invalid token");
+            return message.respondWithError("invalid token");
         return MarkEntry(req, td.getUserName());
     }
 

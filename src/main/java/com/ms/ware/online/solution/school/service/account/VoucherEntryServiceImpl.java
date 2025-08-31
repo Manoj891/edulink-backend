@@ -123,7 +123,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
         String sql = "SELECT VOUCHER_NO voucherNo,NARRATION narration,GET_BS_DATE(ENTER_DATE) enterDate,ifnull(APPROVE_DATE,'') approve_date FROM voucher WHERE VOUCHER_NO='" + voucherNo + "'";
         List list = da.getRecord(sql);
         if (list.isEmpty()) {
-            return new Message().respondWithError("Invalid Voucher no!!");
+            return message.respondWithError("Invalid Voucher no!!");
         }
         Map map = (Map) list.get(0);
         sql = "SELECT ID id,C.AC_CODE acCode,C.AC_NAME acName,DR_AMT drAmt,CR_AMT crAmt,PARTICULAR particular,IFNULL(BILL_NO,'') billNo,IFNULL(CHEQUE_NO,'') chequeNo FROM voucher_detail V,chart_of_account C WHERE C.AC_CODE=V.AC_CODE AND VOUCHER_NO='" + voucherNo + "'";

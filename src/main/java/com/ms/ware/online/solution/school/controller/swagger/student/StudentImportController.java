@@ -24,7 +24,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/Student/Import")
 public class StudentImportController {
-
+    @Autowired
+    private Message message;
     @Autowired
     private StudentInfoDao da;
 
@@ -82,7 +83,7 @@ public class StudentImportController {
 
     @PostMapping
     public Map<String, Object> uploadExcel(HttpServletRequest request, @RequestParam MultipartFile excel) throws IOException {
-        String location = new Message().getFilepath(DatabaseName.getDocumentUrl());
+        String location = message.getFilepath(DatabaseName.getDocumentUrl());
         File f = new File(location);
         try {
             if (!f.exists()) {

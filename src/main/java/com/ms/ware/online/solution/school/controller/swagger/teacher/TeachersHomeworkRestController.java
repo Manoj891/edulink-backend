@@ -36,7 +36,7 @@ public class TeachersHomeworkRestController {
     public Object subject(@RequestParam(defaultValue = "0") Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup) {
          AuthenticatedUser td = facade.getAuthentication();;;
         if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(new Message().respondWithError("invalid token"));
+            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
         }
         String sql = "SELECT S.ID id,S.NAME name FROM teachers_class_subject T,subject_master S WHERE T.SUBJECT=S.ID AND ACADEMIC_YEAR='" + academicYear + "' AND PROGRAM='" + program + "' AND CLASS_ID='" + classId + "' AND SUBJECT_GROUP='" + subjectGroup + "' AND TEACHER=" + td.getUserId();
         return db.getRecord(sql);
@@ -46,7 +46,7 @@ public class TeachersHomeworkRestController {
     public Object subject(@PathVariable long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup) {
          AuthenticatedUser td = facade.getAuthentication();;;
         if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(new Message().respondWithError("invalid token"));
+            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
         }
         return db.getRecord("SELECT S.ID id,S.NAME name FROM teachers_class_subject T,subject_master S WHERE  T.SUBJECT=S.ID AND ACADEMIC_YEAR='" + academicYear + "' AND T.SUBJECT_GROUP=" + subjectGroup + " AND T.PROGRAM='" + program + "' AND T.CLASS_ID='" + classId + "' AND T.TEACHER=" + td.getUserId());
     }
@@ -58,7 +58,7 @@ public class TeachersHomeworkRestController {
     public Object homeworkCheck(@RequestParam String date, @RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam Long subject) {
          AuthenticatedUser td = facade.getAuthentication();;;
         if (!td.isStatus()) {
-            return ResponseEntity.status(200).body(new Message().respondWithError("invalid token"));
+            return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
         }
 
         if (date.length() != 10) {
