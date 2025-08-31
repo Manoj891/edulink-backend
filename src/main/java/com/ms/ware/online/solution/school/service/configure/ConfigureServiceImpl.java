@@ -9,7 +9,7 @@ import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.model.DatabaseName;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,7 +72,7 @@ public class ConfigureServiceImpl {
             }
             ps.close();
             con.close();
-            HibernateUtil.init();
+            HibernateUtilImpl.init();
             ConfigureServiceImpl c = new ConfigureServiceImpl();
             c.function();
             c.configure();

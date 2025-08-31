@@ -1,8 +1,8 @@
 package com.ms.ware.online.solution.school.dao.exam;
 import  javax.persistence.PersistenceException;
-import com.ms.ware.online.solution.school.config.Message;
+
 import com.ms.ware.online.solution.school.entity.exam.ExamSchedule;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -18,7 +18,7 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
     @Override
     public List<ExamSchedule> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<ExamSchedule> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -40,7 +40,7 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
     public int save(ExamSchedule obj) {
 
         int row = 1;
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -64,7 +64,7 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
     @Override
     public int update(ExamSchedule obj) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         int row = 1;
         msg = "";
@@ -85,7 +85,7 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         int row = 0;

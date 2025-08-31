@@ -3,7 +3,7 @@ package com.ms.ware.online.solution.school.controller;
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.exception.CustomException;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import com.ms.ware.online.solution.school.service.configure.ConfigureServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -61,7 +61,7 @@ public class HibernateUtilRestController {
     @PostMapping("/hibernate-util")
     public Object post() {
         Map<String, Object> map = new HashMap<>();
-        HibernateUtil.init();
+        HibernateUtilImpl.init();
         String sql = "SELECT  NOW()";
         List<Map<String, Object>> l = db.getRecord(sql);
         if (l.isEmpty()) {

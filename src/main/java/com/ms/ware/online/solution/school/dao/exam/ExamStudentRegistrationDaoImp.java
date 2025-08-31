@@ -1,8 +1,7 @@
 package com.ms.ware.online.solution.school.dao.exam;
 
-import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.exam.ExamStudentRegistration;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,7 +22,7 @@ public class ExamStudentRegistrationDaoImp implements ExamStudentRegistrationDao
     @Override
     public List<ExamStudentRegistration> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<ExamStudentRegistration> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -44,7 +43,7 @@ public class ExamStudentRegistrationDaoImp implements ExamStudentRegistrationDao
 
     @Override
     public int save(ExamStudentRegistration obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -66,7 +65,7 @@ public class ExamStudentRegistrationDaoImp implements ExamStudentRegistrationDao
 
     @Override
     public int update(ExamStudentRegistration obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -87,7 +86,7 @@ public class ExamStudentRegistrationDaoImp implements ExamStudentRegistrationDao
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -109,7 +108,7 @@ public class ExamStudentRegistrationDaoImp implements ExamStudentRegistrationDao
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
 Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {

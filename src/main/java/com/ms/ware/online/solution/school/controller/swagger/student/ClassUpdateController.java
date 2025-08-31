@@ -1,7 +1,7 @@
 package com.ms.ware.online.solution.school.controller.swagger.student;
 
 
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
@@ -48,7 +48,7 @@ public class ClassUpdateController {
         String username = td.getUserName();
         String updateDate = DateConverted.now();
         String section = jsonData.getSection();
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         try {
 
@@ -91,7 +91,7 @@ public class ClassUpdateController {
         String username = td.getUserName();
         String updateDate = DateConverted.now();
         String section = jsonData.getSection();
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         try {
 

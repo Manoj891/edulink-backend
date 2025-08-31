@@ -7,7 +7,7 @@ import com.ms.ware.online.solution.school.dao.account.VoucherDao;
 import com.ms.ware.online.solution.school.entity.account.Voucher;
 import com.ms.ware.online.solution.school.entity.account.VoucherDetail;
 import com.ms.ware.online.solution.school.exception.CustomException;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +61,7 @@ public class PendingBillController {
     }
 
     private String post(String voucherNo, String approveBy, String today) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         try {
             session.createSQLQuery("insert into ledger (id, ac_code, dr_amt, cr_amt, particular, voucher_no, fee_receipt_no, cheque_no, narration, enter_date, enter_by, post_date, post_by) select d.id id,d.ac_code accode,d.dr_amt dramt,d.cr_amt cramt,d.particular,m.voucher_no,m.fee_receipt_no,d.cheque_no,m.narration,m.enter_date,m.enter_by, m.approve_date as post_date,'" + approveBy + "' post_by from voucher m join voucher_detail d on m.voucher_no=d.voucher_no left join ledger l on d.id = l.id where l.ID is null and m.voucher_no='" + voucherNo + "';\nUPDATE voucher SET APPROVE_BY='" + approveBy + "',APPROVE_DATE='" + today + "' WHERE VOUCHER_NO='" + voucherNo + "';").executeUpdate();

@@ -5,9 +5,8 @@
  */
 package com.ms.ware.online.solution.school.dao.utility;
 
-import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.utility.Routing;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -25,7 +24,7 @@ public class RoutingDaoImpl implements RoutingDao {
     public List<Routing> getAll(String hql) {
 
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<Routing> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -46,7 +45,7 @@ public class RoutingDaoImpl implements RoutingDao {
     @Override
     public int save(Routing obj) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         int row = 1;
@@ -69,7 +68,7 @@ public class RoutingDaoImpl implements RoutingDao {
     @Override
     public int delete(String sql) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         int row = 0;

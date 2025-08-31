@@ -3,8 +3,8 @@ import  javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import com.ms.ware.online.solution.school.config.Message;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.exam.ExamTerminal;
@@ -22,7 +22,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
     @Override
     public List<ExamTerminal> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<ExamTerminal> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -42,7 +42,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
 
     @Override
     public int save(ExamTerminal obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -64,7 +64,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
 
     @Override
     public int update(ExamTerminal obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -85,7 +85,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -107,7 +107,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
     @Override
     public List<Map<String, Object>> getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {

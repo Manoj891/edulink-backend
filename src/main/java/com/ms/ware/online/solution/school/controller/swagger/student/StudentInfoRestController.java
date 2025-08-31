@@ -8,7 +8,7 @@ import com.ms.ware.online.solution.school.entity.SmsSendingReq;
 import com.ms.ware.online.solution.school.entity.student.StudentInfo;
 import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.model.DatabaseName;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import com.ms.ware.online.solution.school.service.student.StudentInfoService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -274,7 +274,7 @@ public class StudentInfoRestController {
                 level = m.get("className").toString();
             }
             sql = "INSERT INTO certificate_issue (reg_no, division, issue_by, issue_date, receive_by,neb_tu_reg_no,trans_issued_date,transcript_no,fiscal_year,sn) VALUES (" + regNo + ", '" + division + "', '" + td.getUserName() + "', '" + issueDate + "', '" + receiveBy + "','" + nebTuRegNo + "','" + transIssuedDate + "','" + transcriptNo + "','" + fiscalYear + "','" + sn + "')";
-            Session session = HibernateUtil.getSession();
+            Session session = HibernateUtilImpl.getSession();
             try {
                 Transaction tr = session.beginTransaction();
                 session.createSQLQuery(sql).executeUpdate();

@@ -13,7 +13,7 @@ import com.ms.ware.online.solution.school.dto.LibBookStockRes;
 import com.ms.ware.online.solution.school.entity.library.BookRemoved;
 import com.ms.ware.online.solution.school.entity.library.LibBookStock;
 import com.ms.ware.online.solution.school.exception.CustomException;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,7 +212,7 @@ public class LibBookStockServiceImp implements LibBookStockService {
         AuthenticatedUser td = facade.getAuthentication();;
         int row;
         String msg, sql;
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         session.save(BookRemoved.builder()
                 .id(UUID.randomUUID().toString())

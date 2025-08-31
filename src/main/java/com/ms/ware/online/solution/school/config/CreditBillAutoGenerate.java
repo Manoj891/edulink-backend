@@ -4,7 +4,7 @@ package com.ms.ware.online.solution.school.config;
 import com.ms.ware.online.solution.school.exception.CustomException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class CreditBillAutoGenerate {
 
     public boolean generate(long academicYear, long program, long classId, long subjectGroup, long regNo, String enterBy) {
         String sql;
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         try {
             Map<String, Object> map;

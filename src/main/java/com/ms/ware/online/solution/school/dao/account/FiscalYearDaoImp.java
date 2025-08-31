@@ -1,8 +1,7 @@
 package com.ms.ware.online.solution.school.dao.account;
 
-import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.account.FiscalYear;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,7 +22,7 @@ public class FiscalYearDaoImp implements FiscalYearDao {
     @Override
     public List<FiscalYear> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<FiscalYear> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -43,7 +42,7 @@ public class FiscalYearDaoImp implements FiscalYearDao {
 
     @Override
     public int save(FiscalYear obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -65,7 +64,7 @@ public class FiscalYearDaoImp implements FiscalYearDao {
 
     @Override
     public int update(FiscalYear obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -86,7 +85,7 @@ public class FiscalYearDaoImp implements FiscalYearDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -108,7 +107,7 @@ public class FiscalYearDaoImp implements FiscalYearDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {

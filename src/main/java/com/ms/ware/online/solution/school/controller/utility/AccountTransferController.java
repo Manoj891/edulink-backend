@@ -2,7 +2,7 @@ package com.ms.ware.online.solution.school.controller.utility;
 
 import com.ms.ware.online.solution.school.config.DB;
 import lombok.extern.slf4j.Slf4j;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +43,7 @@ public class AccountTransferController {
         List<Map<String, Object>> list;
         Map<String, Object> map;
         int sn, level;
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         list = db.getRecord("select ac_code,ac_name,transact from chart_of_account where ac_code='" + acCode + "'");
         if (list.isEmpty()) {
             session.close();

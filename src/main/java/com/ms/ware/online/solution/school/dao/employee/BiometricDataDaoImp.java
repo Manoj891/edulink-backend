@@ -1,6 +1,5 @@
 package com.ms.ware.online.solution.school.dao.employee;
-import com.ms.ware.online.solution.school.config.Message;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import com.ms.ware.online.solution.school.entity.employee.EmployeeAttendance;
 import com.ms.ware.online.solution.school.entity.student.StudentAttendance;
 import com.ms.ware.online.solution.school.entity.utility.BiometricLog;
@@ -24,7 +23,7 @@ public class BiometricDataDaoImp implements BiometricDataDao {
     public List<BiometricLog> getAll(String hql) {
 
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<BiometricLog> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -44,7 +43,7 @@ public class BiometricDataDaoImp implements BiometricDataDao {
 
     @Override
     public int save(EmployeeAttendance obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -66,7 +65,7 @@ public class BiometricDataDaoImp implements BiometricDataDao {
 
     @Override
     public int save(BiometricLog obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -88,7 +87,7 @@ public class BiometricDataDaoImp implements BiometricDataDao {
 
     @Override
     public int save(StudentAttendance obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -111,7 +110,7 @@ public class BiometricDataDaoImp implements BiometricDataDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -133,7 +132,7 @@ public class BiometricDataDaoImp implements BiometricDataDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {

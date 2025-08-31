@@ -1,10 +1,10 @@
 package com.ms.ware.online.solution.school.dao.employee;
 import  javax.persistence.PersistenceException;
-import com.ms.ware.online.solution.school.config.Message;
+
 import com.ms.ware.online.solution.school.entity.employee.EmpWorkingHour;
 import com.ms.ware.online.solution.school.entity.employee.EmployeeInfo;
 import com.ms.ware.online.solution.school.entity.employee.OnlineVacancy;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,7 +22,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
     @Override
     public List<EmployeeInfo> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<EmployeeInfo> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -42,7 +42,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
 
     @Override
     public int save(EmployeeInfo obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -64,7 +64,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
 
     @Override
     public int update(EmployeeInfo obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -85,7 +85,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -107,7 +107,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {
@@ -133,7 +133,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
     @Override
     public int save(OnlineVacancy obj) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -156,7 +156,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
     @Override
     public int update(OnlineVacancy obj) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -180,7 +180,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
     public List<OnlineVacancy> getOnlineVacancy(String hql) {
 
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<OnlineVacancy> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -202,7 +202,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
     public List<EmpWorkingHour> getEmpWorkingHour(String hql) {
 
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<EmpWorkingHour> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -222,7 +222,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
 
     @Override
     public int save(EmpWorkingHour obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;

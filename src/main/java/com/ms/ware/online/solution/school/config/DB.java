@@ -1,6 +1,6 @@
 package com.ms.ware.online.solution.school.config;
 
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Query;
@@ -20,7 +20,7 @@ public class DB {
     String msg;
 
     public int save(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         int a;
         try {
@@ -38,7 +38,7 @@ public class DB {
     }
 
     public int save(String sql, String[] parameterValue) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         int a = 0;
         try {
@@ -59,7 +59,7 @@ public class DB {
     }
 
     public int save(String sql, String[] parameter, String[] parameterValue) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         int a = 0;
         try {
@@ -82,7 +82,7 @@ public class DB {
 
     public int delete(String sql) {
         int a = 0;
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         try {
             a = session.createSQLQuery(sql).executeUpdate();
@@ -98,7 +98,7 @@ public class DB {
     }
 
     public List<Map<String, Object>> getMapRecord(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         try {
             List list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             session.close();
@@ -111,7 +111,7 @@ public class DB {
     }
 
     public List<Map<String, Object>> getRecord(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         try {
             List<Map<String, Object>> list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             session.close();

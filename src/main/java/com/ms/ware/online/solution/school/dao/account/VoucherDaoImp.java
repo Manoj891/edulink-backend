@@ -1,17 +1,17 @@
 package com.ms.ware.online.solution.school.dao.account;
 
-import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.account.Ledger;
 import com.ms.ware.online.solution.school.entity.account.Voucher;
 import com.ms.ware.online.solution.school.entity.account.VoucherDelete;
 import com.ms.ware.online.solution.school.entity.account.VoucherDetail;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import  javax.persistence.PersistenceException;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,20 +20,23 @@ public class VoucherDaoImp implements VoucherDao {
 
     String msg = "";
     int row = 1;
+    @Autowired
+    private HibernateUtilImpl util;
 
     @Override
     public List<Voucher> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<Voucher> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
             list = session.createQuery(hql).list();
             tr.commit();
         } catch (HibernateException e) {
-                     tr.rollback();session.close();
+            tr.rollback();
+            session.close();
             throw new PersistenceException();
-     
+
         }
         try {
             session.close();
@@ -44,7 +47,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int save(Voucher obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -53,9 +56,9 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-              session.close();
+            session.close();
             throw new PersistenceException();
-     
+
         }
         try {
             session.close();
@@ -66,7 +69,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int update(Voucher obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -75,7 +78,7 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (PersistenceException e) {
             tr.rollback();
-              session.close();
+            session.close();
             throw new PersistenceException();
         }
         try {
@@ -87,7 +90,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -96,7 +99,7 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (PersistenceException e) {
             tr.rollback();
-              session.close();
+            session.close();
             throw new PersistenceException();
         }
         try {
@@ -109,7 +112,7 @@ public class VoucherDaoImp implements VoucherDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {
@@ -117,7 +120,7 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (HibernateException e) {
             tr.rollback();
-              session.close();
+            session.close();
             throw new PersistenceException();
         }
         try {
@@ -134,7 +137,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int save(VoucherDetail obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -143,9 +146,9 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-              session.close();
+            session.close();
             throw new PersistenceException();
-     
+
         }
         try {
             session.close();
@@ -156,7 +159,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int save(Ledger obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -165,9 +168,9 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-              session.close();
+            session.close();
             throw new PersistenceException();
-     
+
         }
         try {
             session.close();
@@ -178,7 +181,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int save(VoucherDelete obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -187,9 +190,9 @@ public class VoucherDaoImp implements VoucherDao {
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
-              session.close();
+            session.close();
             throw new PersistenceException();
-     
+
         }
         try {
             session.close();

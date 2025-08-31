@@ -2,8 +2,8 @@ package com.ms.ware.online.solution.school.dao.exam;
 import  javax.persistence.PersistenceException;
 import java.util.List;
 import java.util.ArrayList;
-import com.ms.ware.online.solution.school.config.Message;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.exam.GradingSystem;
@@ -21,7 +21,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
     @Override
     public List<GradingSystem> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<GradingSystem> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -40,7 +40,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
 
     @Override
     public int save(GradingSystem obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -62,7 +62,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
 
     @Override
     public int update(GradingSystem obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -83,7 +83,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -105,7 +105,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {
@@ -130,7 +130,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
 
     @Override
     public int save(PercentageSystem obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -152,7 +152,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
 
     @Override
     public int update(PercentageSystem obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -175,7 +175,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
     @Override
     public int save(GradingSystemTwo obj) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -198,7 +198,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
     @Override
     public int update(GradingSystemTwo obj) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;

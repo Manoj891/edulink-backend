@@ -11,12 +11,11 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.entity.teacherpanel.OnlineClass;
 import com.ms.ware.online.solution.school.entity.teacherpanel.OnlineClassPK;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.PersistenceException;
@@ -43,7 +42,7 @@ public class OnlineClassTeacherRestController {
         
         String msg = "";
         int row;
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;

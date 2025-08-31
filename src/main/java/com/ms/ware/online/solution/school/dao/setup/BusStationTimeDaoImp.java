@@ -2,8 +2,8 @@ package com.ms.ware.online.solution.school.dao.setup;
 
 import java.util.List;
 import java.util.ArrayList;
-import com.ms.ware.online.solution.school.config.Message;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.setup.BusStationTime;
@@ -23,7 +23,7 @@ public class BusStationTimeDaoImp implements BusStationTimeDao {
     @Override
     public List<BusStationTime> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<BusStationTime> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -44,7 +44,7 @@ public class BusStationTimeDaoImp implements BusStationTimeDao {
 
     @Override
     public int save(BusStationTime obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -66,7 +66,7 @@ public class BusStationTimeDaoImp implements BusStationTimeDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -88,7 +88,7 @@ public class BusStationTimeDaoImp implements BusStationTimeDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
 Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {

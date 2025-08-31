@@ -1,9 +1,8 @@
 package com.ms.ware.online.solution.school.dao.student;
 
-import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.student.StudentTransportation;
 import com.ms.ware.online.solution.school.entity.student.TransportationHostelBillGenerated;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -23,7 +22,7 @@ public class StudentTransportationDaoImp implements StudentTransportationDao {
     @Override
     public List<StudentTransportation> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<StudentTransportation> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -43,7 +42,7 @@ public class StudentTransportationDaoImp implements StudentTransportationDao {
 
     @Override
     public int save(StudentTransportation obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -65,7 +64,7 @@ public class StudentTransportationDaoImp implements StudentTransportationDao {
 
     @Override
     public int save(TransportationHostelBillGenerated obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -87,7 +86,7 @@ public class StudentTransportationDaoImp implements StudentTransportationDao {
 
     @Override
     public int update(StudentTransportation obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -108,7 +107,7 @@ public class StudentTransportationDaoImp implements StudentTransportationDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -130,7 +129,7 @@ public class StudentTransportationDaoImp implements StudentTransportationDao {
     @Override
     public List<Map<String, Object>> getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         List<Map<String, Object>> list = new ArrayList<>();
         try {

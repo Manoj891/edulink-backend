@@ -3,8 +3,8 @@ package com.ms.ware.online.solution.school.dao.utility;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
-import com.ms.ware.online.solution.school.config.Message;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import com.ms.ware.online.solution.school.entity.student.StudentAttendance;
 import com.ms.ware.online.solution.school.entity.utility.BiometricDeviceMap;
 import org.hibernate.Session;
@@ -13,7 +13,7 @@ import com.ms.ware.online.solution.school.entity.utility.AboutApp;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
 import  javax.persistence.PersistenceException;
-import  javax.persistence.PersistenceException;
+
 @Component
 public class AboutAppDaoImp implements AboutAppDao {
 
@@ -24,7 +24,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     @Override
     public List<AboutApp> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<AboutApp> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -44,7 +44,7 @@ public class AboutAppDaoImp implements AboutAppDao {
 
     @Override
     public int save(AboutApp obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -66,7 +66,7 @@ public class AboutAppDaoImp implements AboutAppDao {
 
     @Override
     public int update(AboutApp obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -87,7 +87,7 @@ public class AboutAppDaoImp implements AboutAppDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -109,7 +109,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     @Override
     public List<Map<String, Object>> getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         List<Map<String, Object>> list = new ArrayList();
         try {
@@ -135,7 +135,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     @Override
     public int save(BiometricDeviceMap obj) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -158,7 +158,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     @Override
     public int update(BiometricDeviceMap obj) {
 
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -179,7 +179,7 @@ public class AboutAppDaoImp implements AboutAppDao {
 
     @Override
     public int update(StudentAttendance obj, long id) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -203,7 +203,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     public List<BiometricDeviceMap> getBiometricDeviceMap(String hql) {
 
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<BiometricDeviceMap> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {

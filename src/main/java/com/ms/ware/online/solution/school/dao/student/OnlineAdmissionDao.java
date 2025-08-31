@@ -5,9 +5,8 @@
  */
 package com.ms.ware.online.solution.school.dao.student;
 
-import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.student.OnlineAdmission;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,7 +23,7 @@ public class OnlineAdmissionDao {
 
     public int save(OnlineAdmission obj) {
         int row = 1;
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         try {
@@ -46,7 +45,7 @@ public class OnlineAdmissionDao {
 
     public List<OnlineAdmission> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<OnlineAdmission> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {

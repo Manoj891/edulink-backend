@@ -1,8 +1,8 @@
 package com.ms.ware.online.solution.school.dao.library;
 import  javax.persistence.PersistenceException;
-import com.ms.ware.online.solution.school.config.Message;
+
 import com.ms.ware.online.solution.school.entity.library.LibBookType;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,7 +22,7 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
     @Override
     public List<LibBookType> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         List<LibBookType> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -43,7 +43,7 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
 
     @Override
     public int save(LibBookType obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -65,7 +65,7 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
 
     @Override
     public int update(LibBookType obj) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -86,7 +86,7 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -108,7 +108,7 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtil.getSession();
+        Session session = HibernateUtilImpl.getSession();
 Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {
