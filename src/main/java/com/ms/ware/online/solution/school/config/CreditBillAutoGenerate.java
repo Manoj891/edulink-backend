@@ -47,8 +47,8 @@ public class CreditBillAutoGenerate {
             }
 
             String billNo;
-            sql = "SELECT ID id FROM fiscal_year WHERE START_DATE>='" + startDate + "' AND END_DATE<='" + startDate + "'";
-
+            sql = "SELECT ID id FROM fiscal_year WHERE START_DATE<='" + startDate + "' AND END_DATE>='" + startDate + "'";
+            System.out.println(sql);
             list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             if (list.isEmpty())
                 throw new CustomException("Fiscal Year not found on date at " + startDate + ", Education Session start from " + startDate);
