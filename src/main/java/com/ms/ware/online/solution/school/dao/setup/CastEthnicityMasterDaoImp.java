@@ -1,16 +1,16 @@
 package com.ms.ware.online.solution.school.dao.setup;
 
-import java.util.List;
-import java.util.ArrayList;
-
+import com.ms.ware.online.solution.school.config.Message;
+import com.ms.ware.online.solution.school.entity.setup.CastEthnicityMaster;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import com.ms.ware.online.solution.school.entity.setup.CastEthnicityMaster;
-import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
-import com.ms.ware.online.solution.school.config.Message;
 
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 @Component
 public class CastEthnicityMasterDaoImp implements CastEthnicityMasterDao {
 
@@ -68,10 +68,9 @@ public class CastEthnicityMasterDaoImp implements CastEthnicityMasterDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

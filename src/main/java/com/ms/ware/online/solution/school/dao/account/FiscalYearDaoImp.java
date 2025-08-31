@@ -1,16 +1,16 @@
 package com.ms.ware.online.solution.school.dao.account;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import com.ms.ware.online.solution.school.config.Message;
+import com.ms.ware.online.solution.school.entity.account.FiscalYear;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import com.ms.ware.online.solution.school.entity.account.FiscalYear;
-import org.hibernate.HibernateException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Component;
+
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -70,10 +70,9 @@ public class FiscalYearDaoImp implements FiscalYearDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

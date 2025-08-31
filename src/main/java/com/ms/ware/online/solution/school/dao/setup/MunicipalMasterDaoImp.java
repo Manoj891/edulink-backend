@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.validation.ConstraintViolationException;
 
 @Component
 public class MunicipalMasterDaoImp implements MunicipalMasterDao {
@@ -69,10 +69,9 @@ public class MunicipalMasterDaoImp implements MunicipalMasterDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

@@ -10,6 +10,8 @@ import com.ms.ware.online.solution.school.entity.employee.TeachersClassSubject;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
 
+import javax.validation.ConstraintViolationException;
+
 @Component
 public class TeachersClassSubjectDaoImp implements TeachersClassSubjectDao {
     

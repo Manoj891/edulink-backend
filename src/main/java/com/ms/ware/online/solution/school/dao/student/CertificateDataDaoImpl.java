@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.student;
-
+import javax.validation.ConstraintViolationException;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.entity.student.CertificateData;
 import org.hibernate.HibernateException;
@@ -68,10 +68,9 @@ public class CertificateDataDaoImpl implements CertificateDataDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

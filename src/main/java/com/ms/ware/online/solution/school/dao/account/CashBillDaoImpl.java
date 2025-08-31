@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.ms.ware.online.solution.school.dao.account;
-
+import javax.validation.ConstraintViolationException;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.entity.account.CashBill;
 import com.ms.ware.online.solution.school.entity.account.CashBillDetail;
@@ -72,10 +72,9 @@ public class CashBillDaoImpl implements CashBillDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

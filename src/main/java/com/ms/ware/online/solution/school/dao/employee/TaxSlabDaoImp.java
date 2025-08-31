@@ -1,14 +1,16 @@
 package com.ms.ware.online.solution.school.dao.employee;
 
-import java.util.List;
-import java.util.ArrayList;
 import com.ms.ware.online.solution.school.config.Message;
+import com.ms.ware.online.solution.school.entity.employee.TaxSlab;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import com.ms.ware.online.solution.school.entity.employee.TaxSlab;
-import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
+
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Component
@@ -68,10 +70,9 @@ public class TaxSlabDaoImp implements TaxSlabDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

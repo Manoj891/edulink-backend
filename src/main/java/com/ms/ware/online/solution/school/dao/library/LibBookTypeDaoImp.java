@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.library;
-
+import javax.validation.ConstraintViolationException;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.library.LibBookType;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
@@ -69,10 +69,9 @@ public class LibBookTypeDaoImp implements LibBookTypeDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

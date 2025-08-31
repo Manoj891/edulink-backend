@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.utility.OrganizationTeam;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
-
+import javax.validation.ConstraintViolationException;
 
 @Component
 public class OrganizationTeamDaoImp implements OrganizationTeamDao {
@@ -68,10 +68,9 @@ public class OrganizationTeamDaoImp implements OrganizationTeamDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

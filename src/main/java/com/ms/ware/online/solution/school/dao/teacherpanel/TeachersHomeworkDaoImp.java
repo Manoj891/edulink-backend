@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.teacherpanel;
-
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.ArrayList;
 import com.ms.ware.online.solution.school.config.Message;
@@ -67,10 +67,9 @@ public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();
@@ -156,10 +155,9 @@ public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

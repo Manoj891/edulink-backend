@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.employee;
-
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.ArrayList;
 import com.ms.ware.online.solution.school.config.Message;
@@ -68,10 +68,9 @@ public class EmployeeSalaryInfoDaoImp implements EmployeeSalaryInfoDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

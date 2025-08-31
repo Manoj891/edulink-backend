@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.inventory;
-
+import javax.validation.ConstraintViolationException;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.account.Voucher;
 import com.ms.ware.online.solution.school.entity.inventory.InventoryLedger;
@@ -68,10 +68,9 @@ public class InventoryLedgerDaoImp implements InventoryLedgerDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

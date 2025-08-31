@@ -1,18 +1,17 @@
 package com.ms.ware.online.solution.school.dao.utility;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-
 import com.ms.ware.online.solution.school.config.Message;
+import com.ms.ware.online.solution.school.entity.utility.EmailNotificationService;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import com.ms.ware.online.solution.school.entity.utility.EmailNotificationService;
-import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
 
-
+import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 @Component
 public class EmailNotificationServiceDaoImp implements EmailNotificationServiceDao {
 
@@ -70,10 +69,9 @@ public class EmailNotificationServiceDaoImp implements EmailNotificationServiceD
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

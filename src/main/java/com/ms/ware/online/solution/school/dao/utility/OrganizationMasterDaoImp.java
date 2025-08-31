@@ -1,18 +1,19 @@
 package com.ms.ware.online.solution.school.dao.utility;
 
-import com.ms.ware.online.solution.school.model.HibernateUtil;
+import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.exam.CharacterIssue;
 import com.ms.ware.online.solution.school.entity.utility.OrganizationMaster;
 import com.ms.ware.online.solution.school.entity.utility.SentSms;
 import com.ms.ware.online.solution.school.entity.utility.SmsCreditAmount;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
-import com.ms.ware.online.solution.school.config.Message;
+
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-
 @Component
 public class OrganizationMasterDaoImp implements OrganizationMasterDao {
 
@@ -70,10 +71,9 @@ public class OrganizationMasterDaoImp implements OrganizationMasterDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

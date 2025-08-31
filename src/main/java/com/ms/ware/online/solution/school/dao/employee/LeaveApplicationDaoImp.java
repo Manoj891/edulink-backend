@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.employee;
-
+import javax.validation.ConstraintViolationException;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.employee.EmpLeaveDetail;
 import com.ms.ware.online.solution.school.entity.employee.LeaveApplication;
@@ -68,10 +68,9 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();
@@ -137,10 +136,9 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
             row++;
             });
             tr.commit();           
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();
@@ -158,10 +156,9 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
         try {
             session.saveOrUpdate(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

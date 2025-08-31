@@ -1,5 +1,5 @@
 package com.ms.ware.online.solution.school.dao.exam;
-
+import javax.validation.ConstraintViolationException;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.exam.ExamSchedule;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
@@ -69,10 +69,9 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();

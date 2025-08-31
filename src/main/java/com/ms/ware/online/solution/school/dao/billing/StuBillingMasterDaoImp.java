@@ -11,10 +11,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 @Component
 public class StuBillingMasterDaoImp implements StuBillingMasterDao {
 
@@ -73,10 +73,9 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         try {
             session.update(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();
@@ -162,10 +161,9 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         try {
             session.delete(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();
@@ -233,10 +231,9 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         try {
             session.delete(obj);
             tr.commit();
-        } catch (HibernateException e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
-            row = 0;
         }
         try {
             session.close();
