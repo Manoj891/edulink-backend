@@ -22,12 +22,13 @@ public class HibernateUtilRestController {
     private ConfigureServiceImpl configure;
     @Autowired
     private HibernateUtil util;
-
+    @Autowired
+    private Message message;
 
     @GetMapping("/function")
     public Object functionConfigure() {
         configure.functionConfigure();
-        return new Message().respondWithMessage("Success");
+        return message.respondWithMessage("Success");
     }
 
     @PostMapping("configure/database")
@@ -38,7 +39,7 @@ public class HibernateUtilRestController {
     @PostMapping("configure/district-municipal")
     public Object configureDistrictMunicipality() {
         configure.configureDistrictMunicipality();
-        return new Message().respondWithMessage("Success");
+        return message.respondWithMessage("Success");
     }
 
     @PostMapping("configure/calender")
