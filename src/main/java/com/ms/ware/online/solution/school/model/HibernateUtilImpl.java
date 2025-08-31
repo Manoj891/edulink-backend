@@ -30,14 +30,16 @@ public class HibernateUtilImpl implements HibernateUtil {
         String url = "jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase() + "?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false";
         Properties prop = new Properties();
         prop.setProperty("hibernate.show_sql", "false");
-//        prop.setProperty("hibernate.hbm2ddl.auto","update");
+        prop.setProperty("hibernate.format_sql", "false");
+        prop.setProperty("hibernate.hbm2ddl.auto", "none");
         prop.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
         prop.setProperty("hibernate.connection.url", url);
         prop.setProperty("hibernate.connection.username", DatabaseName.getUsername());
         prop.setProperty("hibernate.connection.password", DatabaseName.getPassword());
-        prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        prop.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
+        prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
+        prop.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "true"); // set true if not sure
         prop.setProperty("javax.persistence.validation.mode", "none");
+
         sessionFactory = new Configuration()
                 .addProperties(prop)
                 .addAnnotatedClass(OnlineClass.class)

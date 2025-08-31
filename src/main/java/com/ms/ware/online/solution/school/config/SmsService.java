@@ -75,7 +75,7 @@ public class SmsService {
                 token = AESUtils.decrypt(list.get(0).get("token").toString());
                 getBalance();
             }
-
+            log.info("----------------------successfully configured -----------------------------");
         }).start();
     }
 
