@@ -9,6 +9,7 @@ import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.model.DatabaseName;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,8 @@ import java.util.Date;
 public class ConfigureServiceImpl {
     @Autowired
     private DistrictMunicipalData data;
+    @Autowired
+    private HibernateUtil util;
 
     public void functionConfigure() {
         function();
@@ -51,7 +54,7 @@ public class ConfigureServiceImpl {
                 System.out.println("Success " + sql);
             } catch (Exception e) {
                 msg = e.getMessage();
-               
+
             }
             sql = "CREATE DATABASE " + DatabaseName.getDatabase();
             try {
@@ -59,7 +62,7 @@ public class ConfigureServiceImpl {
                 System.out.println("Success " + sql);
             } catch (Exception e) {
                 msg = e.getMessage();
-               
+
             }
             con = java.sql.DriverManager.getConnection("jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase(), DatabaseName.getUsername(), DatabaseName.getPassword());
             sql = "CREATE TABLE temp_not_import (`ID` BIGINT, `MSG` TEXT);";
@@ -68,11 +71,11 @@ public class ConfigureServiceImpl {
                 ps.executeUpdate();
             } catch (Exception e) {
                 msg = e.getMessage();
-               
+
             }
             ps.close();
             con.close();
-            HibernateUtilImpl.init();
+            util.init();
             ConfigureServiceImpl c = new ConfigureServiceImpl();
             c.function();
             c.configure();

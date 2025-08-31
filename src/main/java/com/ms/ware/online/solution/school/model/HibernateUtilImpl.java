@@ -21,24 +21,23 @@ import com.ms.ware.online.solution.school.entity.student.*;
 import com.ms.ware.online.solution.school.entity.teacherpanel.OnlineClass;
 import com.ms.ware.online.solution.school.entity.teacherpanel.TeachersHomework;
 import com.ms.ware.online.solution.school.entity.teacherpanel.UploadTeachersVideo;
-import org.hibernate.HibernateException;
+import com.ms.ware.online.solution.school.entity.utility.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Service;
-import com.ms.ware.online.solution.school.entity.utility.*;
 
 import java.util.Properties;
 
 
 @Service
-public class HibernateUtilImpl implements HibernateUtil{
+public class HibernateUtilImpl implements HibernateUtil {
     private static SessionFactory sessionFactory;
 
     //CREATE USER 'schoolking'@'localhost' IDENTIFIED BY 'SchoolKing@123';
 //GRANT ALL PRIVILEGES ON * . * TO 'schoolking'@'localhost';
-
-    public static void init() {
+    @Override
+    public void init() {
         String url = "jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase() + "?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false";
         Properties prop = new Properties();
 //        prop.setProperty("hibernate.show_sql", "true");
@@ -50,7 +49,6 @@ public class HibernateUtilImpl implements HibernateUtil{
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         prop.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "false");
         prop.setProperty("javax.persistence.validation.mode", "none");
-        try {
             sessionFactory = new Configuration()
                     .addProperties(prop)
                     .addAnnotatedClass(OnlineClass.class)
@@ -153,23 +151,9 @@ public class HibernateUtilImpl implements HibernateUtil{
                     .addAnnotatedClass(CertificateData.class)
                     .addAnnotatedClass(ExamSchedule.class)
                     .buildSessionFactory();
-        } catch (HibernateException ignored) {
-        }
     }
 
     public static Session getSession() {
-        return getSessionFactory().openSession();
-    }
-
-
-    public static SessionFactory getSessionFactory() {
-        try {
-            if (sessionFactory == null || sessionFactory.isClosed()) {
-                init();
-            }
-        } catch (Exception e) {
-            init();
-        }
-        return sessionFactory;
+        return sessionFactory.openSession();
     }
 }
