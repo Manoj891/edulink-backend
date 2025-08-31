@@ -8,7 +8,7 @@ import com.ms.ware.online.solution.school.entity.SmsSendingReq;
 import com.ms.ware.online.solution.school.entity.student.StudentInfo;
 import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.model.DatabaseName;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.service.student.StudentInfoService;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -34,6 +34,8 @@ public class StudentInfoRestController {
     private EmailService emailService;
     @Autowired
     private DB db;
+    @Autowired
+    private HibernateUtil util;
 
     @GetMapping("/GenderWise")
     public Object GenderWise(@RequestParam Long academicYear, @RequestParam(required = false) Long program) {
