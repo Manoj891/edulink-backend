@@ -22,7 +22,7 @@ public class CreditBillAutoGenerate {
 
     public boolean generate(long academicYear, long program, long classId, long subjectGroup, long regNo, String enterBy) {
         String sql;
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         try {
             Map<String, Object> map;

@@ -4,10 +4,10 @@ import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
-import com.ms.ware.online.solution.school.exception.PermissionDeniedException;
 import com.ms.ware.online.solution.school.entity.account.Ledger;
 import com.ms.ware.online.solution.school.entity.account.VoucherDetail;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+import com.ms.ware.online.solution.school.exception.PermissionDeniedException;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.transform.Transformers;
@@ -28,6 +28,8 @@ public class OpeningAdjustmentController {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
+    private HibernateUtil util;
+    @Autowired
     private DB db;
 
     @GetMapping()
@@ -46,7 +48,7 @@ public class OpeningAdjustmentController {
                 "AS subquery_alias GROUP BY ac_code, ac_name, level, transact ORDER BY ac_code;";
         DecimalFormat df = new DecimalFormat("#.##");
         List<OpeningAdjustment> list = new LinkedList<>();
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<OpeningAdjustmentRes> l = session.createSQLQuery(sql)
                 .setResultTransformer(Transformers.aliasToBean(OpeningAdjustmentRes.class))
                 .list();
@@ -94,7 +96,7 @@ public class OpeningAdjustmentController {
         Date date = DateConverted.toDate(enterDate);
         sql = "select ifnull(max(voucher_sn),0)+1 as sn from voucher_detail where voucher_no='" + voucherNo + "'";
         int voucherSn = Integer.parseInt(db.getRecord(sql).get(0).get("sn").toString());
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         sql = "select id from voucher_detail where voucher_no='" + voucherNo + "' and AC_CODE='" + acCode + "'";
         List<Map<String, Object>> data = db.getRecord(sql);

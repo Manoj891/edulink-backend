@@ -3,6 +3,7 @@ package com.ms.ware.online.solution.school.controller.account;
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.exception.CustomException;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
 public class TrialBalanceController {
     private Session session;
     @Autowired
+    private HibernateUtil util;
+    @Autowired
     private DB db;
 
 
@@ -46,7 +49,7 @@ public class TrialBalanceController {
 
     private List<TailBalance> summary(String sql, String acCode) {
         DecimalFormat df = new DecimalFormat("#.##");
-        session = HibernateUtilImpl.getSession();
+        session = util.getSession();
         AtomicReference<Double> pl = new AtomicReference<>((double) 0);
         List<TailBalanceRes> l = new ArrayList<>(getRecord(sql));
         session.close();

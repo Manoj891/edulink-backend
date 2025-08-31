@@ -7,7 +7,7 @@ import com.ms.ware.online.solution.school.dao.student.StudentTransportationDao;
 import com.ms.ware.online.solution.school.dto.HostelTransportation;
 import com.ms.ware.online.solution.school.dto.PostHostelTransportation;
 import com.ms.ware.online.solution.school.config.DateConverted;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,8 @@ public class PostHostelTransportationController {
     private DB db;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private HibernateUtil util;
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody HostelTransportation r) {
@@ -44,7 +45,7 @@ public class PostHostelTransportationController {
     }
 
     private void generate(String effectDate, String today, long fiscalYear, long academicYear, long classId, long program, long year, String month, PostHostelTransportation d, String enterBy) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         String sql = "SELECT IFNULL(max(BILL_SN),0)+1 AS billSn FROM stu_billing_master WHERE FISCAL_YEAR='" + fiscalYear + "' AND BILL_TYPE='CR'";
         Map<String, Object> map = da.getRecord(sql).get(0);

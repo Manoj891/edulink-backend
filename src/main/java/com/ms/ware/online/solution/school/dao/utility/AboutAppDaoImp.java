@@ -1,30 +1,32 @@
 package com.ms.ware.online.solution.school.dao.utility;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import com.ms.ware.online.solution.school.entity.student.StudentAttendance;
+import com.ms.ware.online.solution.school.entity.utility.AboutApp;
 import com.ms.ware.online.solution.school.entity.utility.BiometricDeviceMap;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import com.ms.ware.online.solution.school.entity.utility.AboutApp;
-import org.hibernate.HibernateException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import  javax.persistence.PersistenceException;
+
+import javax.persistence.PersistenceException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class AboutAppDaoImp implements AboutAppDao {
 
     String msg = "";
     int row = 1;
-
+    @Autowired
+    private HibernateUtil util;
 
     @Override
     public List<AboutApp> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<AboutApp> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -44,7 +46,7 @@ public class AboutAppDaoImp implements AboutAppDao {
 
     @Override
     public int save(AboutApp obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -66,7 +68,7 @@ public class AboutAppDaoImp implements AboutAppDao {
 
     @Override
     public int update(AboutApp obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -87,7 +89,7 @@ public class AboutAppDaoImp implements AboutAppDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -109,7 +111,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     @Override
     public List<Map<String, Object>> getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         List<Map<String, Object>> list = new ArrayList();
         try {
@@ -135,7 +137,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     @Override
     public int save(BiometricDeviceMap obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -158,7 +160,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     @Override
     public int update(BiometricDeviceMap obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -179,7 +181,7 @@ public class AboutAppDaoImp implements AboutAppDao {
 
     @Override
     public int update(StudentAttendance obj, long id) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -203,7 +205,7 @@ public class AboutAppDaoImp implements AboutAppDao {
     public List<BiometricDeviceMap> getBiometricDeviceMap(String hql) {
 
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<BiometricDeviceMap> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {

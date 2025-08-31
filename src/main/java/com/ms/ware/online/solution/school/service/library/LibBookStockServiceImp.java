@@ -212,7 +212,7 @@ public class LibBookStockServiceImp implements LibBookStockService {
         AuthenticatedUser td = facade.getAuthentication();;
         int row;
         String msg, sql;
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         session.save(BookRemoved.builder()
                 .id(UUID.randomUUID().toString())

@@ -4,10 +4,12 @@ import com.ms.ware.online.solution.school.entity.account.Voucher;
 import com.ms.ware.online.solution.school.entity.billing.BillingDeleteMaster;
 import com.ms.ware.online.solution.school.entity.billing.StuBillingDetail;
 import com.ms.ware.online.solution.school.entity.billing.StuBillingMaster;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.PersistenceException;
@@ -20,11 +22,12 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
 
     String msg = "";
     int row = 1;
-
+    @Autowired
+    private HibernateUtil util;
     @Override
     public List<StuBillingMaster> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<StuBillingMaster> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -45,7 +48,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
 
     @Override
     public int save(StuBillingMaster obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -69,7 +72,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
 
     @Override
     public int update(StuBillingMaster obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -90,7 +93,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -112,7 +115,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
     @Override
     public List<Map<String, Object>> getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         List<Map<String, Object>> list = new ArrayList();
         try {
@@ -138,7 +141,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
     @Override
     public int save(StuBillingDetail obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -161,7 +164,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
     @Override
     public int delete(StuBillingMaster obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -183,7 +186,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
     @Override
     public int save(BillingDeleteMaster obj, String voucherNo) {
         String billNo = obj.getBillNo();
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -213,7 +216,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
     public List<Voucher> getVoucher(String hql) {
 
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<Voucher> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -235,7 +238,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
     @Override
     public int delete(Voucher obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";

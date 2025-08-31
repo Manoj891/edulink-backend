@@ -48,7 +48,7 @@ public class ClassUpdateController {
         String username = td.getUserName();
         String updateDate = DateConverted.now();
         String section = jsonData.getSection();
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         try {
 
@@ -91,7 +91,7 @@ public class ClassUpdateController {
         String username = td.getUserName();
         String updateDate = DateConverted.now();
         String section = jsonData.getSection();
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         try {
 

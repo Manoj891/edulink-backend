@@ -2,10 +2,12 @@ package com.ms.ware.online.solution.school.dao.library;
 import  javax.persistence.PersistenceException;
 
 import com.ms.ware.online.solution.school.entity.library.LibBookIssue;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,7 +17,8 @@ import java.util.Map;
 
 @Component
 public class LibBookIssueDaoImp implements LibBookIssueDao {
-
+    @Autowired
+    private HibernateUtil util;
     String msg = "";
     int row = 1;
 
@@ -23,7 +26,7 @@ public class LibBookIssueDaoImp implements LibBookIssueDao {
     @Override
     public List<LibBookIssue> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<LibBookIssue> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -43,7 +46,7 @@ public class LibBookIssueDaoImp implements LibBookIssueDao {
 
     @Override
     public int save(LibBookIssue obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -65,7 +68,7 @@ public class LibBookIssueDaoImp implements LibBookIssueDao {
 
     @Override
     public int update(LibBookIssue obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -86,7 +89,7 @@ public class LibBookIssueDaoImp implements LibBookIssueDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -108,7 +111,7 @@ public class LibBookIssueDaoImp implements LibBookIssueDao {
     @Override
     public List<Map<String,Object>> getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         List<Map<String,Object>> list = new ArrayList<>();
         try {

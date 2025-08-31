@@ -3,10 +3,12 @@ import  javax.persistence.PersistenceException;
 
 import com.ms.ware.online.solution.school.entity.library.BookRemoved;
 import com.ms.ware.online.solution.school.entity.library.LibBookStock;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,11 +20,12 @@ public class LibBookStockDaoImp implements LibBookStockDao {
 
     String msg = "";
     int row = 1;
-
+    @Autowired
+    private HibernateUtil util;
     @Override
     public List<LibBookStock> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<LibBookStock> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -42,7 +45,7 @@ public class LibBookStockDaoImp implements LibBookStockDao {
 
     @Override
     public int save(LibBookStock obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -65,7 +68,7 @@ public class LibBookStockDaoImp implements LibBookStockDao {
     @Override
     public int save(BookRemoved obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -88,7 +91,7 @@ public class LibBookStockDaoImp implements LibBookStockDao {
 
     @Override
     public int update(LibBookStock obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -109,7 +112,7 @@ public class LibBookStockDaoImp implements LibBookStockDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -131,7 +134,7 @@ public class LibBookStockDaoImp implements LibBookStockDao {
     @Override
     public List<Map<String, Object>> getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         List<Map<String, Object>> list = new ArrayList<>();
         try {

@@ -1,11 +1,13 @@
 package com.ms.ware.online.solution.school.config;
 
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.PersistenceException;
@@ -16,11 +18,12 @@ import java.util.Map;
 @Getter
 @Service
 public class DB {
-
+    @Autowired
+    private HibernateUtil util;
     String msg;
 
     public int save(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         int a;
         try {
@@ -38,7 +41,7 @@ public class DB {
     }
 
     public int save(String sql, String[] parameterValue) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         int a = 0;
         try {
@@ -59,7 +62,7 @@ public class DB {
     }
 
     public int save(String sql, String[] parameter, String[] parameterValue) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         int a = 0;
         try {
@@ -82,7 +85,7 @@ public class DB {
 
     public int delete(String sql) {
         int a = 0;
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         try {
             a = session.createSQLQuery(sql).executeUpdate();
@@ -98,7 +101,7 @@ public class DB {
     }
 
     public List<Map<String, Object>> getMapRecord(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         try {
             List list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             session.close();
@@ -111,7 +114,7 @@ public class DB {
     }
 
     public List<Map<String, Object>> getRecord(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         try {
             List<Map<String, Object>> list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             session.close();

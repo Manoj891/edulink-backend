@@ -7,6 +7,7 @@ import com.ms.ware.online.solution.school.dao.account.VoucherDao;
 import com.ms.ware.online.solution.school.entity.account.Voucher;
 import com.ms.ware.online.solution.school.entity.account.VoucherDetail;
 import com.ms.ware.online.solution.school.exception.CustomException;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -29,7 +30,8 @@ public class PendingBillController {
     private VoucherDao db;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private HibernateUtil util;
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> index() {
         return ResponseEntity.status(HttpStatus.OK).body(db.getRecord("SELECT VOUCHER_NO voucherNo,VOUCHER_TYPE type,TOTAL_AMOUNT voucherAmount,IFNULL(CHEQUE_NO,'') chequeNo,IFNULL(FEE_RECEIPT_NO,'') stuBillNo,IFNULL(NARRATION,'') narration,GET_BS_DATE(ENTER_DATE) AS enterDate,ENTER_BY enterBy FROM voucher WHERE APPROVE_DATE IS NULL AND REJECT_DATE IS NULL union select b.bill_no as voucherNo,'BRV' as type, b.bill_amount voucherAmount,'' as chequeNo,b.bill_no as stuBillNo,  concat(ifnull(b.reg_no, '') ,' ', b.remark,' ',ifnull(s.stu_name, b.student_name)) narration,GET_BS_DATE(b.enter_date) AS enterDate,b.enter_by as enterBy from stu_billing_master b left join voucher v on b.BILL_NO = v.FEE_RECEIPT_NO left join student_info s on b.REG_NO = s.ID where b.approve_date is null and BILL_TYPE = 'DR' and v.FEE_RECEIPT_NO is null limit 100"));
@@ -61,7 +63,7 @@ public class PendingBillController {
     }
 
     private String post(String voucherNo, String approveBy, String today) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         try {
             session.createSQLQuery("insert into ledger (id, ac_code, dr_amt, cr_amt, particular, voucher_no, fee_receipt_no, cheque_no, narration, enter_date, enter_by, post_date, post_by) select d.id id,d.ac_code accode,d.dr_amt dramt,d.cr_amt cramt,d.particular,m.voucher_no,m.fee_receipt_no,d.cheque_no,m.narration,m.enter_date,m.enter_by, m.approve_date as post_date,'" + approveBy + "' post_by from voucher m join voucher_detail d on m.voucher_no=d.voucher_no left join ledger l on d.id = l.id where l.ID is null and m.voucher_no='" + voucherNo + "';\nUPDATE voucher SET APPROVE_BY='" + approveBy + "',APPROVE_DATE='" + today + "' WHERE VOUCHER_NO='" + voucherNo + "';").executeUpdate();

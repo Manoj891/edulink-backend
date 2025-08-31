@@ -26,7 +26,7 @@ public class VoucherDaoImp implements VoucherDao {
     @Override
     public List<Voucher> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<Voucher> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -47,7 +47,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int save(Voucher obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -69,7 +69,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int update(Voucher obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -90,7 +90,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -112,7 +112,7 @@ public class VoucherDaoImp implements VoucherDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {
@@ -137,7 +137,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int save(VoucherDetail obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -159,7 +159,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int save(Ledger obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -181,7 +181,7 @@ public class VoucherDaoImp implements VoucherDao {
 
     @Override
     public int save(VoucherDelete obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;

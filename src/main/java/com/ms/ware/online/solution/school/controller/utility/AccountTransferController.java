@@ -1,8 +1,8 @@
 package com.ms.ware.online.solution.school.controller.utility;
 
 import com.ms.ware.online.solution.school.config.DB;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import lombok.extern.slf4j.Slf4j;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,8 @@ import java.util.Map;
 public class AccountTransferController {
     @Autowired
     private DB db;
+    @Autowired
+    private HibernateUtil util;
     private String message;
 
     @PostMapping("/{mgrCode}")
@@ -43,7 +45,7 @@ public class AccountTransferController {
         List<Map<String, Object>> list;
         Map<String, Object> map;
         int sn, level;
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         list = db.getRecord("select ac_code,ac_name,transact from chart_of_account where ac_code='" + acCode + "'");
         if (list.isEmpty()) {
             session.close();

@@ -6,10 +6,12 @@
 package com.ms.ware.online.solution.school.dao.utility;
 
 import com.ms.ware.online.solution.school.entity.utility.Routing;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import  javax.persistence.PersistenceException;
@@ -19,12 +21,13 @@ import java.util.List;
 public class RoutingDaoImpl implements RoutingDao {
 
     String msg;
-
+    @Autowired
+    private HibernateUtil util;
     @Override
     public List<Routing> getAll(String hql) {
 
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<Routing> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -45,7 +48,7 @@ public class RoutingDaoImpl implements RoutingDao {
     @Override
     public int save(Routing obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         int row = 1;
@@ -68,7 +71,7 @@ public class RoutingDaoImpl implements RoutingDao {
     @Override
     public int delete(String sql) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         int row = 0;

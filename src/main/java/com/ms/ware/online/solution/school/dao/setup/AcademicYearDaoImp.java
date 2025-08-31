@@ -2,26 +2,28 @@ package com.ms.ware.online.solution.school.dao.setup;
 
 import com.ms.ware.online.solution.school.entity.setup.AcademicYear;
 import com.ms.ware.online.solution.school.entity.setup.Section;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import  javax.persistence.PersistenceException;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @Component
 public class AcademicYearDaoImp implements AcademicYearDao {
-
+    @Autowired
+    private HibernateUtil util;
     String msg = "";
     int row = 1;
 
     @Override
     public List<AcademicYear> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<AcademicYear> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -41,7 +43,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
 
     @Override
     public int save(AcademicYear obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -64,7 +66,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
     @Override
     public int save(Section obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -86,7 +88,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
 
     @Override
     public int update(AcademicYear obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -107,7 +109,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -129,7 +131,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
     @Override
     public List<Map<String, Object>> getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList<>();
         try {

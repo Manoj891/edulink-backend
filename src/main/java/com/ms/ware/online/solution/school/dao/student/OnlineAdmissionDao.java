@@ -6,10 +6,12 @@
 package com.ms.ware.online.solution.school.dao.student;
 
 import com.ms.ware.online.solution.school.entity.student.OnlineAdmission;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.PersistenceException;
@@ -20,10 +22,11 @@ import java.util.List;
 public class OnlineAdmissionDao {
     String msg = "";
 
-
+    @Autowired
+    private HibernateUtil util;
     public int save(OnlineAdmission obj) {
         int row = 1;
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         try {
@@ -45,7 +48,7 @@ public class OnlineAdmissionDao {
 
     public List<OnlineAdmission> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<OnlineAdmission> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {

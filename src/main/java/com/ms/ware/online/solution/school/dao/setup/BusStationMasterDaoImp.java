@@ -1,10 +1,12 @@
 package com.ms.ware.online.solution.school.dao.setup;
 
 import com.ms.ware.online.solution.school.entity.setup.BusStationMaster;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import  javax.persistence.PersistenceException;
@@ -17,12 +19,13 @@ public class BusStationMasterDaoImp implements BusStationMasterDao {
 
     String msg = "";
     int row = 1;
-
+    @Autowired
+    private HibernateUtil util;
 
     @Override
     public List<BusStationMaster> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<BusStationMaster> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -43,7 +46,7 @@ public class BusStationMasterDaoImp implements BusStationMasterDao {
 
     @Override
     public int save(BusStationMaster obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -65,7 +68,7 @@ public class BusStationMasterDaoImp implements BusStationMasterDao {
 
     @Override
     public int update(BusStationMaster obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -86,7 +89,7 @@ public class BusStationMasterDaoImp implements BusStationMasterDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -108,7 +111,7 @@ public class BusStationMasterDaoImp implements BusStationMasterDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
 Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {

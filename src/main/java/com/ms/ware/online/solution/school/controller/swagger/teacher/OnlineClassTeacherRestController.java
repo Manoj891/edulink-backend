@@ -11,6 +11,7 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.entity.teacherpanel.OnlineClass;
 import com.ms.ware.online.solution.school.entity.teacherpanel.OnlineClassPK;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -26,6 +27,8 @@ import java.io.IOException;
 public class OnlineClassTeacherRestController {
     @Autowired
     private AuthenticationFacade facade;
+    @Autowired
+    private HibernateUtil util;
     @GetMapping
     public Object getOnlineClass(@RequestParam(required = false) Long acadeicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(required = false) Long subjectGroup) {
         Message message = new Message();
@@ -42,7 +45,7 @@ public class OnlineClassTeacherRestController {
         
         String msg = "";
         int row;
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;

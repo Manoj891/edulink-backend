@@ -2,10 +2,12 @@ package com.ms.ware.online.solution.school.dao.exam;
 import  javax.persistence.PersistenceException;
 
 import com.ms.ware.online.solution.school.entity.exam.ExamSchedule;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,11 +16,12 @@ import java.util.List;
 @Service
 public class ExamScheduleDaoImpl implements ExamScheduleDao {
     private String msg = "";
-
+    @Autowired
+    private HibernateUtil util;
     @Override
     public List<ExamSchedule> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<ExamSchedule> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -40,7 +43,7 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
     public int save(ExamSchedule obj) {
 
         int row = 1;
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -64,7 +67,7 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
     @Override
     public int update(ExamSchedule obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         int row = 1;
         msg = "";
@@ -85,7 +88,7 @@ public class ExamScheduleDaoImpl implements ExamScheduleDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         int row = 0;

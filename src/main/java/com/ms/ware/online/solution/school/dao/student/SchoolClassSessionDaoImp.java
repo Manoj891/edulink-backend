@@ -2,10 +2,12 @@ package com.ms.ware.online.solution.school.dao.student;
 
 import com.ms.ware.online.solution.school.entity.student.SchoolClassSession;
 import com.ms.ware.online.solution.school.entity.student.SchoolClassSessionBillDate;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,11 +18,12 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
 
     String msg = "";
     int row = 1;
-
+    @Autowired
+    private HibernateUtil util;
     @Override
     public List<SchoolClassSession> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<SchoolClassSession> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -40,7 +43,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
 
     @Override
     public int save(SchoolClassSession obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -62,7 +65,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
 
     @Override
     public int update(SchoolClassSession obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";
@@ -83,7 +86,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
 
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -105,7 +108,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {
@@ -131,7 +134,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
     @Override
     public int save(SchoolClassSessionBillDate obj) {
 
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         row = 1;
         msg = "";

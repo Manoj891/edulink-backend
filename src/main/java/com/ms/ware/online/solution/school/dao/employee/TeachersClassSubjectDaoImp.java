@@ -3,25 +3,28 @@ package com.ms.ware.online.solution.school.dao.employee;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.employee.TeachersClassSubject;
 import org.hibernate.HibernateException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import  javax.persistence.PersistenceException;
 
 @Component
 public class TeachersClassSubjectDaoImp implements TeachersClassSubjectDao {
-    
+    @Autowired
+    private HibernateUtil util;
     String msg = "";
     int row = 1;
     
     @Override
     public List<TeachersClassSubject> getAll(String hql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         List<TeachersClassSubject> list = new ArrayList<>();
         Transaction tr = session.beginTransaction();
         try {
@@ -41,7 +44,7 @@ public class TeachersClassSubjectDaoImp implements TeachersClassSubjectDao {
     
     @Override
     public int save(TeachersClassSubject obj) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 1;
@@ -63,7 +66,7 @@ public class TeachersClassSubjectDaoImp implements TeachersClassSubjectDao {
     
     @Override
     public int delete(String sql) {
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         msg = "";
         row = 0;
@@ -85,7 +88,7 @@ public class TeachersClassSubjectDaoImp implements TeachersClassSubjectDao {
     @Override
     public List getRecord(String sql) {
         msg = "";
-        Session session = HibernateUtilImpl.getSession();
+        Session session = util.getSession();
         Transaction tr = session.beginTransaction();
         List list = new ArrayList();
         try {
