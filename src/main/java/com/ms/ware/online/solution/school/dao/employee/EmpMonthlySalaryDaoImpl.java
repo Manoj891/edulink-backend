@@ -99,7 +99,7 @@ public class EmpMonthlySalaryDaoImpl implements EmpMonthlySalaryDao {
         try {
             row = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
-        } catch (Exception e) {
+        } catch (ConstraintViolationException e) {
             tr.rollback();
             msg = Message.exceptionMsg(e);
         }
