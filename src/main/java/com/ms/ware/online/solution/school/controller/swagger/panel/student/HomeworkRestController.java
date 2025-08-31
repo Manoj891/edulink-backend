@@ -22,7 +22,8 @@ import java.util.Map;
 public class HomeworkRestController {
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private DB db;
     @GetMapping
     public Object homework(@RequestParam(required = false) String date) {
         Message message = new Message();
@@ -44,7 +45,7 @@ public class HomeworkRestController {
             date = " AND HOMEWORK_DATE='" + DateConverted.bsToAd(date) + "' ";
         }
         String sql = "SELECT H.SUBJECT subject,(SELECT SM.NAME FROM subject_master SM where SM.ID=H.SUBJECT) AS subName,IFNULL((SELECT REMARK FROM student_homework SH WHERE SH.HOMEWORK=H.ID AND SH.STU_ID=" + td.getUserId() + "),'') remark,IFNULL((SELECT CHECK_DATE FROM student_homework SH WHERE SH.HOMEWORK=H.ID AND SH.STU_ID=" + td.getUserId() + "),'') checkDate,H.ID id,GET_BS_DATE(HOMEWORK_DATE) homeworkDate,HOMEWORK_TITLE title,HOME_WORK homework,H.ENTER_DATE enterDate,CONCAT(T.first_name,' ', ifnull(T,middle_name,''),' ', T.last_name) teacher,T.MOBILE mobileNo FROM teachers_homework H,student_info S,employee_info T WHERE H.ACADEMIC_YEAR=S.ACADEMIC_YEAR AND H.PROGRAM=S.PROGRAM AND H.SUBJECT_GROUP=S.SUBJECT_GROUP AND H.CLASS_ID=S.CLASS_ID AND H.TEACHER=T.ID " + date + " AND S.ID='" + td.getUserId() + "' ORDER BY HOMEWORK_DATE DESC";
-        return new DB().getRecord(sql);
+        return db.getRecord(sql);
     }
 
     @GetMapping("/{id}")
@@ -57,7 +58,7 @@ public class HomeworkRestController {
         Map map;
         String sql = "SELECT IFNULL((SELECT ANSWER FROM student_homework SH WHERE SH.HOMEWORK=H.ID AND SH.STU_ID=" + td.getUserId() + "),'') answer,IFNULL((SELECT STU_FILE FROM student_homework SH WHERE SH.HOMEWORK=H.ID AND SH.STU_ID=" + td.getUserId() + "),'') stuFile,GET_BS_DATE(HOMEWORK_DATE) homeworkDate,HOMEWORK_TITLE title,HOME_WORK homework,H.ENTER_DATE enterDate, CONCAT(T.first_name,' ',T.last_name) teacher,T.mobile mobileNo,IFNULL(FILE_URL,'') fileUrl FROM teachers_homework H,student_info S,employee_info T WHERE H.PROGRAM=S.PROGRAM AND H.SUBJECT_GROUP=S.SUBJECT_GROUP AND H.CLASS_ID=S.CLASS_ID AND H.TEACHER=T.ID AND H.ID='" + id + "' ";
         try {
-            map = new DB().getRecord(sql).get(0);
+            map = db.getRecord(sql).get(0);
             String homework = map.get("homework").toString();
             homework = homework.replace("\n", "<br>");
             map.put("homework", homework);
@@ -74,7 +75,7 @@ public class HomeworkRestController {
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
-        DB db = new DB();
+       
         try {
             if (homeworkDate.length() == 10) {
                 homeworkDate = " AND HOMEWORK_DATE='" + homeworkDate + "'";
@@ -95,7 +96,7 @@ public class HomeworkRestController {
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
-        DB db = new DB();
+       
         String sql = "SELECT GET_BS_DATE(HOMEWORK_DATE) homeworkDate,ACADEMIC_YEAR academicYear,H.ID id,H.CLASS_ID classId,H.PROGRAM program,H.SUBJECT_GROUP subjectGroup,H.SUBJECT subject,H.TEACHER teacher, GET_BS_DATE(H.ENTER_DATE) enterDate,IFNULL(H.FILE_URL,'') fileUrl,H.HOMEWORK_TITLE homeworkTitle,H.HOME_WORK homeWork,S.NAME subjectName,IFNULL((SELECT CONCAT(IFNULL(STU_FILE,''),' , ',IFNULL(STU_FILE1,''),' , ',IFNULL(STU_FILE2,''),' , ',IFNULL(STU_FILE3,''),' , ',IFNULL(STU_FILE4,''),' , ',IFNULL(STU_FILE5,'')) FROM student_homework SH WHERE SH.HOMEWORK=H.ID AND SH.STU_ID='" + td.getUserId() + "'),'') AS studentFile FROM teachers_homework H,subject_master S,ad_bs_calender C WHERE H.HOMEWORK_DATE=C.AD_DATE AND H.SUBJECT=S.ID AND ACADEMIC_YEAR =" + academicYear + " AND H.ID AND H.CLASS_ID='" + classId + "' AND H.PROGRAM='" + program + "' AND H.SUBJECT_GROUP='" + subjectGroup + "'";
 
         List list = db.getRecord(sql);

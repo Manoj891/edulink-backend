@@ -7,15 +7,16 @@ DELETE FROM student_info;
  */
 package com.ms.ware.online.solution.school.excel;
 
+import com.ms.ware.online.solution.school.config.DB;
+import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.dao.student.StudentInfoDao;
 import com.ms.ware.online.solution.school.dao.student.StudentInfoDaoImp;
 import com.ms.ware.online.solution.school.entity.student.StudentInfo;
-import com.ms.ware.online.solution.school.config.DB;
-import com.ms.ware.online.solution.school.config.DateConverted;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,10 +27,7 @@ import java.util.Map;
 
 public class ReadDBStudentData {
 
-
-    public static void main(String[] args) {
-        new ReadDBStudentData().doImport("E:/DigitalBeyond/GHORAHI-XI SCIENCE-MANAGEMENT-NAMELIST-RESULT-2078.xlsx");
-    }
+    private DB db = new DB();
 
     public void doImport(String fileName) {
 
@@ -219,7 +217,7 @@ public class ReadDBStudentData {
         return "";
     }
 
-    DB db = new DB();
+
     long chargeId;
     float chargeAmount;
     Map map;

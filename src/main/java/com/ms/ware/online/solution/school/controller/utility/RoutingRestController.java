@@ -21,7 +21,8 @@ import java.io.IOException;
 @RestController
 @RequestMapping("api/Utility/Routing")
 public class RoutingRestController {
-
+    @Autowired
+    private DB db;
     @Autowired
     RoutingDao da;
     @Autowired
@@ -34,7 +35,7 @@ public class RoutingRestController {
 
     @GetMapping("/Teacher")
     public Object findTeacher(@RequestParam Long academicYear, @RequestParam Long subjectGroup, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subject) {
-        return new DB().getRecord("SELECT CONCAT(I.first_name,' ',last_name,'')  name,T.TEACHER id FROM teachers_class_subject T,employee_info I WHERE T.TEACHER=I.ID AND ACADEMIC_YEAR='" + academicYear + "' AND SUBJECT_GROUP='" + subjectGroup + "' AND PROGRAM='" + program + "' AND CLASS_ID='" + classId + "' AND SUBJECT='" + subject + "'");
+        return db.getRecord("SELECT CONCAT(I.first_name,' ',last_name,'')  name,T.TEACHER id FROM teachers_class_subject T,employee_info I WHERE T.TEACHER=I.ID AND ACADEMIC_YEAR='" + academicYear + "' AND SUBJECT_GROUP='" + subjectGroup + "' AND PROGRAM='" + program + "' AND CLASS_ID='" + classId + "' AND SUBJECT='" + subject + "'");
     }
 
     @PostMapping

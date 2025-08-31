@@ -6,14 +6,16 @@
 package com.ms.ware.online.solution.school.service.configure;
 
 import com.ms.ware.online.solution.school.config.DB;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DistrictMunicipalData {
-
+    @Autowired
+    private DB db;
     void setDistrict() {
 
-        DB db = new DB();
+       
         String sql = "INSERT INTO district_master (ID, NAME, PROVINCE) 	VALUES (1, 'TAPLEJUNG', 1);"
                 + "INSERT INTO district_master (ID, NAME, PROVINCE) VALUES (2, 'PANCHTHAR', 1);"
                 + "INSERT INTO district_master (ID, NAME, PROVINCE) VALUES (3, 'ILAM', 1);"
@@ -95,7 +97,7 @@ public class DistrictMunicipalData {
     }
 
     void setMunicipal() {
-        DB db = new DB();
+       
         String sql;
         sql = "INSERT INTO municipal_master (ID, NAME, DISTRICT)"
                 + "	VALUES (1, 'AADARSHA RURAL MUNICIPALITY', 'DOTI');"

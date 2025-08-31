@@ -19,7 +19,8 @@ import java.io.IOException;
 @RestController
 @RequestMapping("api/TeacherPanel/TeachersHomework")
 public class TeachersHomeworkRestController {
-
+    @Autowired
+    private DB db;
     @Autowired
     TeachersHomeworkService service;
     @Autowired
@@ -36,7 +37,7 @@ public class TeachersHomeworkRestController {
             return ResponseEntity.status(200).body(new Message().respondWithError("invalid token"));
         }
         String sql = "SELECT S.ID id,S.NAME name FROM teachers_class_subject T,subject_master S WHERE T.SUBJECT=S.ID AND ACADEMIC_YEAR='" + academicYear + "' AND PROGRAM='" + program + "' AND CLASS_ID='" + classId + "' AND SUBJECT_GROUP='" + subjectGroup + "' AND TEACHER=" + td.getUserId();
-        return new DB().getRecord(sql);
+        return db.getRecord(sql);
     }
 
     @GetMapping("/Subject/{academicYear}")
@@ -45,7 +46,7 @@ public class TeachersHomeworkRestController {
         if (!td.isStatus()) {
             return ResponseEntity.status(200).body(new Message().respondWithError("invalid token"));
         }
-        return new DB().getRecord("SELECT S.ID id,S.NAME name FROM teachers_class_subject T,subject_master S WHERE  T.SUBJECT=S.ID AND ACADEMIC_YEAR='" + academicYear + "' AND T.SUBJECT_GROUP=" + subjectGroup + " AND T.PROGRAM='" + program + "' AND T.CLASS_ID='" + classId + "' AND T.TEACHER=" + td.getUserId());
+        return db.getRecord("SELECT S.ID id,S.NAME name FROM teachers_class_subject T,subject_master S WHERE  T.SUBJECT=S.ID AND ACADEMIC_YEAR='" + academicYear + "' AND T.SUBJECT_GROUP=" + subjectGroup + " AND T.PROGRAM='" + program + "' AND T.CLASS_ID='" + classId + "' AND T.TEACHER=" + td.getUserId());
     }
 
     /*
@@ -65,7 +66,7 @@ public class TeachersHomeworkRestController {
             date = " AND Q.HOMEWORK_DATE='" + DateConverted.bsToAd(date) + "' ";
         }
         String sql = "SELECT GET_BS_DATE(Q.HOMEWORK_DATE) homeworkDate,S.ID regNo,Q.ID question,S.STU_NAME name,S.ROLL_NO rollNo,IFNULL(SH.ANSWER,'') answer,Q.HOMEWORK_TITLE title,Q.HOME_WORK homework,Q.SUBJECT subject,TEACHER teacher,IFNULL(SH.REMARK,'') remark,IFNULL(GET_BS_DATE(SH.CHECK_DATE),'') checkDate,IFNULL(Q.FILE_URL,'') questionFile,IFNULL(SH.STU_FILE,'') answerFile,IFNULL(SH.STU_FILE1,'') answerFile1,IFNULL(SH.STU_FILE2,'') answerFile2,IFNULL(SH.STU_FILE3,'') answerFile3,IFNULL(SH.STU_FILE4,'') answerFile4,IFNULL(SH.STU_FILE5,'') answerFile5 FROM teachers_homework Q, student_info S LEFT JOIN student_homework SH ON SH.STU_ID=S.ID WHERE IFNULL(SH.HOMEWORK,Q.ID)=Q.ID AND S.ACADEMIC_YEAR=" + academicYear + " AND S.PROGRAM=" + program + " AND S.SUBJECT_GROUP=" + subjectGroup + " AND S.CLASS_ID=" + classId + " AND Q.SUBJECT=" + subject + " AND Q.TEACHER=" + td.getUserId() + " " + date + " ORDER BY homeworkDate,checkDate DESC,rollNo";
-        return new DB().getRecord(sql);
+        return db.getRecord(sql);
 
     }
 
@@ -77,7 +78,7 @@ public class TeachersHomeworkRestController {
         long homeworkId = obj.getHomework();
         String checkDate = obj.getCheckDateAd();
         long regNo = obj.getStuId();
-        DB db = new DB();
+       
         String sql;
         int row = 0;
         if (checkDate.length() == 10) {

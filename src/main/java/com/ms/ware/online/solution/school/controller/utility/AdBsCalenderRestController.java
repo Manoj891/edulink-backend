@@ -1,29 +1,23 @@
 package com.ms.ware.online.solution.school.controller.utility;
 
+import com.ms.ware.online.solution.school.config.DB;
+import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.entity.utility.AdBsCalender;
 import com.ms.ware.online.solution.school.service.utility.AdBsCalenderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import com.ms.ware.online.solution.school.config.DB;
-import com.ms.ware.online.solution.school.config.Message;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("api/Utility/AdBsCalender")
 public class AdBsCalenderRestController {
-
+    @Autowired
+    private DB db;
     @Autowired
     AdBsCalenderService service;
 
@@ -62,7 +56,7 @@ public class AdBsCalenderRestController {
         date = df.parse(ad);
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        DB db = new DB();
+       
         int dayInMonth, totalDay = 0;
         try {
 
@@ -98,7 +92,7 @@ public class AdBsCalenderRestController {
 
     @PutMapping("/{year}/{month}/{isHoliday}/{day}")
     public Object doUpdate(@PathVariable String year, @PathVariable String month, @PathVariable String isHoliday, @PathVariable String day) throws IOException {
-        DB db = new DB();
+       
         String sql;
         if (isHoliday.equalsIgnoreCase("Y")) {
             sql = "UPDATE ad_bs_calender SET SCHOOL_HOLYDAY='" + isHoliday + "',STUDENT_HOLYDAY='" + isHoliday + "',EVENT='Default holiday' WHERE DAY='" + day + "' AND BS_DATE LIKE '" + year + month + "%'";

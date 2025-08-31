@@ -32,7 +32,7 @@ public class DueBalanceRestController {
     @Autowired
     StuBillingMasterDao da;
     @Autowired
-    StuBillingMasterService tva;
+    private DB db;
 
     @PostMapping("Due")
     public Object getDue(HttpServletRequest request, @RequestBody String jsonData) {
@@ -363,7 +363,7 @@ public class DueBalanceRestController {
                 return message.respondWithError("School server connection error!!");
             }
         }
-        DB db = new DB();
+
         List l = db.getRecord("SELECT BILL_NO billNo,BILL_AMOUNT billAmount FROM stu_billing_master WHERE REG_NO='" + regNo + "' AND REFERENCE_ID='" + ReferenceID + "'");
         System.out.println(l);
         if (l.isEmpty()) {

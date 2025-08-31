@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class OnlineClassStuRestController {
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private DB db;
     @GetMapping
     public Object homework() {
         Message message = new Message();
@@ -29,6 +30,6 @@ public class OnlineClassStuRestController {
         }
 
         String sql = "SELECT CONCAT(first_name,' ',last_name)  teacher,SM.NAME subject,O.LINK link,O.START_TIME startTime,O.END_TIME endTime  FROM student_info S,online_class O,subject_master SM,employee_info T WHERE SM.ID=O.SUBJECT AND O.TEACHER=T.ID AND S.ACADEMIC_YEAR=O.ACADEMIC_YEAR AND S.PROGRAM=O.PROGRAM AND S.CLASS_ID=O.CLASS_ID AND S.SUBJECT_GROUP=O.SUBJECT_GROUP AND S.ID='" + td.getUserId() + "'";
-        return new DB().getRecord(sql);
+        return db.getRecord(sql);
     }
 }

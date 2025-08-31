@@ -21,7 +21,9 @@ public class OrganizationUserInfoRestController {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    OrganizationUserInfoService service;
+    private OrganizationUserInfoService service;
+    @Autowired
+    private DB db;
 
     @GetMapping
     public Object index() {
@@ -36,7 +38,7 @@ public class OrganizationUserInfoRestController {
     @GetMapping("/CashAccount")
     public Object cashAccount() {
         String sql = "SELECT AC_CODE acCode,AC_NAME acName FROM chart_of_account WHERE TRANSACT='Y'  AND MGR_CODE=(SELECT CASH_ACCOUNT FROM organization_master WHERE ID=1)";
-        return new DB().getRecord(sql);
+        return db.getRecord(sql);
     }
 
     @PostMapping
@@ -51,7 +53,8 @@ public class OrganizationUserInfoRestController {
 
     @GetMapping("/ChangePassword")
     public Object doChangePassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String rePassword) throws IOException {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         Message message = new Message();
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -60,7 +63,7 @@ public class OrganizationUserInfoRestController {
             return message.respondWithError("Re Password not match");
         }
         String sql = "SELECT LOGIN_PASS dbPassword,CONCAT('*', UPPER(SHA1(UNHEX(SHA1('" + oldPassword + "'))))) AS oldPassword FROM organization_user_info WHERE ID='" + td.getUserId() + "'";
-        DB db = new DB();
+
         List list = db.getRecord(sql);
         if (list.isEmpty()) {
             return message.respondWithError("invalid token");

@@ -3,9 +3,13 @@ package com.ms.ware.online.solution.school.controller.account;
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.Message;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -16,10 +20,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/Account/")
 public class AccountReportRestController {
-
+    @Autowired
+    private DB db;
     @GetMapping("/DailyTransaction")
     public Object index(@RequestParam(defaultValue = "") String acCode, @RequestParam(defaultValue = "") String group, @RequestParam String dateFrom, @RequestParam String dateTo, @RequestParam(defaultValue = "") String enterBy) {
-        DB db = new DB();
+       
         dateFrom = DateConverted.bsToAd(dateFrom);
         dateTo = DateConverted.bsToAd(dateTo);
         if (!enterBy.isEmpty()) {
@@ -39,7 +44,7 @@ public class AccountReportRestController {
 
     @GetMapping("/AccountLedger")
     public Object accountLedger(@RequestParam(required = false) String acCode, @RequestParam String dateFrom, @RequestParam String dateTo) {
-        DB db = new DB();
+       
 
         Message msg = new Message();
         try {
@@ -67,7 +72,7 @@ public class AccountReportRestController {
 
     @GetMapping("/ProfitLoss")
     public Object profitLoss(@RequestParam Integer level, @RequestParam String dateFrom, @RequestParam String dateTo) {
-        DB db = new DB();
+       
         String dateFromAd = DateConverted.bsToAd(dateFrom);
         String dateToAd = DateConverted.bsToAd(dateTo);
         String sql = "";
@@ -94,7 +99,7 @@ public class AccountReportRestController {
 
     @GetMapping("/BalanceSheet")
     public Object balanceSheet(@RequestParam String dateFrom, @RequestParam String dateTo) {
-        DB db = new DB();
+       
         String dateFromAd = DateConverted.bsToAd(dateFrom);
         String dateToAd = DateConverted.bsToAd(dateTo);
         String sql;
@@ -140,7 +145,7 @@ public class AccountReportRestController {
 
     @GetMapping("/TrailBalance")
     public Object trailBalance(@RequestParam String dateFrom, @RequestParam String dateTo) {
-        DB db = new DB();
+       
         String dateFromAd = DateConverted.bsToAd(dateFrom);
         String dateToAd = DateConverted.bsToAd(dateTo);
         String sql;
@@ -231,7 +236,7 @@ public class AccountReportRestController {
         String dateToAd = DateConverted.bsToAd(dateTo);
 //        String sql = "SELECT TRANSACT transact,AC_CODE acCode,AC_NAME acName,GET_OPENING_BALANCE(AC_CODE,'" + dateFromAd + "') AS opening,GET_DR_BALANCE(AC_CODE,'" + dateFromAd + "','" + dateToAd + "') AS dr,GET_CR_BALANCE(AC_CODE,'" + dateFromAd + "','" + dateToAd + "') AS cr FROM chart_of_account WHERE AC_CODE LIKE '1%' AND LEVEL<=" + level + " ORDER BY AC_CODE";
         String sql = "SELECT ifnull(SUM(opening), 0) AS opening, ifnull(SUM(debit), 0) AS debit, ifnull(SUM(credit), 0)  AS credit,transact, ac_code, ac_name, level AS ca FROM (SELECT SUM(dr_amt) - SUM(cr_amt) AS opening, 0 AS debit, 0 AS credit, a.ac_code, a.ac_name, level,transact FROM ledger l  JOIN chart_of_account a ON LEVEL<=" + level + " and TRANSACT = 'N' AND l.ac_code LIKE CONCAT(a.ac_code, '%') AND a.ac_code LIKE '1%' WHERE enter_date <  '" + dateFromAd + "' GROUP BY a.ac_code UNION SELECT 0 AS opening, SUM(dr_amt) AS debit, SUM(cr_amt) AS credit, a.ac_code, a.ac_name, level,transact FROM ledger l  JOIN chart_of_account a ON LEVEL<=" + level + " and TRANSACT = 'N' AND l.ac_code LIKE CONCAT(a.ac_code, '%') AND a.ac_code LIKE '1%' WHERE enter_date BETWEEN  '" + dateFromAd + "' AND  '" + dateToAd + "' GROUP BY a.ac_code union SELECT SUM(dr_amt) - SUM(cr_amt) AS opening, 0 AS debit, 0 AS credit, a.ac_code, a.ac_name, level,transact FROM ledger l  JOIN chart_of_account a ON LEVEL<=" + level + " and TRANSACT = 'Y' AND l.ac_code = a.ac_code AND a.ac_code LIKE '1%' WHERE enter_date <  '" + dateFromAd + "' GROUP BY a.ac_code UNION SELECT 0 AS opening, SUM(dr_amt) AS debit, SUM(cr_amt) AS credit, a.ac_code, a.ac_name, level,transact FROM ledger l  JOIN chart_of_account a ON LEVEL<=" + level + " and TRANSACT = 'Y' AND l.ac_code = a.ac_code AND a.ac_code LIKE '1%' WHERE enter_date BETWEEN  '" + dateFromAd + "' AND  '" + dateToAd + "' GROUP BY a.ac_code) AS subquery_alias GROUP BY ac_code, ac_name, level,transact ORDER BY ac_code";
-        new DB().getRecord(sql).forEach(map -> getMapVal(Double.parseDouble(map.get("opening").toString()), Double.parseDouble(map.get("debit").toString()), Double.parseDouble(map.get("credit").toString()), map.get("ac_name").toString(), map.get("ac_code").toString(), map.get("transact").toString()));
+        db.getRecord(sql).forEach(map -> getMapVal(Double.parseDouble(map.get("opening").toString()), Double.parseDouble(map.get("debit").toString()), Double.parseDouble(map.get("credit").toString()), map.get("ac_name").toString(), map.get("ac_code").toString(), map.get("transact").toString()));
         return ResponseEntity.status(HttpStatus.OK).body(list);
 
     }
@@ -241,7 +246,7 @@ public class AccountReportRestController {
         list = new ArrayList<>();
         String dateFromAd = DateConverted.bsToAd(dateFrom);
         String dateToAd = DateConverted.bsToAd(dateTo);
-        DB db = new DB();
+       
         double plOpening = 0, plCr = 0, plDr = 0;
         String sql;
         sql = "SELECT SUM(DR_AMT)-SUM(CR_AMT) amount FROM ledger where (AC_CODE like '3%' or AC_CODE like '4%') and ENTER_DATE<'" + dateFromAd + "'";
@@ -287,7 +292,7 @@ public class AccountReportRestController {
 //        String sql = "SELECT TRANSACT transact,AC_CODE acCode,AC_NAME acName,GET_DR_BALANCE(AC_CODE,'" + dateFromAd + "','" + dateToAd + "') AS dr,GET_CR_BALANCE(AC_CODE,'" + dateFromAd + "','" + dateToAd + "') AS cr FROM chart_of_account WHERE AC_CODE LIKE '3%' AND LEVEL<=" + level + " ORDER BY AC_CODE";
         String sql = "SELECT SUM(dr_amt) AS debit, SUM(cr_amt) AS credit, a.ac_code, a.ac_name, level, transact FROM ledger l JOIN chart_of_account a ON LEVEL <= " + level + " and TRANSACT = 'N' AND l.ac_code LIKE CONCAT(a.ac_code, '%') AND a.ac_code LIKE '3%' WHERE enter_date BETWEEN '" + dateFromAd + "' AND '" + dateToAd + "' GROUP BY ac_code, ac_name, level, transact union SELECT SUM(dr_amt) AS debit, SUM(cr_amt) AS credit, a.ac_code, a.ac_name, level, transact FROM ledger l JOIN chart_of_account a ON LEVEL <= " + level + " and TRANSACT = 'Y' AND l.ac_code = a.ac_code AND a.ac_code LIKE '3%' WHERE enter_date BETWEEN '" + dateFromAd + "' AND '" + dateToAd + "' GROUP BY ac_code, ac_name, level, transact ORDER BY ac_code";
         list = new ArrayList<>();
-        new DB().getRecord(sql).forEach(map -> getMapVal(0, Double.parseDouble(map.get("debit").toString()), Double.parseDouble(map.get("credit").toString()), map.get("ac_name").toString(), map.get("ac_code").toString(), map.get("transact").toString()));
+        db.getRecord(sql).forEach(map -> getMapVal(0, Double.parseDouble(map.get("debit").toString()), Double.parseDouble(map.get("credit").toString()), map.get("ac_name").toString(), map.get("ac_code").toString(), map.get("transact").toString()));
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -297,7 +302,7 @@ public class AccountReportRestController {
         String dateToAd = DateConverted.bsToAd(dateTo);
         String sql = "SELECT SUM(dr_amt) AS debit, SUM(cr_amt) AS credit, a.ac_code, a.ac_name, level, transact FROM ledger l JOIN chart_of_account a ON LEVEL <= " + level + " and TRANSACT = 'N' AND l.ac_code LIKE CONCAT(a.ac_code, '%') AND a.ac_code LIKE '4%' WHERE enter_date BETWEEN '" + dateFromAd + "' AND '" + dateToAd + "' GROUP BY ac_code, ac_name, level, transact union SELECT SUM(dr_amt) AS debit, SUM(cr_amt) AS credit, a.ac_code, a.ac_name, level, transact FROM ledger l JOIN chart_of_account a ON LEVEL <= " + level + " and TRANSACT = 'Y' AND l.ac_code = a.ac_code AND a.ac_code LIKE '4%' WHERE enter_date BETWEEN '" + dateFromAd + "' AND '" + dateToAd + "' GROUP BY ac_code, ac_name, level, transact ORDER BY ac_code";
         list = new ArrayList<>();
-        new DB().getRecord(sql).forEach(map -> getMapVal(0, Double.parseDouble(map.get("debit").toString()), Double.parseDouble(map.get("credit").toString()), map.get("ac_name").toString(), map.get("ac_code").toString(), map.get("transact").toString()));
+        db.getRecord(sql).forEach(map -> getMapVal(0, Double.parseDouble(map.get("debit").toString()), Double.parseDouble(map.get("credit").toString()), map.get("ac_name").toString(), map.get("ac_code").toString(), map.get("transact").toString()));
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
@@ -307,7 +312,7 @@ public class AccountReportRestController {
         String dateToAd = DateConverted.bsToAd(dateTo);
 
         String sql = "SELECT ifnull(SUM(opening), 0) AS opening, ifnull(SUM(debit), 0) AS debit, ifnull(SUM(credit), 0)  AS credit, ac_code, ac_name, level AS ca FROM (SELECT SUM(dr_amt) - SUM(cr_amt) AS opening, 0 AS debit, 0 AS credit, a.ac_code, a.ac_name, level FROM ledger l  JOIN chart_of_account a ON TRANSACT = 'N' AND l.ac_code LIKE CONCAT(a.ac_code, '%') AND a.ac_code LIKE '" + acCode + "%' WHERE enter_date <  '" + dateFromAd + "' GROUP BY a.ac_code UNION SELECT 0 AS opening, SUM(dr_amt) AS debit, SUM(cr_amt) AS credit, a.ac_code, a.ac_name, level FROM ledger l  JOIN chart_of_account a ON TRANSACT = 'N' AND l.ac_code LIKE CONCAT(a.ac_code, '%') AND a.ac_code LIKE '" + acCode + "%' WHERE enter_date BETWEEN  '" + dateFromAd + "' AND  '" + dateToAd + "' GROUP BY a.ac_code union SELECT SUM(dr_amt) - SUM(cr_amt) AS opening, 0 AS debit, 0 AS credit, a.ac_code, a.ac_name, level FROM ledger l  JOIN chart_of_account a ON TRANSACT = 'Y' AND l.ac_code = a.ac_code AND a.ac_code LIKE '" + acCode + "%' WHERE enter_date <  '" + dateFromAd + "' GROUP BY a.ac_code UNION SELECT 0 AS opening, SUM(dr_amt) AS debit, SUM(cr_amt) AS credit, a.ac_code, a.ac_name, level FROM ledger l  JOIN chart_of_account a ON TRANSACT = 'Y' AND l.ac_code = a.ac_code AND a.ac_code LIKE '" + acCode + "%' WHERE enter_date BETWEEN  '" + dateFromAd + "' AND  '" + dateToAd + "' GROUP BY a.ac_code) AS subquery_alias GROUP BY ac_code, ac_name, level ORDER BY ac_code";
-        return ResponseEntity.status(HttpStatus.OK).body(new DB().getMapRecord(sql));
+        return ResponseEntity.status(HttpStatus.OK).body(db.getMapRecord(sql));
     }
 
     private void getMapVal(double opening, double dr, double cr, String name, String acCode, String transact) {

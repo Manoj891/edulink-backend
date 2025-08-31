@@ -3,25 +3,23 @@
 package com.ms.ware.online.solution.school.service.exam;
 
 
+import com.ms.ware.online.solution.school.config.DB;
+import com.ms.ware.online.solution.school.config.DateConverted;
+import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.exam.ExamStudentRegistrationDao;
 import com.ms.ware.online.solution.school.dto.ExamStudentAttendance;
 import com.ms.ware.online.solution.school.dto.ExamStudentRegistrationApprove;
+import com.ms.ware.online.solution.school.entity.exam.ExamStudentRegistration;
 import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.exception.PermissionDeniedException;
-import com.ms.ware.online.solution.school.entity.exam.ExamStudentRegistration;
-import com.ms.ware.online.solution.school.config.Message;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.ms.ware.online.solution.school.config.DB;
-import com.ms.ware.online.solution.school.config.DateConverted;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExamStudentRegistrationServiceImp implements ExamStudentRegistrationService {
@@ -33,7 +31,8 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
     int row;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private DB db;
     @Override
     public Object getRecord(Long program, Long classId, Long exam) {
         return da.getRecord("SELECT s.STUDENT_ID AS stuId, sd.STU_NAME AS stuName, s.ROLL_NO AS rollNo, pm.NAME AS programName, cm.NAME AS className, s.ACADEMIC_YEAR AS academicYear, s.SUBJECT_GROUP AS subjectGroup FROM class_transfer s JOIN student_info sd ON s.STUDENT_ID = sd.ID JOIN exam_master em ON s.ACADEMIC_YEAR = em.ACADEMIC_YEAR JOIN program_master pm ON pm.ID = s.PROGRAM JOIN class_master cm ON cm.ID = s.CLASS_ID LEFT JOIN exam_student_registration r ON r.STUDENT_ID = s.STUDENT_ID AND r.EXAM = em.ID WHERE em.ID = " + exam + " AND s.PROGRAM = " + program + " AND s.CLASS_ID = " + classId + " AND r.STUDENT_ID IS NULL AND (sd.DROP_OUT IS NULL OR sd.DROP_OUT != 'Y') ORDER BY s.CLASS_ID, stuName, s.ROLL_NO;");
@@ -196,7 +195,7 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
     @Override
     public Map<String, Object> getRegistration(long examId, long regNo) {
         sql = "select class_id  classId, program program, subject_group groupId from exam_student_registration where exam=" + examId + " and student_id=" + regNo;
-        List<Map<String, Object>> list = new DB().getRecord(sql);
+        List<Map<String, Object>> list = db.getRecord(sql);
         if (list.isEmpty()) throw new CustomException("Student Not Register");
         return list.get(0);
     }
@@ -208,7 +207,7 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
             throw new PermissionDeniedException();
         }
         sql = "update exam_student_registration set program=" + program + ",class_id=" + classId + ",subject_group=" + groupId + " where exam=" + examId + " and student_id=" + regNo;
-        new DB().delete(sql);
+        db.delete(sql);
         return getRegistration(examId, regNo);
     }
 }

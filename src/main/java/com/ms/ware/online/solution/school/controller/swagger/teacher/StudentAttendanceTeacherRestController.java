@@ -5,12 +5,12 @@
  */
 package com.ms.ware.online.solution.school.controller.swagger.teacher;
 
+import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
-import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.entity.student.StudentAttendance;
+import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.service.student.StudentAttendanceService;
-import com.ms.ware.online.solution.school.config.DB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,8 @@ public class StudentAttendanceTeacherRestController {
     private AuthenticationFacade facade;
     @Autowired
     StudentAttendanceService service;
-
+    @Autowired
+    private DB db;
     @GetMapping("/Teacher")
     public ResponseEntity<List<Map<String, Object>>> indexTeacher(@RequestParam Long acadeicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam String date) {
         AuthenticatedUser td = facade.getAuthentication();;
@@ -35,7 +36,7 @@ public class StudentAttendanceTeacherRestController {
             throw new CustomException("invalid token");
         }
         String sql = "SELECT IS_CLASS_TEACHER FROM teachers_class_subject WHERE ACADEMIC_YEAR='" + acadeicYear + "' AND CLASS_ID='" + classId + "' AND PROGRAM='" + program + "' AND SUBJECT_GROUP='" + subjectGroup + "' AND TEACHER='" + td.getUserId() + "' AND IS_CLASS_TEACHER='Y'";
-        DB db = new DB();
+       
         List<Map<String, Object>> list = db.getRecord(sql);
         if (list.isEmpty()) {
             throw new CustomException("You can not access this feature");

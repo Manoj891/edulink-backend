@@ -25,7 +25,8 @@ public class TeachersClassSubjectRestController {
 
     @Autowired
     TeachersClassSubjectService service;
-
+    @Autowired
+    private DB db;
     @GetMapping("TeachersClassSubject")
     public ResponseEntity< List<TeachersClassSubject>> index(@RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId) {
 
@@ -34,7 +35,7 @@ public class TeachersClassSubjectRestController {
 
     @GetMapping("ClassTeacher")
     public Object getClassTeacher(@RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup) {
-        DB db = new DB();
+       
         String sql = "SELECT T.ID id,CONCAT(T.first_name,' ',T.last_name) name FROM teachers_class_subject C,employee_info T WHERE C.TEACHER=T.ID AND C.ACADEMIC_YEAR='" + academicYear + "' AND C.PROGRAM=" + program + " AND C.CLASS_ID=" + classId + " AND C.SUBJECT_GROUP='" + subjectGroup + "' AND C.IS_CLASS_TEACHER='Y' GROUP BY C.TEACHER ";
         return db.getRecord(sql);
     }

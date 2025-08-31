@@ -1,13 +1,21 @@
 package com.ms.ware.online.solution.school.service.account;
 
 import com.ms.ware.online.solution.school.config.DB;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoucherPost {
-
-    String msg;
+    @Autowired
+    private DB db;
+    @Setter
+    @Getter
+    private String msg;
 
     public boolean post(String voucherNo[], String postedBy, String postedDate) {
-        DB db = new DB();
+
 
         String sql;
         int row, count = 0;
@@ -29,14 +37,6 @@ public class VoucherPost {
             return true;
         }
         return false;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
     }
 
 }

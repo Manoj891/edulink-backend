@@ -29,12 +29,13 @@ public class StudentSMSRestController {
     private SmsService o;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private DB db;
     @PostMapping("/exam")
     public ResponseEntity<List<Long>> doSave(@RequestBody ResultSMS req) throws IOException {
         if (!o.isConfigured()) throw new CustomException("SMS Not Configured");
         List<Long> ids = new ArrayList<>();
-        DB db = new DB();
+       
         String username = facade.getAuthentication().getUserName();;
         Map<String, Object> map = db.getRecord("select ifnull(organization_name,name) name from organization_master").get(0);
         String orgName = (map.get("name").toString()).trim().replace("  ", " ");
@@ -52,7 +53,7 @@ public class StudentSMSRestController {
 
     @GetMapping
     public Object studentBillSms(@RequestParam long billYear, @RequestParam String month, @RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(required = false) Long subjectGroup) {
-        DB db = new DB();
+       
         Message msg = new Message();
         Map map;
         String sql = "", regNo, studentName, message, mobileNo;

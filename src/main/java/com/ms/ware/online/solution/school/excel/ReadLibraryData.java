@@ -20,9 +20,9 @@ import com.ms.ware.online.solution.school.config.DB;
  * @author MS
  */
 public class ReadLibraryData {
-
+    private DB db = new DB();
     public List<LibBookStock> bookStocks = new ArrayList<LibBookStock>();
-    DB db = new DB();
+   
     Map map;
     String sql;
     List<SubjectMaster> subjectMasters = new ArrayList<>();
@@ -75,7 +75,7 @@ public class ReadLibraryData {
         LibBookStock bookStock;
         Object[][] data = new Excel().read(fileName, totalColumn, 0);
         String sql = "DELETE FROM lib_book_stock";
-        new DB().delete(sql);
+        db.delete(sql);
         System.out.println(data.length);
         for (Object[] datum : data) {
             try {

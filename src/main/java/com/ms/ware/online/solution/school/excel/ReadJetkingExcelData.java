@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadJetkingExcelData {
-
+    private DB db = new DB();
     public static int totalRecord = 0;
 //
 //    public static void main(String[] args) {
@@ -295,7 +295,7 @@ public class ReadJetkingExcelData {
         return "";
     }
 
-    DB db = new DB();
+   
     long chargeId;
     float chargeAmount;
     Map map;

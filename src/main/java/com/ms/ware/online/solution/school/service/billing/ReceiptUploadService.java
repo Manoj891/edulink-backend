@@ -7,11 +7,10 @@ import com.ms.ware.online.solution.school.model.DatabaseName;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +20,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ReceiptUploadService {
-
+    @Autowired
+    private DB db;
     public Object doUpload(MultipartFile receipt, long academicYear, long fiscalYear) {
         AtomicInteger count = new AtomicInteger();
         int error = 0;
@@ -57,7 +57,7 @@ public class ReceiptUploadService {
                 list.add(map);
             }
 
-            DB db = new DB();
+           
             for (Map<Integer, Object> a : list) {
                 try {
                     billSn = (int) Double.parseDouble(a.get(0).toString());

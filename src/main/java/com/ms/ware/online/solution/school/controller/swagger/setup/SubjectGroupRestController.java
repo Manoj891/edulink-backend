@@ -40,7 +40,7 @@ public class SubjectGroupRestController {
 
     @GetMapping("/ClassGroupWise")
     public Object indexClassGroupWise(@RequestParam Long subjectGroup, @RequestParam Long program, @RequestParam Long classId) {
-        return new DB().getRecord("SELECT S.ID id,CONCAT(S.NAME,' (',D.SUBJECT_CODE,')') AS name FROM subject_group_detail D,subject_master S WHERE S.ID=D.SUBJECT  AND D.SUBJECT_GROUP='" + subjectGroup + "' AND PROGRAM=" + program + " AND CLASS_ID=" + classId);
+        return db.getRecord("SELECT S.ID id,CONCAT(S.NAME,' (',D.SUBJECT_CODE,')') AS name FROM subject_group_detail D,subject_master S WHERE S.ID=D.SUBJECT  AND D.SUBJECT_GROUP='" + subjectGroup + "' AND PROGRAM=" + program + " AND CLASS_ID=" + classId);
     }
 
     @GetMapping("/{id}")

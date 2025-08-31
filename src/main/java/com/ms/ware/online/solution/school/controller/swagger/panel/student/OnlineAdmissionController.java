@@ -22,7 +22,8 @@ public class OnlineAdmissionController {
     private OnlineAdmissionDao da;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private DB db;
     @PostMapping("/Student/OnlineAdmission")
     public Object onlineAdmission(@ModelAttribute OnlineAdmission obj, @RequestParam MultipartFile photo, HttpServletRequest request) {
         Message message = new Message();
@@ -32,7 +33,7 @@ public class OnlineAdmissionController {
         try {
             try {
                 String sql = "SELECT ifnull(MAX(SN),0)+1 AS sn FROM online_admission where ACADEMIC_YEAR='" + academicYear + "'";
-                message.map = new DB().getRecord(sql).get(0);
+                message.map = db.getRecord(sql).get(0);
                 sn = Integer.parseInt(message.map.get("sn").toString());
                 if (sn < 10) {
                     obj.setId(Long.parseLong(academicYear + "000" + sn));
@@ -90,7 +91,7 @@ public class OnlineAdmissionController {
     @GetMapping("/Student/OnlineAdmission")
     public Object onlineAdmission(@RequestParam Long academicYear, @RequestParam Long subjectGroup, @RequestParam Long program, @RequestParam Long classId, HttpServletRequest request) {
         String sql = "SELECT ACADEMIC_YEAR academicYear,P.NAME program,C.NAME className,A.ID id,STU_NAME name,FATHERS_NAME fathersName,MOBILE_NO mobileNo,EMAIL email,CONCAT(MUNICIPAL,'-',WARD_NO,' ',DISTRICT) AS address,STUDENT_PHOTO photo,GET_BS_DATE(ENTER_DATE) enterDate FROM online_admission A,class_master C,program_master P WHERE A.CLASS_ID=C.ID AND A.PROGRAM=P.ID AND STATUS='PENDING' AND ACADEMIC_YEAR=IFNULL(" + academicYear + ",ACADEMIC_YEAR) AND SUBJECT_GROUP=IFNULL(" + subjectGroup + ",SUBJECT_GROUP) AND PROGRAM=IFNULL(" + program + ",PROGRAM) AND CLASS_ID=IFNULL(" + classId + ",CLASS_ID) ORDER BY ENTER_DATE";
-        return new DB().getRecord(sql);
+        return db.getRecord(sql);
     }
 
     @PutMapping("/Student/OnlineAdmission/{id}")
@@ -100,7 +101,7 @@ public class OnlineAdmissionController {
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
-        DB db = new DB();
+       
         String msg, sql;
         String academicYear, program, classId;
         long stuId;
@@ -152,7 +153,7 @@ public class OnlineAdmissionController {
         }
         String msg;
         String sql = "UPDATE online_admission SET STATUS='REJECT' WHERE ID='" + id + "'";
-        int row = new DB().delete(sql);
+        int row = db.delete(sql);
         msg = da.getMsg();
         if (row > 0) {
             return message.respondWithMessage("Success");

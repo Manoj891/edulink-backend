@@ -24,7 +24,8 @@ public class BusStationTimeRestController {
 
     @Autowired
     BusStationTimeService service;
-
+    @Autowired
+    private DB db;
     @GetMapping
     public ResponseEntity index(@RequestParam Long bus) {
 
@@ -35,7 +36,7 @@ public class BusStationTimeRestController {
     public Object indexMaster( ) {
 
         Map map = new HashMap();
-        DB db = new DB();
+       
         map.put("bus", db.getRecord("SELECT ID id,CONCAT(BUS_NO, ' ',BUS_NAME) name FROM bus_master"));
         map.put("station", db.getRecord("SELECT ID id,NAME name FROM bus_station_master ORDER BY name"));
         return map;

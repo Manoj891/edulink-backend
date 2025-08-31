@@ -54,7 +54,7 @@ public class StudentFeeInformationRestController {
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
-        DB db = new DB();
+       
         String sql = "SELECT GET_PAID_AMOUNT(M.REG_NO,D.BILL_ID," + classId + "," + academicYear + ") AS paid,SUM(CR)-SUM(DR) AS due,B.NAME feeName,D.ACADEMIC_YEAR academicYear,C.NAME className FROM stu_billing_master M,stu_billing_detail D,bill_master B,class_master C WHERE M.BILL_NO=D.BILL_NO AND D.BILL_ID=B.ID AND D.CLASS_ID=C.ID AND M.REG_NO='" + td.getUserId() + "' AND D.CLASS_ID=IFNULL(" + classId + ",D.CLASS_ID) AND D.ACADEMIC_YEAR=IFNULL(" + academicYear + ",D.ACADEMIC_YEAR) GROUP BY D.ACADEMIC_YEAR,D.CLASS_ID,D.BILL_ID ORDER BY academicYear,className,due DESC";
         return db.getRecord(sql);
     }

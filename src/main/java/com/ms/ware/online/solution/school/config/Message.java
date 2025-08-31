@@ -1,6 +1,7 @@
 package com.ms.ware.online.solution.school.config;
 
 import com.ms.ware.online.solution.school.exception.CustomException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.DecimalFormat;
@@ -10,7 +11,8 @@ import java.util.Map;
 
 @Service
 public class Message {
-
+    @Autowired
+    private DB db;
     public Map<String, Object> map;
     public List<Map<String, Object>> list;
 
@@ -67,7 +69,7 @@ public class Message {
     public String getFeeDueAmount(String regNo, String startDateAd, String endDateAd) {
 
         String sql;
-        DB da = new DB();
+        
         double totalAmount = 0;
         int chargeDay;
         String chargeStartDate;
@@ -75,7 +77,7 @@ public class Message {
         List ll;
         try {
             sql = "SELECT ROUND(SUM(D.CR)-SUM(D.DR),2) AS amount FROM stu_billing_master M,stu_billing_detail D,bill_master B,program_master P,class_master C WHERE M.BILL_NO=D.BILL_NO AND D.BILL_ID=B.ID AND D.PROGRAM=P.ID AND D.CLASS_ID=C.ID AND M.REG_NO='" + regNo + "' AND D.PAYMENT_DATE<='" + endDateAd + "' ";
-            list = da.getRecord(sql);
+            list = db.getRecord(sql);
             if (!list.isEmpty()) {
                 map = list.get(0);
                 totalAmount = Double.parseDouble(map.get("amount").toString());
@@ -84,13 +86,13 @@ public class Message {
         }
         try {
             sql = "SELECT START_DATE startDate,MONTHLY_CHARGE monthlyCharge,S.ACADEMIC_YEAR academicYear,S.PROGRAM program,S.CLASS_ID AS classId FROM student_transportation T,student_info S WHERE T.REG_NO=S.ID AND T.REG_NO='" + regNo + "' AND '" + startDateAd + "'>=START_DATE AND (END_DATE IS NULL OR  '" + startDateAd + "'<=END_DATE)";
-            ll = da.getRecord(sql);
+            ll = db.getRecord(sql);
             if (!ll.isEmpty()) {
                 map = (Map) ll.get(0);
                 chargeStartDate = map.get("startDate").toString();
                 pardayCharge = Float.parseFloat(map.get("monthlyCharge").toString()) / 30;
                 sql = "SELECT DATEDIFF('" + endDateAd + "',IFNULL(((SELECT MAX(PAYMENT_DATE) FROM stu_billing_detail WHERE DR>0 AND REG_NO='" + regNo + "' AND BILL_ID=(-1))),'" + chargeStartDate + "')) AS chargeDay,IFNULL((SELECT  MAX(PAYMENT_DATE) FROM stu_billing_detail WHERE DR>0 AND REG_NO='" + regNo + "' AND BILL_ID=(-1)),'" + chargeStartDate + "') AS startDate FROM DUAL";
-                map =  da.getRecord(sql).get(0);
+                map =  db.getRecord(sql).get(0);
                 chargeDay = Integer.parseInt(map.get("chargeDay").toString());
                 chargeStartDate = map.get("startDate").toString();
                 String chargeStartDateBs = DateConverted.adToBs(chargeStartDate);
@@ -109,13 +111,13 @@ public class Message {
         }
         try {
             sql = "SELECT START_DATE startDate,MONTHLY_CHARGE monthlyCharge,S.ACADEMIC_YEAR academicYear,S.PROGRAM program,S.CLASS_ID AS classId FROM school_hostal T,student_info S WHERE T.REG_NO=S.ID AND T.REG_NO='" + regNo + "' AND '" + startDateAd + "'>=START_DATE AND (END_DATE IS NULL OR  '" + startDateAd + "'<=END_DATE)";
-            ll = da.getRecord(sql);
+            ll = db.getRecord(sql);
             if (!ll.isEmpty()) {
                 map = (Map) ll.get(0);
                 chargeStartDate = map.get("startDate").toString();
                 pardayCharge = Float.parseFloat(map.get("monthlyCharge").toString()) / 30;
                 sql = "SELECT DATEDIFF('" + endDateAd + "',IFNULL(((SELECT MAX(PAYMENT_DATE) FROM stu_billing_detail WHERE DR>0 AND REG_NO='" + regNo + "' AND BILL_ID=(-2))),'" + chargeStartDate + "')) AS chargeDay,IFNULL((SELECT  MAX(PAYMENT_DATE) FROM stu_billing_detail WHERE DR>0 AND REG_NO='" + regNo + "' AND BILL_ID=(-2)),'" + chargeStartDate + "') AS startDate FROM DUAL";
-                map = da.getRecord(sql).get(0);
+                map = db.getRecord(sql).get(0);
                 chargeDay = Integer.parseInt(map.get("chargeDay").toString());
                 chargeStartDate = map.get("startDate").toString();
                 String chargeStartDateBs = DateConverted.adToBs(chargeStartDate);

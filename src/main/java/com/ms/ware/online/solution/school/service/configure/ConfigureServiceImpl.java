@@ -28,7 +28,8 @@ public class ConfigureServiceImpl {
     private DistrictMunicipalData data;
     @Autowired
     private HibernateUtil util;
-
+    @Autowired
+    private DB db;
     public void functionConfigure() {
         function();
     }
@@ -94,7 +95,7 @@ public class ConfigureServiceImpl {
     }
 
     void configure() {
-        DB db = new DB();
+       
         System.gc();
         String sql;
         sql = "INSERT INTO fiscal_year (ID, END_DATE, START_DATE, STATUS, YEAR) VALUES (8081, '2024-07-17', '2023-07-17', 'Y', '2080-2081');\n" +
@@ -427,7 +428,7 @@ public class ConfigureServiceImpl {
 
     void function() {
         String sql;
-        DB db = new DB();
+       
         System.gc();
         sql = "SET GLOBAL log_bin_trust_function_creators = 1;";
         db.save(sql);
@@ -575,7 +576,7 @@ public class ConfigureServiceImpl {
     public Object calender() {
 
         StringBuilder sql;
-        DB db = new DB();
+       
         Date date = DateConverted.toDate("1943-04-14");
         Calendar c = Calendar.getInstance();
         c.setTime(date);

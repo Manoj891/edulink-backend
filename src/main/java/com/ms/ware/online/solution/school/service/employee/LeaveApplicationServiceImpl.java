@@ -26,7 +26,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LeaveApplicationServiceImpl implements LeaveApplicationService {
-
+    @Autowired
+    private DB db;
     @Autowired
     private LeaveApplicationDao da;
     @Autowired
@@ -104,7 +105,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
             obj.get(i).setPk(new EmpLeaveDetailPK(DateConverted.bsToAdDate(obj.get(i).getLeaveDate()), obj.get(i).getEmpId()));
         }
         if (da.save(obj) > 0) {
-            DB db = new DB();
+           
             String sql = "UPDATE leave_application SET STATUS='Y',APPROVE_DATE=SYSDATE(),APPROVE_BY='" + td.getUserName() + "' WHERE ID=" + obj.get(0).getLeaveId();
             db.save(sql);
             new Thread(() -> {

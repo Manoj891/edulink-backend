@@ -35,7 +35,8 @@ public class InventoryLedgerRestController {
     private AuthenticationFacade facade;
     @Autowired
     InventoryLedgerDao da;
-
+    @Autowired
+    private DB db;
     @GetMapping
     public Object index(@RequestParam(required = false) Long supplier) {
 
@@ -265,7 +266,7 @@ public class InventoryLedgerRestController {
         }
         String userName = td.getUserName(), date = DateConverted.now();
         String sql;
-        DB db = new DB();
+       
         for (RejectGoodsReceived d : list) {
             sql = "UPDATE purchase_order_detail SET DELETED='Y',DELETED_BY='" + userName + "',DELETED_DATE='" + date + "' WHERE AC_CODE='" + d.getAcCode() + "' AND ORDER_NO='" + d.getOrderNo() + "' ";
             db.delete(sql);

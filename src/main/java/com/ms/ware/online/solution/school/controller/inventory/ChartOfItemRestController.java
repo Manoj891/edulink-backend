@@ -10,6 +10,7 @@ import java.util.Map;
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.Message;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/Inventory/ChartOfItem")
 public class ChartOfItemRestController {
-
+    @Autowired
+    private DB db;
     @GetMapping
     public Object index() {
         String sql;
-        DB db = new DB();
+       
         sql = "SELECT `INVENTORY_ACCOUNT` AS inventoryAccount FROM organization_master";
         List list = db.getRecord(sql);
         if (list.isEmpty()) {

@@ -28,11 +28,12 @@ public class Annex4BRestController {
     private AuthenticationFacade facade;
     @Autowired
     StudentInfoDao da;
-
+    @Autowired
+    private DB db;
     @GetMapping("Data")
     public Object data(@RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam Long academicYear) {
 
-        DB db = new DB();
+       
         Map m, map = new HashMap();
         String sql;
         try {
@@ -73,7 +74,7 @@ public class Annex4BRestController {
 
     @GetMapping("Annex4B")
     public Object annex4B(@RequestParam(required = false) Long regNo, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam Long academicYear) {
-        DB db = new DB();
+       
         Map map, subMap, m = new HashMap();
         String masterId;
         String sql;
@@ -210,7 +211,7 @@ public class Annex4BRestController {
 
     @GetMapping("Annex4B/Report")
     public Object annex4BReport(@RequestParam(required = false) Long regNo, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam Long academicYear) {
-        DB db = new DB();
+       
         Map map, subMap;
         String masterId;
         String sql;

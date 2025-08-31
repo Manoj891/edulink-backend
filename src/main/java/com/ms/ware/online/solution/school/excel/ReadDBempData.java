@@ -21,11 +21,7 @@ import java.text.SimpleDateFormat;
 
 public class ReadDBempData {
 
-    public static int totalRecord = 0;
 
-    public static void main(String[] args) {
-        new ReadDBempData().doImport("E:/DigitalBeyond/employee_format2079-Ghorahi-Gorkha.xlsx");
-    }
 
     public void doImport(String fileName) {
 

@@ -1,19 +1,13 @@
 package com.ms.ware.online.solution.school.controller.employee;
 
 import com.ms.ware.online.solution.school.config.DB;
-import com.ms.ware.online.solution.school.config.Message;
-import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.entity.employee.EmployeeInfo;
-import com.ms.ware.online.solution.school.exception.CustomException;
-import com.ms.ware.online.solution.school.model.DatabaseName;
 import com.ms.ware.online.solution.school.service.employee.EmployeeInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +16,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/Employee/EmployeeInfo")
 public class EmployeeInfoRestController {
-
+    @Autowired
+    private DB db;
     @Autowired
     private EmployeeInfoService service;
 
@@ -39,19 +34,19 @@ public class EmployeeInfoRestController {
     @GetMapping("/find")
     public ResponseEntity<List<Map<String, Object>>> find() {
         String sql = "SELECT id,CONCAT(first_name,' ',middle_name,' ',last_name) AS name,mobile from employee_info  order by name";
-        return ResponseEntity.status(HttpStatus.OK).body(new DB().getRecord(sql));
+        return ResponseEntity.status(HttpStatus.OK).body(db.getRecord(sql));
     }
 
     @GetMapping("/IdCard")
     public ResponseEntity<List<Map<String, Object>>> idCard() {
-        DB db = new DB();
+
         String sql = "SELECT ID id,CONCAT(first_name,' ',middle_name,' ',last_name) name,CODE code FROM employee_info";
         return ResponseEntity.status(200).body(db.getRecord(sql));
     }
 
     @GetMapping("/IdCard/{ids}")
     public ResponseEntity<Map<String, Object>> idCard(@PathVariable String ids) {
-        DB db = new DB();
+       
         String sql = "SELECT `NAME` name,`MUNICIPAL` municipal,`DISTRICT` district,`WARD_NO` wardNo,`TEL` tel,address FROM organization_master";
         Map<String, Object> map = db.getRecord(sql).get(0);
         sql = "SELECT E.mobile,E.dob,CONCAT(first_name,' ',middle_name,' ',last_name) As empName,code,D.`NAME` department,IFNULL(E.PHOTO,'') photo,L.`NAME` AS empLevel FROM employee_info E,department_master D,emp_level_master L  WHERE E.department=D.`ID` AND E.emp_level=L.`ID` AND E.ID IN(" + ids + ")";

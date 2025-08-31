@@ -124,10 +124,10 @@ public class StudentInfoRestController {
         String feeCondition = "";
         if (feeId != null) {
             String sql = "SELECT S.ID AS id,STU_NAME stuName,S.DATE_OF_BIRTH dateOfBirth,S.FATHERS_NAME fathersName,S.MOBILE_NO mobileNo,C.NAME classId,G.NAME subjectGroup,S.ROLL_NO rollNo FROM stu_billing_master M,stu_billing_detail D,bill_master B,program_master P,class_master C,student_info S,subject_group G WHERE M.BILL_NO=D.BILL_NO AND M.PROGRAM=P.ID AND D.CLASS_ID=C.ID AND S.SUBJECT_GROUP=G.ID AND D.REG_NO=S.ID AND D.BILL_ID=B.ID AND M.BILL_TYPE='DR' AND D.ACADEMIC_YEAR=IFNULL(" + academicYear + ",D.ACADEMIC_YEAR) AND M.PROGRAM=IFNULL(" + program + ",M.PROGRAM) AND D.CLASS_ID=IFNULL(" + classId + ",D.CLASS_ID) AND M.SUBJECT_GROPU=IFNULL(" + subjectGroup + ",M.SUBJECT_GROPU) AND D.BILL_ID=IFNULL(" + feeId + ",D.BILL_ID) AND D.DR >0 ORDER BY S.ACADEMIC_YEAR,S.PROGRAM,S.CLASS_ID,S.SUBJECT_GROUP,S.ID,D.BILL_ID";
-            return new DB().getRecord(sql);
+            return db.getRecord(sql);
         }
         String sql = "SELECT S.ID AS id,STU_NAME stuName,DATE_OF_BIRTH dateOfBirth,FATHERS_NAME fathersName,MOBILE_NO mobileNo,C.NAME classId,G.NAME subjectGroup,S.ROLL_NO rollNo FROM student_info S,class_master C,subject_group G WHERE S.CLASS_ID=C.ID AND S.SUBJECT_GROUP=G.ID AND ACADEMIC_YEAR=IFNULL(" + academicYear + ",ACADEMIC_YEAR) AND  PROGRAM=IFNULL(" + program + ",PROGRAM) AND CLASS_ID=IFNULL(" + classId + ",CLASS_ID) AND SUBJECT_GROUP=IFNULL(" + subjectGroup + ",SUBJECT_GROUP) " + feeCondition + " ORDER BY classId,subjectGroup,stuName";
-        return new DB().getRecord(sql);
+        return db.getRecord(sql);
     }
 
     @GetMapping("/StudentInfo")
@@ -169,7 +169,7 @@ public class StudentInfoRestController {
         if (dd.length > 2) {
             name = name + " AND S.STU_NAME LIKE '%" + dd[2] + "'";
         }
-        return new DB().getRecord("SELECT P.NAME program,C.NAME 'class',ACADEMIC_YEAR 'academicYear',S.ID regNo,STU_NAME name,FATHERS_NAME fatherName,ROLL_NO rollNo,IFNULL(S.MOBILE_NO,'') mobileNo,IFNULL(S.EMAIL,'') email FROM student_info S,program_master P,class_master C WHERE C.ID=S.CLASS_ID AND P.ID=S.PROGRAM " + name + " ORDER BY name LIMIT 200");
+        return db.getRecord("SELECT P.NAME program,C.NAME 'class',ACADEMIC_YEAR 'academicYear',S.ID regNo,STU_NAME name,FATHERS_NAME fatherName,ROLL_NO rollNo,IFNULL(S.MOBILE_NO,'') mobileNo,IFNULL(S.EMAIL,'') email FROM student_info S,program_master P,class_master C WHERE C.ID=S.CLASS_ID AND P.ID=S.PROGRAM " + name + " ORDER BY name LIMIT 200");
     }
 
     @GetMapping("/ByStuFathers")
@@ -195,17 +195,17 @@ public class StudentInfoRestController {
 
     @GetMapping("/StudentInfo/Byname")
     public Object index(@RequestParam String name) {
-        return new DB().getRecord("SELECT PROGRAM program,CLASS_ID 'classId',ACADEMIC_YEAR 'academicYear',ID regNo ,SUBJECT_GROUP subjectGroup,STU_NAME name,ROLL_NO rollNo,FATHERS_NAME fatherName FROM student_info WHERE STU_NAME LIKE '%" + name + "%' OR ID='" + name + "' ORDER BY name");
+        return db.getRecord("SELECT PROGRAM program,CLASS_ID 'classId',ACADEMIC_YEAR 'academicYear',ID regNo ,SUBJECT_GROUP subjectGroup,STU_NAME name,ROLL_NO rollNo,FATHERS_NAME fatherName FROM student_info WHERE STU_NAME LIKE '%" + name + "%' OR ID='" + name + "' ORDER BY name");
     }
 
     @GetMapping("/StudentInfo/ByfathersName")
     public Object byfathersName(@RequestParam String name) {
-        return new DB().getRecord("SELECT PROGRAM program,CLASS_ID 'classId',ACADEMIC_YEAR 'academicYear',ID regNo ,SUBJECT_GROUP subjectGroup,STU_NAME name,ROLL_NO rollNo,FATHERS_NAME fatherName FROM student_info WHERE (FATHERS_NAME LIKE '%" + name + "%' OR guardians_name like '%" + name + "%') ORDER BY fatherName");
+        return db.getRecord("SELECT PROGRAM program,CLASS_ID 'classId',ACADEMIC_YEAR 'academicYear',ID regNo ,SUBJECT_GROUP subjectGroup,STU_NAME name,ROLL_NO rollNo,FATHERS_NAME fatherName FROM student_info WHERE (FATHERS_NAME LIKE '%" + name + "%' OR guardians_name like '%" + name + "%') ORDER BY fatherName");
     }
 
     @GetMapping("/StudentInfo/{regNo}")
     public Map<String, Object> byStudentRegNumber(@PathVariable Long regNo) {
-        List<Map<String, Object>> l = new DB().getRecord("SELECT PROGRAM program,CLASS_ID 'classId',ACADEMIC_YEAR 'academicYear',ID regNo ,SUBJECT_GROUP subjectGroup,STU_NAME name,ROLL_NO rollNo,FATHERS_NAME fatherName FROM student_info WHERE ID = " + regNo + " ORDER BY fatherName");
+        List<Map<String, Object>> l = db.getRecord("SELECT PROGRAM program,CLASS_ID 'classId',ACADEMIC_YEAR 'academicYear',ID regNo ,SUBJECT_GROUP subjectGroup,STU_NAME name,ROLL_NO rollNo,FATHERS_NAME fatherName FROM student_info WHERE ID = " + regNo + " ORDER BY fatherName");
         if (l.isEmpty()) {
             throw new CustomException("Invalid Regd No.");
         }

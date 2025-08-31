@@ -31,6 +31,8 @@ public class StuBillingMasterRestController {
     StuBillingMasterService service;
     @Autowired
     StuBillingMasterDao da;
+    @Autowired
+    private DB db;
 
     @GetMapping
     public Object index(@RequestParam(required = false) String regNo, @RequestParam String year, @RequestParam String month) {
@@ -51,7 +53,7 @@ public class StuBillingMasterRestController {
     @GetMapping("/Report")
     public Object report(@RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam String regNo, @RequestParam String dateFrom, @RequestParam String dateTo, @RequestParam String username) {
         String sql = "", dateRange = "";
-        DB db = new DB();
+
         if (dateFrom.length() == 10 && dateTo.length() == 10) {
             dateRange = " AND B.ENTER_DATE BETWEEN '" + DateConverted.bsToAd(dateFrom) + "' AND '" + DateConverted.bsToAd(dateTo) + "'";
         } else if (dateFrom.length() == 10) {
@@ -62,12 +64,12 @@ public class StuBillingMasterRestController {
         if (!regNo.isEmpty()) {
             regNo = " AND IFNULL(REG_NO,'N/A')='" + regNo + "'";
         }
-        if(username.length()>5){
-            username=" AND B.ENTER_BY='"+username+"'";
-        }else  username="";
-        sql = "SELECT ROUND(IFNULL((SELECT SUM(DR) FROM stu_billing_detail D WHERE D.BILL_NO=B.BILL_NO),0),2) billAmount,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,B.ACADEMIC_YEAR academicYear,BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class' FROM stu_billing_master B,program_master P,class_master C WHERE BILL_TYPE='DR' AND REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND B.ACADEMIC_YEAR=IFNULL(" + academicYear + ",B.ACADEMIC_YEAR) AND B.PROGRAM=IFNULL(" + program + ",B.PROGRAM) AND B.CLASS_ID=IFNULL(" + classId + ",B.CLASS_ID) " + regNo + dateRange+username
+        if (username.length() > 5) {
+            username = " AND B.ENTER_BY='" + username + "'";
+        } else username = "";
+        sql = "SELECT ROUND(IFNULL((SELECT SUM(DR) FROM stu_billing_detail D WHERE D.BILL_NO=B.BILL_NO),0),2) billAmount,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,B.ACADEMIC_YEAR academicYear,BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class' FROM stu_billing_master B,program_master P,class_master C WHERE BILL_TYPE='DR' AND REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND B.ACADEMIC_YEAR=IFNULL(" + academicYear + ",B.ACADEMIC_YEAR) AND B.PROGRAM=IFNULL(" + program + ",B.PROGRAM) AND B.CLASS_ID=IFNULL(" + classId + ",B.CLASS_ID) " + regNo + dateRange + username
                 + " UNION "
-                + " SELECT ROUND(IFNULL((SELECT SUM(DR) FROM stu_billing_detail D WHERE D.BILL_NO=B.BILL_NO),0),2) billAmount,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,B.ACADEMIC_YEAR academicYear,BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,S.STU_NAME studentName,S.FATHERS_NAME fatherName,S.MOBILE_NO mobileNo,CONCAT(DISTRICT,' ',MUNICIPAL,' ',WARD_NO) address,P.NAME program,C.NAME 'class' FROM stu_billing_master B,program_master P,class_master C,student_info S WHERE BILL_TYPE='DR' AND B.REG_NO=S.ID AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND B.ACADEMIC_YEAR=IFNULL(" + academicYear + ",B.ACADEMIC_YEAR) AND B.PROGRAM=IFNULL(" + program + ",B.PROGRAM) AND B.CLASS_ID=IFNULL(" + classId + ",B.CLASS_ID) " + regNo + dateRange+username;
+                + " SELECT ROUND(IFNULL((SELECT SUM(DR) FROM stu_billing_detail D WHERE D.BILL_NO=B.BILL_NO),0),2) billAmount,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,B.ACADEMIC_YEAR academicYear,BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,S.STU_NAME studentName,S.FATHERS_NAME fatherName,S.MOBILE_NO mobileNo,CONCAT(DISTRICT,' ',MUNICIPAL,' ',WARD_NO) address,P.NAME program,C.NAME 'class' FROM stu_billing_master B,program_master P,class_master C,student_info S WHERE BILL_TYPE='DR' AND B.REG_NO=S.ID AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND B.ACADEMIC_YEAR=IFNULL(" + academicYear + ",B.ACADEMIC_YEAR) AND B.PROGRAM=IFNULL(" + program + ",B.PROGRAM) AND B.CLASS_ID=IFNULL(" + classId + ",B.CLASS_ID) " + regNo + dateRange + username;
         return db.getRecord(sql);
     }
 
@@ -79,7 +81,7 @@ public class StuBillingMasterRestController {
     @GetMapping("/StudentByRollNo")
     public Object index(@RequestParam long program, @RequestParam long academicYear, @RequestParam long classId, @RequestParam long rollNo) {
         Message msg = new Message();
-        DB db = new DB();
+
         String sql = "SELECT ID AS regNo,STU_NAME AS stuName,FATHERS_NAME fatherName from student_info WHERE PROGRAM = " + program + " and ACADEMIC_YEAR = " + academicYear + " and CLASS_ID = " + classId + "  and ROLL_NO=" + rollNo;
         List l = db.getRecord(sql);
         if (l.isEmpty()) {
@@ -109,14 +111,14 @@ public class StuBillingMasterRestController {
         Message message = new Message();
         date = DateConverted.bsToAd(date);
         String sql = "UPDATE stu_billing_master SET ENTER_DATE='" + date + "' WHERE BILL_NO='" + billNo + "'";
-        DB da = new DB();
-        int row = da.save(sql);
-        msg = da.getMsg();
+
+        int row = db.save(sql);
+        msg = db.getMsg();
         if (row > 0) {
             sql = "UPDATE voucher SET ENTER_DATE='" + date + "' WHERE FEE_RECEIPT_NO='" + billNo + "'";
-            da.save(sql);
+            db.save(sql);
             sql = "UPDATE ledger SET ENTER_DATE='" + date + "' WHERE VOUCHER_NO=(SELECT VOUCHER_NO FROM voucher WHERE FEE_RECEIPT_NO='" + billNo + "')";
-            da.save(sql);
+            db.save(sql);
             return message.respondWithMessage("Success");
         } else if (msg.contains("Duplicate entry")) {
             msg = "This record already exist";
@@ -128,7 +130,8 @@ public class StuBillingMasterRestController {
     public Object pendingBillApprove(@PathVariable String billNos, @RequestParam String cashAccount) throws IOException {
 
         Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

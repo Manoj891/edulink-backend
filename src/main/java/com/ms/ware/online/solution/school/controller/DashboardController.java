@@ -2,6 +2,7 @@ package com.ms.ware.online.solution.school.controller;
 
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -10,10 +11,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RestController
 @RequestMapping("api/dashboard")
 public class DashboardController {
+    @Autowired
+    private DB db;
+
     @GetMapping("/{date}")
     public Map<String, Object> getDashboard(@PathVariable String date) {
         String year = Objects.requireNonNull(DateConverted.adToBs(date)).substring(2, 4);
-        DB db = new DB();
+
         AtomicInteger totalPresent = new AtomicInteger();
         AtomicInteger totalAbsent = new AtomicInteger();
         String sql = "SELECT c.ID AS classId, c.NAME AS className,count(if(a.status is null or a.status='N', 1, null)) as absent,count(if(a.status='Y', 1, null)) as present FROM student_info s JOIN class_master c ON c.ID = s.CLASS_ID LEFT JOIN student_attendance a ON s.ID = a.STU_ID AND a.ATT_DATE = '" + date + "' WHERE s.ACADEMIC_YEAR = " + year + " AND COALESCE(s.DROP_OUT, 'N') = 'N' GROUP BY c.ID, c.NAME ORDER BY c.ID";
@@ -37,8 +41,8 @@ public class DashboardController {
     public List<Map<String, Object>> getStudentDashboard(@PathVariable String date, @PathVariable String student, @RequestParam(required = false) Long classId) {
         String year = Objects.requireNonNull(DateConverted.adToBs(date)).substring(2, 4);
         if (student.equalsIgnoreCase("A")) {
-            return new DB().getRecord("SELECT s.id AS id, s.stu_name AS stuName, 'Absent' AS inTime, '' AS outTime, c.name AS className, s.mobile_no AS remark FROM student_info s JOIN class_master c ON s.class_id = c.id LEFT JOIN student_attendance a ON s.id = a.stu_id AND a.att_date = '" + date + "' WHERE s.class_id=ifnull(" + classId + ",s.class_id)  and (a.status is null or a.status='N') and s.ACADEMIC_YEAR = " + year + " AND COALESCE(s.DROP_OUT, 'N') = 'N'  ORDER BY stuName");
+            return db.getRecord("SELECT s.id AS id, s.stu_name AS stuName, 'Absent' AS inTime, '' AS outTime, c.name AS className, s.mobile_no AS remark FROM student_info s JOIN class_master c ON s.class_id = c.id LEFT JOIN student_attendance a ON s.id = a.stu_id AND a.att_date = '" + date + "' WHERE s.class_id=ifnull(" + classId + ",s.class_id)  and (a.status is null or a.status='N') and s.ACADEMIC_YEAR = " + year + " AND COALESCE(s.DROP_OUT, 'N') = 'N'  ORDER BY stuName");
         }
-        return new DB().getRecord("select s.id id,stu_name stuName,a.in_time inTime,out_time outTime,c.NAME className,ifnull(a.remark,'Present') remark from student_attendance a join student_info s on a.STU_ID=s.ID and a.ATT_DATE='" + date + "' join class_master c on s.CLASS_ID=c.ID where s.class_id=ifnull(" + classId + ",s.class_id)  and a.status='Y' and s.ACADEMIC_YEAR = " + year + " AND COALESCE(s.DROP_OUT, 'N') = 'N'  order by outTime desc,inTime desc");
+        return db.getRecord("select s.id id,stu_name stuName,a.in_time inTime,out_time outTime,c.NAME className,ifnull(a.remark,'Present') remark from student_attendance a join student_info s on a.STU_ID=s.ID and a.ATT_DATE='" + date + "' join class_master c on s.CLASS_ID=c.ID where s.class_id=ifnull(" + classId + ",s.class_id)  and a.status='Y' and s.ACADEMIC_YEAR = " + year + " AND COALESCE(s.DROP_OUT, 'N') = 'N'  order by outTime desc,inTime desc");
     }
 }

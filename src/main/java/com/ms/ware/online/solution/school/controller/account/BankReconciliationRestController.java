@@ -8,28 +8,24 @@ package com.ms.ware.online.solution.school.controller.account;
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.Message;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/Account/BankReconciliation")
 public class BankReconciliationRestController {
-
+    @Autowired
+    private DB db;
     @GetMapping("/Bank")
     public Object getBank() {
-        DB db = new DB();
+       
         String sql = "SELECT AC_CODE acCode,AC_NAME acName FROM chart_of_account  WHERE AC_CODE  LIKE '1020202%' AND TRANSACT='Y'";
         return db.getRecord(sql);
     }
 
     @GetMapping
     public Object getStatement(@RequestParam String bankAc, @RequestParam String dateTo, @RequestParam String dateFrom, @RequestParam String status) {
-        DB db = new DB();
+       
         if (bankAc.length() > 0) {
             bankAc = " AND L.AC_CODE='" + bankAc + "'";
         } else {
@@ -48,7 +44,7 @@ public class BankReconciliationRestController {
 
     @PutMapping("/{ids}")
     public Object doBankReconciliation(@PathVariable String ids, @RequestParam String date) {
-        DB db = new DB();
+       
         ids = "'" + ids.replace(",", "','") + "'";
         String sql = "UPDATE ledger SET BANK_RECONCILIATION='Y',BANK_RECONCILIATION_DATE='" + date + "' WHERE ID IN(" + ids + ");";
         int row = db.save(sql);

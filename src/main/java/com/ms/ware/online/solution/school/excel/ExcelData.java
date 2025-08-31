@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ExcelData {
-
+    private DB db = new DB();
     public static int totalRecord = 0;
 
     public Object doImport(String fileName, String importDate) {
@@ -201,7 +201,7 @@ public class ExcelData {
                         }
                     }
                     if (row == 0) {
-                       
+
                         if (msg.contains("foreign key") && msg.contains("academic_year")) {
                             sql = "INSERT INTO academic_year (ID, STATUS,YEAR) VALUES (" + obj.getAcademicYear() + ", 'N', ' 20" + obj.getAcademicYear() + "');";
                             da.delete(sql);
@@ -245,6 +245,7 @@ public class ExcelData {
             return new Message().respondWithError(e.getMessage());
         }
     }
+
     SimpleDateFormat d1 = new SimpleDateFormat("M/d/yyyy");
     SimpleDateFormat d2 = new SimpleDateFormat("yyyy/M/d");
     SimpleDateFormat d3 = new SimpleDateFormat("d/M/yyyy");
@@ -304,7 +305,7 @@ public class ExcelData {
         }
         return "";
     }
-    DB db = new DB();
+
     long chargeId;
     float chargeAmount;
     Map map;
@@ -407,7 +408,7 @@ public class ExcelData {
         return 0;
     }
 
-//    void saveOpening(Long regNo, int index, Long academcYear, Long program, Long classId, Long subjectGroup, Long fiscalYear, String date, double amount) {
+    //    void saveOpening(Long regNo, int index, Long academcYear, Long program, Long classId, Long subjectGroup, Long fiscalYear, String date, double amount) {
 //        String sql = "INSERT INTO stu_billing_master(BILL_NO,BILL_SN,BILL_TYPE,REG_NO,ACADEMIC_YEAR,PROGRAM,CLASS_ID,SUBJECT_GROPU,FISCAL_YEAR,ENTER_BY,ENTER_DATE,APPROVE_BY,APPROVE_DATE,AUTO_GENERATE,BILL_AMOUNT) "
 //                + "VALUES('" + regNo + "'," + index + ",'CR', '" + regNo + "', '" + academcYear + "'," + program + ",'" + classId + "','" + subjectGroup + "','" + fiscalYear + "','SYSTEM','" + date + "','SYSTEM','" + date + "','N','" + amount + "');";
 //        int row = db.save(sql);

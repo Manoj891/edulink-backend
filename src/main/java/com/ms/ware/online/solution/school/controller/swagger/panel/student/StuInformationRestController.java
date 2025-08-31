@@ -37,7 +37,8 @@ public class StuInformationRestController {
     private AuthenticationFacade facade;
     @Autowired
     StudentInfoDao da;
-
+    @Autowired
+    private DB db;
     @GetMapping
     public Object index() {
         Message message = new Message();
@@ -127,7 +128,7 @@ public class StuInformationRestController {
             return message.respondWithError("Re Password not match");
         }
         String sql = "SELECT STU_PASSWORD dbPassword,CONCAT('*', UPPER(SHA1(UNHEX(SHA1('" + oldPassword + "'))))) AS oldPassword FROM student_info WHERE ID='" + td.getUserId() + "'";
-        DB db = new DB();
+       
         List list = db.getRecord(sql);
         if (list.isEmpty()) {
             return message.respondWithError("invalid token");
