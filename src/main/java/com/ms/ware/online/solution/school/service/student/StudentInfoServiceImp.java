@@ -78,7 +78,7 @@ public class StudentInfoServiceImp implements StudentInfoService {
     @Override
     public Object save(StudentInfo obj) {
         AuthenticatedUser td = facade.getAuthentication();
-               try {
+        try {
             long program = obj.getProgram();
             long classId = obj.getClassId();
             long academicYear = obj.getAcademicYear();

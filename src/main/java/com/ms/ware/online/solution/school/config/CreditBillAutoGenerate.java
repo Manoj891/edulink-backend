@@ -37,7 +37,7 @@ public class CreditBillAutoGenerate {
             }
             map = list.get(0);
             masterId = map.get("masterId").toString();
-            startDate = map.get("startDate").toString();
+            startDate = DateConverted.toString(DateConverted.addDate(map.get("startDate").toString(), 2));
             sql = "SELECT PAYMENT_DATE paydate FROM school_class_session_bill_date WHERE MASTER_ID=" + masterId + " ORDER BY PAYMENT_TIME";
             list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             String[] schoolClassSessionBillDate = new String[list.size()];
@@ -47,7 +47,8 @@ public class CreditBillAutoGenerate {
             }
 
             String billNo;
-            sql = "SELECT ID id FROM fiscal_year WHERE '" + startDate + "' BETWEEN START_DATE AND END_DATE;";
+            sql = "SELECT ID id FROM fiscal_year WHERE START_DATE>='" + startDate + "' AND END_DATE<='" + startDate + "'";
+
             list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
             if (list.isEmpty())
                 throw new CustomException("Fiscal Year not found on date at " + startDate + ", Education Session start from " + startDate);
