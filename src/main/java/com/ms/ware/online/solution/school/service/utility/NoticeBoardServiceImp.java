@@ -14,13 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+
 @Service
 public class NoticeBoardServiceImp implements NoticeBoardService {
 
     @Autowired
-    NoticeBoardDao da;
+    private NoticeBoardDao da;
     @Autowired
     private AuthenticationFacade facade;
+    @Autowired
+    private Message message;
+
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.status(200).body(da.getAll("from NoticeBoard order by enterDateAd desc"));
@@ -28,7 +32,7 @@ public class NoticeBoardServiceImp implements NoticeBoardService {
 
     @Override
     public ResponseEntity save(NoticeBoard obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         String adDate = DateConverted.bsToAd(obj.getEnterDate());
@@ -71,7 +75,7 @@ public class NoticeBoardServiceImp implements NoticeBoardService {
 
     @Override
     public ResponseEntity update(NoticeBoard obj, long id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -100,7 +104,7 @@ public class NoticeBoardServiceImp implements NoticeBoardService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

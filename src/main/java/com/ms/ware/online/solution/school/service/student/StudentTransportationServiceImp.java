@@ -15,8 +15,9 @@ public class StudentTransportationServiceImp implements StudentTransportationSer
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    StudentTransportationDao da;
-    Message message = new Message();
+   private StudentTransportationDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

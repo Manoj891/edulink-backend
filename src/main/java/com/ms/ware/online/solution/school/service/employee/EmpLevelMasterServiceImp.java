@@ -23,7 +23,8 @@ public class EmpLevelMasterServiceImp implements EmpLevelMasterService {
     EmpLevelMasterDao da;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private Message message;
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.status(200).body(da.getAll("from EmpLevelMaster"));
@@ -31,7 +32,7 @@ public class EmpLevelMasterServiceImp implements EmpLevelMasterService {
 
     @Override
     public ResponseEntity save(EmpLevelMaster obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -58,7 +59,7 @@ public class EmpLevelMasterServiceImp implements EmpLevelMasterService {
 
     @Override
     public ResponseEntity update(EmpLevelMaster obj, long id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -77,7 +78,7 @@ public class EmpLevelMasterServiceImp implements EmpLevelMasterService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

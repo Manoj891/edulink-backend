@@ -21,7 +21,8 @@ public class ChartOfAccountServiceImp implements ChartOfAccountService {
     @Autowired
     private AuthenticationFacade facade;
     ChartOfAccountDao da = new ChartOfAccountDaoImp();
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String msg = "", sql = "";
     int row;
 

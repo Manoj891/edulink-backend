@@ -20,7 +20,8 @@ public class HostalTypeMasterServiceImp implements HostalTypeMasterService {
     private HostelTypeMasterDao da;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private Message message;
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.status(200).body(da.getAll("from HostalTypeMaster"));
@@ -28,7 +29,7 @@ public class HostalTypeMasterServiceImp implements HostalTypeMasterService {
 
     @Override
     public ResponseEntity save(HostalTypeMaster obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -55,7 +56,7 @@ public class HostalTypeMasterServiceImp implements HostalTypeMasterService {
 
     @Override
     public ResponseEntity update(HostalTypeMaster obj, long id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -81,7 +82,7 @@ public class HostalTypeMasterServiceImp implements HostalTypeMasterService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

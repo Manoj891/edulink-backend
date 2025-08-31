@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class GradingSystemServiceImp implements GradingSystemService {
-
+    @Autowired
+    private Message message;
     @Autowired
     GradingSystemDao da;
-    Message message = new Message();
+    
     String msg = "", sql;
     int row;
     @Autowired

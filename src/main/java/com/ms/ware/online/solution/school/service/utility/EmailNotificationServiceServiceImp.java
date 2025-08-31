@@ -29,7 +29,8 @@ public class EmailNotificationServiceServiceImp implements EmailNotificationServ
     private EmailNotificationServiceDao da;
     @Autowired
     private EmailService service;
-
+    @Autowired
+    private Message message;
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.status(200).body(da.getAll("from EmailNotificationService"));
@@ -37,7 +38,7 @@ public class EmailNotificationServiceServiceImp implements EmailNotificationServ
 
     @Override
     public ResponseEntity save(EmailNotificationService obj) {
-        Message message = new Message();
+        
 
         String msg = "";
         try {
@@ -58,7 +59,7 @@ public class EmailNotificationServiceServiceImp implements EmailNotificationServ
 
     @Override
     public ResponseEntity update(EmailNotificationService obj, String id) {
-        Message message = new Message();
+        
 
         int row;
         String msg = "";
@@ -77,7 +78,7 @@ public class EmailNotificationServiceServiceImp implements EmailNotificationServ
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
 
         int row;
         String msg = "", sql;

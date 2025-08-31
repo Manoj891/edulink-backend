@@ -24,9 +24,12 @@ public class RoutingRestController {
     @Autowired
     private DB db;
     @Autowired
-    RoutingDao da;
+    private RoutingDao da;
+    @Autowired
+    private Message message;
     @Autowired
     private AuthenticationFacade facade;
+
     @GetMapping
     public Object index() {
 
@@ -40,8 +43,9 @@ public class RoutingRestController {
 
     @PostMapping
     public Object doSave(@RequestBody Routing obj) throws IOException {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -63,11 +67,12 @@ public class RoutingRestController {
         }
     }
 
-    
+
     @DeleteMapping("/{id}")
     public Object doDelete(@PathVariable String id) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

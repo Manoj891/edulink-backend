@@ -19,8 +19,9 @@ public class ExamMasterServiceImp implements ExamMasterService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    ExamMasterDao da;
-    Message message = new Message();
+    private ExamMasterDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 
@@ -31,7 +32,8 @@ public class ExamMasterServiceImp implements ExamMasterService {
 
     @Override
     public Object save(ExamMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -59,7 +61,8 @@ public class ExamMasterServiceImp implements ExamMasterService {
 
     @Override
     public Object update(ExamMaster obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -78,7 +81,8 @@ public class ExamMasterServiceImp implements ExamMasterService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

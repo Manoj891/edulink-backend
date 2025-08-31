@@ -21,7 +21,9 @@ public class DepartmentMasterServiceImp implements DepartmentMasterService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    DepartmentMasterDao da;
+    private DepartmentMasterDao da;
+    @Autowired
+    private Message message;
 
     @Override
     public ResponseEntity getAll() {
@@ -30,7 +32,7 @@ public class DepartmentMasterServiceImp implements DepartmentMasterService {
 
     @Override
     public ResponseEntity save(DepartmentMaster obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -57,7 +59,7 @@ public class DepartmentMasterServiceImp implements DepartmentMasterService {
 
     @Override
     public ResponseEntity update(DepartmentMaster obj, long id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -76,7 +78,7 @@ public class DepartmentMasterServiceImp implements DepartmentMasterService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

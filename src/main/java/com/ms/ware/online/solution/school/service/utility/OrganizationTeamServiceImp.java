@@ -3,28 +3,30 @@
 package com.ms.ware.online.solution.school.service.utility;
 
 
+import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.utility.OrganizationTeamDao;
 import com.ms.ware.online.solution.school.entity.utility.OrganizationTeam;
-
-import java.io.File;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.model.DatabaseName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.util.Map;
 
 @Service
 public class OrganizationTeamServiceImp implements OrganizationTeamService {
 
     @Autowired
-    OrganizationTeamDao da;
+    private OrganizationTeamDao da;
     @Autowired
     private AuthenticationFacade facade;
+    @Autowired
+    private Message message;
 
     @Override
     public ResponseEntity getAll() {
@@ -33,7 +35,7 @@ public class OrganizationTeamServiceImp implements OrganizationTeamService {
 
     @Override
     public ResponseEntity save(HttpServletRequest request, MultipartFile memberPhoto, OrganizationTeam obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -88,7 +90,7 @@ public class OrganizationTeamServiceImp implements OrganizationTeamService {
 
     @Override
     public ResponseEntity update(HttpServletRequest request, MultipartFile memberPhoto, OrganizationTeam obj, long id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -135,7 +137,7 @@ public class OrganizationTeamServiceImp implements OrganizationTeamService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

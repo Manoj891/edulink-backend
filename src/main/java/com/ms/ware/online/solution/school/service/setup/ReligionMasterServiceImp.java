@@ -20,7 +20,8 @@ public class ReligionMasterServiceImp implements ReligionMasterService {
     private AuthenticationFacade facade;
     @Autowired
     private ReligionMasterDao da;
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

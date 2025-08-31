@@ -22,7 +22,8 @@ public class EmployeeSalaryInfoServiceImp implements EmployeeSalaryInfoService {
     EmployeeSalaryInfoDao da;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private Message message;
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.status(200).body(da.getAll("from EmployeeSalaryInfo"));
@@ -30,7 +31,7 @@ public class EmployeeSalaryInfoServiceImp implements EmployeeSalaryInfoService {
 
     @Override
     public ResponseEntity save(EmployeeSalaryInfo obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         pfCitValidation(obj, message);
         String msg = "", sql;
@@ -64,7 +65,7 @@ public class EmployeeSalaryInfoServiceImp implements EmployeeSalaryInfoService {
 
     @Override
     public ResponseEntity update(EmployeeSalaryInfo obj, long id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -84,7 +85,7 @@ public class EmployeeSalaryInfoServiceImp implements EmployeeSalaryInfoService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

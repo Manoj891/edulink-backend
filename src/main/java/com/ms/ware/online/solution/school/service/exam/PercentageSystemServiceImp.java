@@ -17,12 +17,14 @@ import java.util.Map;
 public class PercentageSystemServiceImp implements PercentageSystemService {
 
     @Autowired
-    GradingSystemDao da;
-    Message message = new Message();
+    private GradingSystemDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
     @Autowired
     private AuthenticationFacade facade;
+
     @Override
     public Object getAll() {
         sql = "SELECT ID id,GRADE grade,GPA gpa,RANG_FROM rangFrom,REMARK remark,GET_BS_DATE(EFFECTIVE_DATE_FROM) effectiveDateFrom,IFNULL(GET_BS_DATE(EFFECTIVE_DATE_TO),'') effectiveDateTo FROM percentage_system WHERE EFFECTIVE_DATE_TO is null ORDER BY RANG_FROM desc";
@@ -38,7 +40,8 @@ public class PercentageSystemServiceImp implements PercentageSystemService {
 
     @Override
     public Object save(PercentageSystem obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -66,7 +69,8 @@ public class PercentageSystemServiceImp implements PercentageSystemService {
 
     @Override
     public Object update(PercentageSystem obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -85,7 +89,8 @@ public class PercentageSystemServiceImp implements PercentageSystemService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

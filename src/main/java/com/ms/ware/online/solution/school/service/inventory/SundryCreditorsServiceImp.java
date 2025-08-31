@@ -7,17 +7,19 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.inventory.SundryCreditorsDao;
 import com.ms.ware.online.solution.school.entity.inventory.SundryCreditors;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class SundryCreditorsServiceImp implements SundryCreditorsService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    SundryCreditorsDao da;
-    Message message = new Message();
+    private SundryCreditorsDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 
@@ -28,7 +30,8 @@ public class SundryCreditorsServiceImp implements SundryCreditorsService {
 
     @Override
     public Object save(SundryCreditors obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -62,7 +65,8 @@ public class SundryCreditorsServiceImp implements SundryCreditorsService {
 
     @Override
     public Object update(SundryCreditors obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -95,7 +99,8 @@ public class SundryCreditorsServiceImp implements SundryCreditorsService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

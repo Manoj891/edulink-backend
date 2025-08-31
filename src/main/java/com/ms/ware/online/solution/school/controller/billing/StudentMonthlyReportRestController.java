@@ -26,7 +26,8 @@ public class StudentMonthlyReportRestController {
     private AuthenticationFacade facade;
     @Autowired
     private DB db;
-
+    @Autowired
+    private Message message;
     @PostMapping("/WavFee")
     public Object wavFee(@RequestParam String type, @RequestParam(required = false) Long regNo, @RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(required = false) Long subjectGroup) {
 
@@ -152,7 +153,7 @@ public class StudentMonthlyReportRestController {
         String sql;
 
         Map<String, Object> map = new HashMap<>();
-        Message message = new Message();
+        
 
 
         String paymentDate = "NULL";

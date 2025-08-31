@@ -20,10 +20,11 @@ public class StuPreviousEducationRestController {
     private AuthenticationFacade facade;
     @Autowired
     PreviousEducationDao da;
-
+    @Autowired
+    private Message message;
     @GetMapping
     public Object index() {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -34,7 +35,7 @@ public class StuPreviousEducationRestController {
     @PostMapping
     public ResponseEntity doSave(@RequestBody PreviousEducation obj) throws IOException {
 
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "";
         try {
@@ -56,7 +57,7 @@ public class StuPreviousEducationRestController {
     @DeleteMapping("/{id}")
     public ResponseEntity doDelete(@PathVariable String id) {
 
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

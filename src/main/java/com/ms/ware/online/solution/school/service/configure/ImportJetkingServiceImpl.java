@@ -9,6 +9,7 @@ import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.excel.ReadJetkingExcelData;
 import com.ms.ware.online.solution.school.model.DatabaseName;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,12 +20,13 @@ import java.sql.ResultSet;
 
 @Service
 public class ImportJetkingServiceImpl {
-
+    @Autowired
+    private Message message;
 
     public Object importedRecord() {
         java.sql.Connection con = null;
 
-        Message message = new Message();
+        
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = java.sql.DriverManager.getConnection("jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase(), DatabaseName.getUsername(), DatabaseName.getPassword());
@@ -52,7 +54,7 @@ public class ImportJetkingServiceImpl {
     }
 
     public Object importStudentData(String effectDate, MultipartFile excelFile, long academicYear) {
-        Message message = new Message();
+        
         try {
             if (excelFile.getSize() < 100) {
                 return message.respondWithError("Please provide file");
@@ -83,7 +85,7 @@ public class ImportJetkingServiceImpl {
 
 
     public Object doConfigNew(String effectDate, String webapps, MultipartFile excelFile, long academicYear) {
-        Message message = new Message();
+        
         try {
             if (excelFile.getSize() < 100) {
                 return message.respondWithError("Please provide file");

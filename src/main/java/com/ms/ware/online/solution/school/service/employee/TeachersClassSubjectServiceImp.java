@@ -11,6 +11,7 @@ import com.ms.ware.online.solution.school.entity.employee.TeachersClassSubjectPK
 
 import java.util.List;
 import java.util.UUID;
+
 import com.ms.ware.online.solution.school.config.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,10 @@ import org.springframework.http.ResponseEntity;
 
 @Service
 public class TeachersClassSubjectServiceImp implements TeachersClassSubjectService {
-
     @Autowired
-    TeachersClassSubjectDao da;
+    private Message message;
+    @Autowired
+    private TeachersClassSubjectDao da;
     @Autowired
     private AuthenticationFacade facade;
 
@@ -31,7 +33,7 @@ public class TeachersClassSubjectServiceImp implements TeachersClassSubjectServi
 
     @Override
     public ResponseEntity save(TeachersClassSubject obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "";
         try {
@@ -53,7 +55,7 @@ public class TeachersClassSubjectServiceImp implements TeachersClassSubjectServi
 
     @Override
     public ResponseEntity update(TeachersClassSubject obj, String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "";
         try {
@@ -79,7 +81,7 @@ public class TeachersClassSubjectServiceImp implements TeachersClassSubjectServi
 
     @Override
     public ResponseEntity<String> delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         da.delete("DELETE FROM teachers_class_subject  WHERE entity_id='" + id + "'");
         return ResponseEntity.status(200).body(message.respondWithMessage("Success"));

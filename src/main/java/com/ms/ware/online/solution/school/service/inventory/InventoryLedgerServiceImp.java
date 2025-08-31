@@ -16,8 +16,9 @@ import java.util.Map;
 public class InventoryLedgerServiceImp implements InventoryLedgerService {
 
     @Autowired
-    InventoryLedgerDao da;
-    Message message = new Message();
+  private   InventoryLedgerDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
     @Autowired

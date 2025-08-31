@@ -3,23 +3,24 @@
 package com.ms.ware.online.solution.school.service.setup;
 
 
+import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.setup.DistrictMasterDao;
 import com.ms.ware.online.solution.school.entity.setup.DistrictMaster;
-import com.ms.ware.online.solution.school.config.Message;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class DistrictMasterServiceImp implements DistrictMasterService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    DistrictMasterDao da;
-    Message message = new Message();
+    private DistrictMasterDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 
@@ -33,7 +34,8 @@ public class DistrictMasterServiceImp implements DistrictMasterService {
 
     @Override
     public Object save(DistrictMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -61,7 +63,8 @@ public class DistrictMasterServiceImp implements DistrictMasterService {
 
     @Override
     public Object update(DistrictMaster obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -80,7 +83,8 @@ public class DistrictMasterServiceImp implements DistrictMasterService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

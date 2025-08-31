@@ -25,7 +25,8 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
     private AuthenticationFacade facade;
     @Autowired
     private StudentAttendanceDao da;
-
+    @Autowired
+    private Message message;
     @Override
     public List<Map<String, Object>> getAttendance(Long academicYear, Long program, Long classId, Long subjectGroup, String year, String month, String section, String type) {
         if (section != null && !section.isEmpty()) {
@@ -65,7 +66,7 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
 
     @Override
     public ResponseEntity save(List<StudentAttendance> list) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String enterBy = td.getUserName();
         String enterDate = DateConverted.now();
@@ -98,7 +99,7 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
 
     @Override
     public ResponseEntity update(StudentAttendance obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -116,7 +117,7 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;
@@ -134,7 +135,7 @@ public class StudentAttendanceServiceImp implements StudentAttendanceService {
     @Override
     public ResponseEntity saveTeacher(List<StudentAttendance> list) {
 
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row = 0;
         String msg;

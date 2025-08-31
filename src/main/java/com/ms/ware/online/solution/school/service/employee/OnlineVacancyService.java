@@ -16,9 +16,10 @@ import java.util.UUID;
 public class OnlineVacancyService {
     @Autowired
     private EmployeeInfoDao da;
-
+    @Autowired
+    private Message message;
     public Object uploadFiles(HttpServletRequest request, long id, MultipartFile photo, MultipartFile cv) {
-        Message message = new Message();
+        
         String location = message.getFilepath(DatabaseName.getDocumentUrl());
         String filePath = "/Vacancy/Files/";
         String sql, fileName;

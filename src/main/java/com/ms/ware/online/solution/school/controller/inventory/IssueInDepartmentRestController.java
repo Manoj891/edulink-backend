@@ -27,7 +27,8 @@ public class IssueInDepartmentRestController {
     private AuthenticationFacade facade;
     @Autowired
     InventoryLedgerDao da;
-
+    @Autowired
+    private Message message;
     @GetMapping
     public Object index(@RequestParam(required = false) Long department) {
 
@@ -38,7 +39,7 @@ public class IssueInDepartmentRestController {
 
     @PostMapping
     public Object doSave(@RequestBody List<InventoryLedger> list) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid Authorization");

@@ -24,6 +24,8 @@ public class OrganizationUserInfoRestController {
     private OrganizationUserInfoService service;
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
 
     @GetMapping
     public Object index() {
@@ -55,7 +57,7 @@ public class OrganizationUserInfoRestController {
     public Object doChangePassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String rePassword) throws IOException {
         AuthenticatedUser td = facade.getAuthentication();
         ;
-        Message message = new Message();
+        
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

@@ -34,7 +34,8 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
     private AuthenticationFacade facade;
     @Autowired
     private EmailService es ;
-
+    @Autowired
+    private Message message;
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.ok(da.getAll("from LeaveApplication where approveDate is null"));
@@ -42,7 +43,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 
     @Override
     public ResponseEntity getAll(Long id) {
-        Message message = new Message();
+        
         List<LeaveApplication> applications = da.getAll("from LeaveApplication where id=" + id);
         if (applications.isEmpty()) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message.respondWithMessage(message.respondWithError("Invalid ID")));
@@ -62,7 +63,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 
     @Override
     public ResponseEntity save(LeaveApplication obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         try {
             String sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM leave_application";
@@ -80,7 +81,7 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 
     @Override
     public ResponseEntity update(LeaveApplication obj, long id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         obj.setId(id);
         obj.setEnterDate(new Date());
@@ -91,14 +92,14 @@ public class LeaveApplicationServiceImpl implements LeaveApplicationService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
         da.delete(id);
         return ResponseEntity.status(HttpStatus.CREATED).body(message.respondWithMessage(""));
     }
 
     @Override
     public ResponseEntity leaveApprove(List<EmpLeaveDetail> obj, long id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         for (int i = 0; i < obj.size(); i++) {
             obj.get(i).setLeaveId(id);

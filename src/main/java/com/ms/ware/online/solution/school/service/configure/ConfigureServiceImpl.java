@@ -30,6 +30,8 @@ public class ConfigureServiceImpl {
     private HibernateUtil util;
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
     public void functionConfigure() {
         function();
     }
@@ -547,7 +549,7 @@ public class ConfigureServiceImpl {
     public Object configureCalender() {
         java.sql.Connection con = null;
 
-        Message message = new Message();
+        
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = java.sql.DriverManager.getConnection("jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase(), DatabaseName.getUsername(), DatabaseName.getPassword());

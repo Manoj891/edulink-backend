@@ -15,7 +15,8 @@ import java.util.Map;
 
 @Service
 public class TaxSlabServiceImp implements TaxSlabService {
-
+    @Autowired
+    private Message message;
     @Autowired
     TaxSlabDao da;
     @Autowired
@@ -27,7 +28,7 @@ public class TaxSlabServiceImp implements TaxSlabService {
 
     @Override
     public ResponseEntity save(TaxSlab obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -54,7 +55,7 @@ public class TaxSlabServiceImp implements TaxSlabService {
 
     @Override
     public ResponseEntity update(TaxSlab obj, long id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -73,7 +74,7 @@ public class TaxSlabServiceImp implements TaxSlabService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

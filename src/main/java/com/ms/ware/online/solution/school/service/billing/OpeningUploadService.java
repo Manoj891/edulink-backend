@@ -32,10 +32,11 @@ public class OpeningUploadService {
     private AuthenticationFacade facade;
     @Autowired
     private StuBillingMasterDao dao;
-
+    @Autowired
+    private Message message;
 
     public String markUpload(@RequestParam MultipartFile opening) throws IOException {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         String username = td.getUserName();
 

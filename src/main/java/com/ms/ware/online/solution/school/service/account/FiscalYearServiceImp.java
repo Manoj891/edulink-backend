@@ -15,7 +15,8 @@ public class FiscalYearServiceImp implements FiscalYearService {
 
     @Autowired
     FiscalYearDao da;
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
     @Autowired

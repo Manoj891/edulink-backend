@@ -20,7 +20,8 @@ public class MunicipalMasterServiceImp implements MunicipalMasterService {
     MunicipalMasterDao da;
     @Autowired
     private AuthenticationFacade facade;
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

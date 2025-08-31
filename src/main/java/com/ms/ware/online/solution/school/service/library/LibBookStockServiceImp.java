@@ -26,7 +26,8 @@ import java.util.UUID;
 
 @Service
 public class LibBookStockServiceImp implements LibBookStockService {
-
+    @Autowired
+    private Message message;
     @Autowired
     private LibBookStockDao da;
     @Autowired
@@ -83,7 +84,7 @@ public class LibBookStockServiceImp implements LibBookStockService {
     @Override
     public Object indexEdit(String purchaseId) {
         List l = da.getAll("from LibBookStock where bookId='" + purchaseId + "' OR id='" + purchaseId + "'");
-        Message message = new Message();
+        
         if (l.isEmpty()) {
             return message.respondWithError("Record not found!");
         }
@@ -104,7 +105,7 @@ public class LibBookStockServiceImp implements LibBookStockService {
 
     @Override
     public String save(LibBookStockRes req) {
-        Message message = new Message();
+        
         LibBookStock obj = convert(req);
         int row = 0;
         String msg = "", sql, id, bId;

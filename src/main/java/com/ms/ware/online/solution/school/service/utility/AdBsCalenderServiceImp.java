@@ -14,20 +14,23 @@ import org.springframework.stereotype.Service;
 public class AdBsCalenderServiceImp implements AdBsCalenderService {
 
     @Autowired
-    AdBsCalenderDao da;
-    Message message = new Message();
+    private AdBsCalenderDao da;
+    @Autowired
+    private Message message;
     String msg = "";
     int row;
     @Autowired
     private AuthenticationFacade facade;
+
     @Override
     public Object getAll(String yearMonth) {
-        return da.getAll("from AdBsCalender where bsDate like '"+yearMonth+"%'");
+        return da.getAll("from AdBsCalender where bsDate like '" + yearMonth + "%'");
     }
 
     @Override
     public Object update(AdBsCalender obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

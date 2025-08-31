@@ -21,9 +21,11 @@ public class OnlineClassStuRestController {
     private AuthenticationFacade facade;
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
     @GetMapping
     public Object homework() {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

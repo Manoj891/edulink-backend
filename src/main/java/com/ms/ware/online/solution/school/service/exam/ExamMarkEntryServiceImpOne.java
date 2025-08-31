@@ -30,8 +30,9 @@ public class ExamMarkEntryServiceImpOne {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    ExamMarkEntryDao da;
-    Message message = new Message();
+    private ExamMarkEntryDao da;
+    @Autowired
+    private Message message;
 
 
     public Object getAll(Long exam, Long program, Long classId, Long subjectGroup, Long subject) {
@@ -47,7 +48,8 @@ public class ExamMarkEntryServiceImpOne {
 
 
     public Object save(ExamMarkEntryReq req) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -56,7 +58,8 @@ public class ExamMarkEntryServiceImpOne {
     }
 
     public Object entryTeacher(ExamMarkEntryReq req) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
 
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -119,7 +122,8 @@ public class ExamMarkEntryServiceImpOne {
 
 
     public Object doApprove(String jsonData) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -156,7 +160,8 @@ public class ExamMarkEntryServiceImpOne {
 
 
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -284,12 +289,14 @@ public class ExamMarkEntryServiceImpOne {
 
 
     public Object getReport(int system, Long exam, Long program, Long classId, Long subjectGroup, Long sId) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         String studentId = "NULL";
         String type = td.getUserType();
         type = "ORG";
         if (td.getUserType().equalsIgnoreCase("STU")) {
-            AuthenticatedUser dd = facade.getAuthentication();;
+            AuthenticatedUser dd = facade.getAuthentication();
+            ;
             type = "STU";
             studentId = dd.getUserId();
             String sql = "SELECT EXAM_ROLL_NO examRollNo,SUBJECT_GROUP subjectGroup,PROGRAM program,CLASS_ID classId FROM exam_student_registration WHERE EXAM='" + exam + "' AND STUDENT_ID='" + studentId + "'";
@@ -577,7 +584,8 @@ public class ExamMarkEntryServiceImpOne {
 
 
     public Object markUpdate(List<MarkUpdateReq> req) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         } else if (!td.getUserType().equals("ADM")) {
@@ -590,7 +598,8 @@ public class ExamMarkEntryServiceImpOne {
 
 
     public Object markUpload(HttpServletRequest request, MultipartFile markUpload, Long exam, String Authorization) throws IOException {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         } else if (!td.getUserType().equals("ADM")) {
@@ -673,7 +682,8 @@ public class ExamMarkEntryServiceImpOne {
 
 
     public Object markApprove(Long exam) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         } else if (!td.getUserType().equals("ADM")) {

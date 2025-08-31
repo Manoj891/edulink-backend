@@ -24,14 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("api/Employee/")
 public class EmployeeHireFireRestController {
-    
+    @Autowired
+    private Message message;
     @Autowired
     private EmployeeInfoDao da;
 
     
     @PostMapping("Hire/{id}")
     public Object hire(@PathVariable Long id) {
-        Message message = new Message();
+        
         List<OnlineVacancy> vacancys = da.getOnlineVacancy("from OnlineVacancy where id=" + id);
         if (vacancys.isEmpty()) {
             return message.respondWithError("Record Not found");
@@ -84,7 +85,7 @@ public class EmployeeHireFireRestController {
     
     @PostMapping("Fire/{id}")
     public Object fire(@PathVariable Long id) {
-        Message message = new Message();
+        
         List<OnlineVacancy> vacancys = da.getOnlineVacancy("from OnlineVacancy where id=" + id);
         if (vacancys.isEmpty()) {
             return message.respondWithError("Record Not found");

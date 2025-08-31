@@ -27,10 +27,11 @@ public class StudentFeeInformationRestController {
     private AuthenticationFacade facade;
     @Autowired
     private DB db;
-
+    @Autowired
+    private Message message;
     @GetMapping("/Dashboard")
     public Object dashboard() {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -49,7 +50,7 @@ public class StudentFeeInformationRestController {
 
     @GetMapping("/FeeInformation")
     public Object index(@RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long classId) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -61,7 +62,7 @@ public class StudentFeeInformationRestController {
 
     @GetMapping("/Exam")
     public Object exam() {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -72,7 +73,7 @@ public class StudentFeeInformationRestController {
 
     @GetMapping("/Paid")
     public Object billPaid(@RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long classId) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -83,7 +84,7 @@ public class StudentFeeInformationRestController {
 
     @GetMapping("/Vehicle")
     public Object vehicle() {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -100,7 +101,7 @@ public class StudentFeeInformationRestController {
 
     @GetMapping("/Vehicle/Data")
     public Object vehicle(@RequestParam Long vehicle, @RequestParam Long location) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

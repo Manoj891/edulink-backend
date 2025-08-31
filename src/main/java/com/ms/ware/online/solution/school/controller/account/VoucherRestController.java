@@ -36,7 +36,8 @@ public class VoucherRestController {
     private DB db;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private Message message;
 
 
     @GetMapping("/Voucher/{voucherNo}")
@@ -64,7 +65,7 @@ public class VoucherRestController {
 
     @PutMapping("/Voucher/{date}/{voucherNo}")
     public Object postVoucher(@PathVariable String date, @PathVariable String voucherNo) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -78,7 +79,7 @@ public class VoucherRestController {
 
     @PutMapping("/Voucher/{voucherNo}")
     public Object rejectVoucher(@PathVariable String voucherNo) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

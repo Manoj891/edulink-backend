@@ -29,7 +29,8 @@ public class FeeSetupServiceImp implements FeeSetupService {
     private FeeSetupDao da;
     @Autowired
     private CreditBillAutoGenerate crBill;
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

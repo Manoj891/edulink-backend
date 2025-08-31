@@ -13,7 +13,7 @@ import java.util.Map;
 public class Message {
     @Autowired
     private DB db;
-    public Map<String, Object> map;
+    public Map map;
     public List<Map<String, Object>> list;
 
     public String getFilepath(String contextPath) {

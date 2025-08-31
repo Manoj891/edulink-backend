@@ -19,9 +19,10 @@ import java.io.File;
 public class HomeworkService {
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private Message message;
     public Object homeworkSubmit(HttpServletRequest request, MultipartFile answerFile, MultipartFile answerFile1, MultipartFile answerFile2, MultipartFile answerFile3, MultipartFile answerFile4, MultipartFile answerFile5, StudentHomework obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

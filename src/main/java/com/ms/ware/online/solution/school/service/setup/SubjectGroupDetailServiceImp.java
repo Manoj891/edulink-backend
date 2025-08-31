@@ -20,7 +20,8 @@ public class SubjectGroupDetailServiceImp implements SubjectGroupDetailService {
     private AuthenticationFacade facade;
     @Autowired
     private SubjectGroupDetailDao da;
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

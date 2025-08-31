@@ -21,8 +21,9 @@ public class PreAdmissionServiceImp implements PreAdmissionService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    PreAdmissionDao da;
-    Message message = new Message();
+    private PreAdmissionDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 
@@ -33,7 +34,8 @@ public class PreAdmissionServiceImp implements PreAdmissionService {
 
     @Override
     public Object save(PreAdmission obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -105,7 +107,8 @@ public class PreAdmissionServiceImp implements PreAdmissionService {
 
     @Override
     public Object update(PreAdmission obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -143,7 +146,8 @@ public class PreAdmissionServiceImp implements PreAdmissionService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

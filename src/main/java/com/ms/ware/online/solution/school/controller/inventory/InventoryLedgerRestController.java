@@ -37,6 +37,8 @@ public class InventoryLedgerRestController {
     InventoryLedgerDao da;
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
     @GetMapping
     public Object index(@RequestParam(required = false) Long supplier) {
 
@@ -47,7 +49,7 @@ public class InventoryLedgerRestController {
 
     @GetMapping("/GRNReport")
     public Object findGRNReport(@RequestParam(required = false) Long supplier, @RequestParam String dateFrom, @RequestParam String dateTo) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -61,7 +63,7 @@ public class InventoryLedgerRestController {
 
     @GetMapping("/{transactionNo}")
     public Object findByTransactionNo(@PathVariable String transactionNo) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -95,7 +97,7 @@ public class InventoryLedgerRestController {
 
     @PostMapping("/StudentIssue")
     public Object studentIssue(@RequestBody String jsonData) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -166,7 +168,7 @@ public class InventoryLedgerRestController {
 
     @PostMapping
     public Object doSave(@RequestBody List<InventoryLedger> list) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -259,7 +261,7 @@ public class InventoryLedgerRestController {
 
     @DeleteMapping
     public Object rejectInventory(@RequestBody List<RejectGoodsReceived> list) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -276,7 +278,7 @@ public class InventoryLedgerRestController {
 
     @PostMapping("/Opening")
     public Object doOpening(@RequestBody List<InventoryLedger> list) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

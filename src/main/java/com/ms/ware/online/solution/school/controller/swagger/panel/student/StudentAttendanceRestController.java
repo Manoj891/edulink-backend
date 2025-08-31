@@ -27,10 +27,11 @@ public class StudentAttendanceRestController {
     private AuthenticationFacade facade;
     @Autowired
     NoticeBoardDao da;
-
+    @Autowired
+    private Message message;
     @GetMapping
     public Object attendance() {
-        Message message = new Message();
+        
          AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

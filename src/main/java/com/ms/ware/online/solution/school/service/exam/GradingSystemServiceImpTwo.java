@@ -7,21 +7,25 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.exam.GradingSystemDao;
 import com.ms.ware.online.solution.school.entity.exam.GradingSystemTwo;
+
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GradingSystemServiceImpTwo implements GradingSystemServiceTwo {
-
     @Autowired
-    GradingSystemDao da;
-    Message message = new Message();
+    private Message message;
+    @Autowired
+    private GradingSystemDao da;
+
     String msg = "", sql;
     int row;
     @Autowired
     private AuthenticationFacade facade;
+
     @Override
     public Object getAll() {
         sql = "SELECT ID id,GRADE grade,GPA gpa,RANG_FROM rangFrom,REMARK remark,GET_BS_DATE(EFFECTIVE_DATE_FROM) effectiveDateFrom,IFNULL(GET_BS_DATE(EFFECTIVE_DATE_TO),'') effectiveDateTo FROM grading_system_two WHERE EFFECTIVE_DATE_TO is null ORDER BY RANG_FROM desc";
@@ -37,7 +41,8 @@ public class GradingSystemServiceImpTwo implements GradingSystemServiceTwo {
 
     @Override
     public Object save(GradingSystemTwo obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -65,7 +70,8 @@ public class GradingSystemServiceImpTwo implements GradingSystemServiceTwo {
 
     @Override
     public Object update(GradingSystemTwo obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -84,7 +90,8 @@ public class GradingSystemServiceImpTwo implements GradingSystemServiceTwo {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

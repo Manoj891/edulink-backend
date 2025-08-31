@@ -20,7 +20,8 @@ public class ExamTerminalServiceImp implements ExamTerminalService {
     private AuthenticationFacade facade;
     @Autowired
     ExamTerminalDao da;
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

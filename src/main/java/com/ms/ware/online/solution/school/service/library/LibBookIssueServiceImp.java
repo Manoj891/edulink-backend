@@ -23,7 +23,8 @@ public class LibBookIssueServiceImp implements LibBookIssueService {
     private AuthenticationFacade facade;
     @Autowired
     private LibBookIssueDao da;
-
+    @Autowired
+    private Message message;
     @Override
     public List<Map<String, Object>> getAll(String bookId) {
         return da.getRecord("SELECT B.ID bookId,IFNULL((SELECT P.NAME  FROM program_master P WHERE P.ID=B.PROGRAM),'') AS program,IFNULL((SELECT P.NAME  FROM class_master P WHERE P.ID=B.CLASS_ID),'') className,IFNULL((SELECT P.NAME  FROM subject_master P WHERE P.ID=B.SUBJECT),'') subject,QUANTITY quantity,T.NAME bookType,B.NAME bookName,B.AUTHOR author,PUBLICATION publication,B.LANGUAGE language,EDITION edition,PAGES page,RACK_NO rackNo,PRICE price,GET_BS_DATE(PURCHASE_DATE) purchaseDate  FROM lib_book_stock B,lib_book_type T WHERE B.BOOK_TYPE=T.ID AND (B.ID='" + bookId + "' OR B.ISBN='" + bookId + "') AND B.ID NOT IN(SELECT BOOK_ISSUE_ID FROM lib_book_issue I,lib_book_stock S WHERE I.BOOK_ID=S.ID AND BOOK_ISSUE_ID IS NOT NULL)");
@@ -32,7 +33,7 @@ public class LibBookIssueServiceImp implements LibBookIssueService {
 
     @Override
     public String save(BookIssueReq req) {
-        Message message = new Message();
+        
         String username = facade.getAuthentication().getUserName();
         try {
 
@@ -85,7 +86,7 @@ public class LibBookIssueServiceImp implements LibBookIssueService {
 
     @Override
     public String update(String date, List<String> bookIds) {
-        Message message = new Message();
+        
         int row = 0;
         String msg = "", sql, userName = facade.getAuthentication().getUserName();;
         try {
@@ -109,7 +110,7 @@ public class LibBookIssueServiceImp implements LibBookIssueService {
 
     @Override
     public String delete(String id) {
-        Message message = new Message();
+        
         int row;
         String msg, sql;
         sql = "DELETE FROM lib_book_issue WHERE ID='" + id + "'";

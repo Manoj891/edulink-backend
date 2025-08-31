@@ -18,8 +18,9 @@ public class ProgramMasterServiceImp implements ProgramMasterService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    ProgramMasterDao da;
-    Message message = new Message();
+   private ProgramMasterDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

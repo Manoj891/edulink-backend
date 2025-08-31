@@ -21,7 +21,9 @@ public class LibBookTypeServiceImp implements LibBookTypeService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    LibBookTypeDao da;
+    private LibBookTypeDao da;
+    @Autowired
+    private Message message;
 
     @Override
     public ResponseEntity getAll() {
@@ -30,7 +32,7 @@ public class LibBookTypeServiceImp implements LibBookTypeService {
 
     @Override
     public ResponseEntity save(LibBookType obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -57,7 +59,7 @@ public class LibBookTypeServiceImp implements LibBookTypeService {
 
     @Override
     public ResponseEntity update(LibBookType obj, long id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -76,7 +78,7 @@ public class LibBookTypeServiceImp implements LibBookTypeService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

@@ -33,7 +33,8 @@ public class StuBillingMasterRestController {
     StuBillingMasterDao da;
     @Autowired
     private DB db;
-
+    @Autowired
+    private Message message;
     @GetMapping
     public Object index(@RequestParam(required = false) String regNo, @RequestParam String year, @RequestParam String month) {
         return service.getAll(regNo, year, month);
@@ -108,7 +109,7 @@ public class StuBillingMasterRestController {
     @PutMapping("/{billNo}")
     public Object doUpdate(@PathVariable String billNo, @RequestParam String date) throws IOException {
         String msg;
-        Message message = new Message();
+        
         date = DateConverted.bsToAd(date);
         String sql = "UPDATE stu_billing_master SET ENTER_DATE='" + date + "' WHERE BILL_NO='" + billNo + "'";
 
@@ -129,7 +130,7 @@ public class StuBillingMasterRestController {
     @PatchMapping("/{billNos}")
     public Object pendingBillApprove(@PathVariable String billNos, @RequestParam String cashAccount) throws IOException {
 
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         ;
         if (!td.isStatus()) {

@@ -7,7 +7,9 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.setup.SubjectMasterDao;
 import com.ms.ware.online.solution.school.entity.setup.SubjectMaster;
+
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,9 @@ public class SubjectMasterServiceImp implements SubjectMasterService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    SubjectMasterDao da;
-    Message message = new Message();
+    private SubjectMasterDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 
@@ -28,7 +31,8 @@ public class SubjectMasterServiceImp implements SubjectMasterService {
 
     @Override
     public Object save(SubjectMaster obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -56,7 +60,8 @@ public class SubjectMasterServiceImp implements SubjectMasterService {
 
     @Override
     public Object update(SubjectMaster obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -75,7 +80,8 @@ public class SubjectMasterServiceImp implements SubjectMasterService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

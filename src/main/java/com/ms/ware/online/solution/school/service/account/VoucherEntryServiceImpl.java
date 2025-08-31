@@ -30,10 +30,11 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
     @Autowired
     VoucherDao da;
     DecimalFormat df = new DecimalFormat("#.##");
-
+    @Autowired
+    private Message message;
     @Override
     public Object journalVoucher(Voucher obj, String voucherType) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid authorization");
@@ -132,7 +133,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
 
     @Override
     public Object voucherEdit(Voucher obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid authorization");
@@ -194,7 +195,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
 
     @Override
     public Object openingVoucher(Voucher obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
 
         List<VoucherDetail> objList = obj.getDetail();
@@ -260,7 +261,7 @@ public class VoucherEntryServiceImpl implements VoucherEntryService {
 
     @Override
     public String voucherUnApprove(String voucherNo) {
-        Message message = new Message();
+        
         AuthenticatedUser user = facade.getAuthentication();;
         String sql = "select ifnull(voucher_un_approve,'N') voucher_un_approve from organization_user_info where login_id='" + user.getUserName() + "'";
         Map<String, Object> map = da.getRecord(sql).get(0);

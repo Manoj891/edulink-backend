@@ -23,7 +23,8 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
     private AuthenticationFacade facade;
     @Autowired
     MonthlyAllowanceDao da;
-
+    @Autowired
+    private Message message;
     @Override
     public ResponseEntity getAll(Long empId, Long year, Long month, Long allowance) {
         String MM = null;
@@ -45,7 +46,7 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
 
     @Override
     public ResponseEntity save(MonthlyAllowance obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "";
         try {
@@ -75,7 +76,7 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
 
     @Override
     public ResponseEntity save(RegularAllowance obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "";
         try {
@@ -97,7 +98,7 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;
@@ -114,7 +115,7 @@ public class MonthlyAllowanceServiceImp implements MonthlyAllowanceService {
 
     @Override
     public ResponseEntity deleteRegularAllowance(String id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

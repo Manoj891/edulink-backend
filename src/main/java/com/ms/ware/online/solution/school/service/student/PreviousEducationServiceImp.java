@@ -21,7 +21,9 @@ public class PreviousEducationServiceImp implements PreviousEducationService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    PreviousEducationDao da;
+    private PreviousEducationDao da;
+    @Autowired
+    private Message message;
 
     @Override
     public ResponseEntity<Map<String, Object>> getAll(Long regNo) {
@@ -33,7 +35,7 @@ public class PreviousEducationServiceImp implements PreviousEducationService {
 
     @Override
     public ResponseEntity save(PreviousEducation obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "";
         try {
@@ -55,7 +57,7 @@ public class PreviousEducationServiceImp implements PreviousEducationService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

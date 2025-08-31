@@ -6,9 +6,11 @@ import com.ms.ware.online.solution.school.dto.LoginReq;
 import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.model.DatabaseName;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,8 @@ public class LoginController {
     private JwtHelper td;
     @Autowired
     private EmailService e;
+    @Autowired
+    private Message message;
     private final ApplicationStatus AS = new ApplicationStatus();
 
     @PostMapping("login")
@@ -74,7 +78,7 @@ public class LoginController {
 
     @PostMapping("/forgot-password")
     public String forgotPassword(@RequestBody String jsonData) {
-        Message message = new Message();
+
         try {
             Map<String, Object> map = new com.fasterxml.jackson.databind.ObjectMapper().readValue(jsonData, new com.fasterxml.jackson.core.type.TypeReference<>() {
             });

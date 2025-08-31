@@ -8,29 +8,31 @@ import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.utility.AboutAppDao;
 import com.ms.ware.online.solution.school.entity.utility.AboutApp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AboutAppServiceImp implements AboutAppService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    AboutAppDao da;
-    
+    private AboutAppDao da;
+    @Autowired
+    private Message message;
+
     @Override
     public ResponseEntity getAll() {
         try {
             return ResponseEntity.status(200).body(da.getAll("from AboutApp").get(0));
         } catch (Exception e) {
         }
-        Message message = new Message();
+
         return ResponseEntity.status(200).body(message.respondWithError("Record Not Found!!"));
     }
-    
+
     @Override
     public ResponseEntity save(AboutApp obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "";
         try {
@@ -43,10 +45,10 @@ public class AboutAppServiceImp implements AboutAppService {
                 msg = "This record already exist";
             }
             return ResponseEntity.status(200).body(message.respondWithError(msg));
-            
+
         } catch (Exception e) {
             return ResponseEntity.status(200).body(message.respondWithError(e.getMessage()));
         }
     }
-    
+
 }

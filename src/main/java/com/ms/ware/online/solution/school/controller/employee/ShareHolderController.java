@@ -25,11 +25,13 @@ public class ShareHolderController {
     private AuthenticationFacade facade;
     @Autowired
     private ShareHolderDao da;
+    @Autowired
+    private Message message;
 
     @GetMapping
     public Object index() {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -38,15 +40,15 @@ public class ShareHolderController {
 
     @PostMapping
     public Object doSave(@RequestBody ShareHolder obj) throws IOException {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
         obj.setId(UUID.randomUUID().toString());
         String msg;
         try {
-            if (obj.getPanNo().length() == 0) {
+            if (obj.getPanNo().isEmpty()) {
                 obj.setPanNo(null);
             }
             int row = da.save(obj);
@@ -63,8 +65,9 @@ public class ShareHolderController {
 
     @PutMapping("/{id}")
     public Object doUpdate(@RequestBody ShareHolder obj, @PathVariable String id) throws IOException {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -88,8 +91,9 @@ public class ShareHolderController {
 
     @DeleteMapping("/{id}")
     public Object doDelete(@PathVariable String id) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

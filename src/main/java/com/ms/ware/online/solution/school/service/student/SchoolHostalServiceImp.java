@@ -18,21 +18,23 @@ public class SchoolHostalServiceImp implements SchoolHostalService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    SchoolHostelDao da;
-    Message message = new Message();
+    private SchoolHostelDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 
     @Override
     public Object getAll(Long regNo, Long academicYear, Long program, Long classId, Long hostelType) {
-        return da.getRecord("select t.id,t.status,roll_no rollNo,bill_id billId,start_date startDate,ifnull(end_date,'') endDate,reg_no regNo,hostel_type hostelType,monthly_charge monthlyCharge,stu_name stuName,mobile_no mobileNo,academic_year academicYear,fathers_name fathersName,program,class_id classId from school_hostal t join student_info s on t.reg_no = s.id  where reg_no=ifnull("+regNo+",reg_no) and academic_year=ifnull(" + academicYear + ",academic_year) and program=ifnull(" + program + ",program) and class_id=ifnull(" + classId + ",class_id)  and hostel_type=ifnull(" + hostelType + ",hostel_type) ");
+        return da.getRecord("select t.id,t.status,roll_no rollNo,bill_id billId,start_date startDate,ifnull(end_date,'') endDate,reg_no regNo,hostel_type hostelType,monthly_charge monthlyCharge,stu_name stuName,mobile_no mobileNo,academic_year academicYear,fathers_name fathersName,program,class_id classId from school_hostal t join student_info s on t.reg_no = s.id  where reg_no=ifnull(" + regNo + ",reg_no) and academic_year=ifnull(" + academicYear + ",academic_year) and program=ifnull(" + program + ",program) and class_id=ifnull(" + classId + ",class_id)  and hostel_type=ifnull(" + hostelType + ",hostel_type) ");
 
         // return da.getAll("from SchoolHostal where regNo=ifnull("+regNo+",regNo) and studentInfo.academicYear=ifnull(" + academicYear + ",studentInfo.academicYear) and studentInfo.program=ifnull(" + program + ",studentInfo.program) and studentInfo.classId=ifnull(" + classId + ",studentInfo.classId)  and hostelType=ifnull(" + hostelType + ",hostelType) ");
     }
 
     @Override
     public Object save(SchoolHostal obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -64,7 +66,8 @@ public class SchoolHostalServiceImp implements SchoolHostalService {
 
     @Override
     public Object update(SchoolHostal obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -83,7 +86,8 @@ public class SchoolHostalServiceImp implements SchoolHostalService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

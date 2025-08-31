@@ -31,7 +31,8 @@ public class OnlineClassTeacherRestController {
     private HibernateUtil util;
     @Autowired
     private DB db;
-
+    @Autowired
+    private Message message;
     @GetMapping
     public Object getOnlineClass(@RequestParam(required = false) Long acadeicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId, @RequestParam(required = false) Long subjectGroup) {
         AuthenticatedUser td = facade.getAuthentication();
@@ -43,7 +44,7 @@ public class OnlineClassTeacherRestController {
 
     @PostMapping
     public Object doSave(@RequestBody OnlineClass obj) throws IOException {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         ;
 

@@ -3,6 +3,7 @@
 package com.ms.ware.online.solution.school.service.teacherpanel;
 
 
+import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.teacherpanel.TeachersHomeworkDao;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.ms.ware.online.solution.school.config.Message;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Date;
@@ -23,7 +24,9 @@ public class TeachersHomeworkServiceImp implements TeachersHomeworkService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    TeachersHomeworkDao da;
+    private TeachersHomeworkDao da;
+    @Autowired
+    private Message message;
 
     @Override
     public ResponseEntity getAll(Long academicYear, Long program, Long classId, Long subjectGroup) {
@@ -33,7 +36,7 @@ public class TeachersHomeworkServiceImp implements TeachersHomeworkService {
 
     @Override
     public Object save(HttpServletRequest request, TeachersHomework obj, MultipartFile photo) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -85,7 +88,7 @@ public class TeachersHomeworkServiceImp implements TeachersHomeworkService {
 
     @Override
     public Object update(HttpServletRequest request, TeachersHomework obj, long id, MultipartFile photo) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg;
@@ -132,9 +135,10 @@ public class TeachersHomeworkServiceImp implements TeachersHomeworkService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
-        
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
+
         int row;
         String msg = "", sql;
         sql = "DELETE FROM teachers_homework WHERE ID='" + id + "'";

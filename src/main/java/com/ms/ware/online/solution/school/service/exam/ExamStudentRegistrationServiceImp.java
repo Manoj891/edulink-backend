@@ -25,14 +25,16 @@ import java.util.Map;
 public class ExamStudentRegistrationServiceImp implements ExamStudentRegistrationService {
 
     @Autowired
-    ExamStudentRegistrationDao da;
-    Message message = new Message();
+    private ExamStudentRegistrationDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
     private DB db;
+
     @Override
     public Object getRecord(Long program, Long classId, Long exam) {
         return da.getRecord("SELECT s.STUDENT_ID AS stuId, sd.STU_NAME AS stuName, s.ROLL_NO AS rollNo, pm.NAME AS programName, cm.NAME AS className, s.ACADEMIC_YEAR AS academicYear, s.SUBJECT_GROUP AS subjectGroup FROM class_transfer s JOIN student_info sd ON s.STUDENT_ID = sd.ID JOIN exam_master em ON s.ACADEMIC_YEAR = em.ACADEMIC_YEAR JOIN program_master pm ON pm.ID = s.PROGRAM JOIN class_master cm ON cm.ID = s.CLASS_ID LEFT JOIN exam_student_registration r ON r.STUDENT_ID = s.STUDENT_ID AND r.EXAM = em.ID WHERE em.ID = " + exam + " AND s.PROGRAM = " + program + " AND s.CLASS_ID = " + classId + " AND r.STUDENT_ID IS NULL AND (sd.DROP_OUT IS NULL OR sd.DROP_OUT != 'Y') ORDER BY s.CLASS_ID, stuName, s.ROLL_NO;");
@@ -51,7 +53,8 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Object save(String jsonData) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -110,7 +113,8 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Object approve(ExamStudentRegistrationApprove req) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         try {
             String date = DateConverted.bsToAd(req.getDate());
             String id, year, classId, examRollSn, examRollNo, enterBy = td.getUserName();
@@ -202,7 +206,8 @@ public class ExamStudentRegistrationServiceImp implements ExamStudentRegistratio
 
     @Override
     public Map<String, Object> updateRegistration(long examId, long regNo, long program, long classId, long groupId) {
-        AuthenticatedUser user = facade.getAuthentication();;
+        AuthenticatedUser user = facade.getAuthentication();
+        ;
         if (!user.getUserType().equalsIgnoreCase("ADM")) {
             throw new PermissionDeniedException();
         }

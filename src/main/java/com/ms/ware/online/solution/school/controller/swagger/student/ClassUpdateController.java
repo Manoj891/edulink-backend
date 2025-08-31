@@ -25,10 +25,11 @@ public class ClassUpdateController {
     private StudentInfoDao dao;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private Message message;
     @GetMapping
     public Object index(@RequestParam(required = false) Long subjectGroup, @RequestParam(required = false) Long program, @RequestParam Long classId, @RequestParam Long academicYear, @RequestParam(defaultValue = "") String section) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -42,7 +43,7 @@ public class ClassUpdateController {
 
     @PostMapping
     public Object update(@RequestBody RollNumberUpdate jsonData) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -88,7 +89,7 @@ public class ClassUpdateController {
 
     @PutMapping
     public Object sortAndUpdate(@RequestBody RollNumberUpdate jsonData) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         String username = td.getUserName();
         String updateDate = DateConverted.now();

@@ -38,8 +38,9 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    ExamMarkEntryDao da;
-
+    private ExamMarkEntryDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 
@@ -57,7 +58,8 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
 
     @Override
     public Object save(ExamMarkEntryReq req) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         return MarkEntry(req, td.getUserName());
     }
 
@@ -124,8 +126,9 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
 
     @Override
     public Object doApprove(String jsonData) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -160,8 +163,9 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
 
     @Override
     public Object delete(String id) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -186,7 +190,8 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
     @Override
     public Object getReport(int system, Long exam, Long program, Long classId, Long subjectGroup, Long sId, String section, String result) {
         MarkReportGenerate reportGenerate = new MarkReportGenerate();
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         String studentId = "NULL";
         String type;
         type = "ORG";
@@ -329,7 +334,8 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
 
     @Override
     public Object entryTeacher(ExamMarkEntryReq req) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return new Message().respondWithError("invalid token");
         } else if (!td.getUserType().equalsIgnoreCase("TCR"))
@@ -345,8 +351,9 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
 
     @Override
     public Object markUpdate(List<MarkUpdateReq> req) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         } else if (!td.getUserType().equals("ADM")) {
@@ -359,8 +366,9 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
 
     @Override
     public Object markUpload(HttpServletRequest request, MultipartFile markUpload, Long exam) throws IOException {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         } else if (!td.getUserType().equals("ADM")) {
@@ -443,8 +451,9 @@ public class ExamMarkEntryServiceImp implements ExamMarkEntryService {
 
     @Override
     public Object markApprove(Long exam) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         } else if (!td.getUserType().equals("ADM")) {

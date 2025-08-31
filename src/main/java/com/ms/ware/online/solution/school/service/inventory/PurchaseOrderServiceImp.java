@@ -23,8 +23,9 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    PurchaseOrderDao da;
-    Message message = new Message();
+    private PurchaseOrderDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 
@@ -35,7 +36,8 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService {
 
     @Override
     public Object save(PurchaseOrder obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -95,7 +97,8 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService {
     @Override
     public Object update(String jsonData) {
         try {
-            AuthenticatedUser td = facade.getAuthentication();;
+            AuthenticatedUser td = facade.getAuthentication();
+            ;
             if (!td.isStatus()) {
                 return message.respondWithError("invalid token");
             }
@@ -132,7 +135,8 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -168,7 +172,8 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService {
     @Override
     public Object opening(PurchaseOrder obj) {
 
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -247,7 +252,8 @@ public class PurchaseOrderServiceImp implements PurchaseOrderService {
     public Object doReject(String jsonData) {
 
         try {
-            AuthenticatedUser td = facade.getAuthentication();;
+            AuthenticatedUser td = facade.getAuthentication();
+            ;
             if (!td.isStatus()) {
                 return message.respondWithError("invalid token");
             }

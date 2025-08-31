@@ -7,18 +7,20 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.setup.BusMasterDao;
 import com.ms.ware.online.solution.school.entity.setup.BusMaster;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class BusMasterServiceImp implements BusMasterService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    BusMasterDao da;
-
+    private BusMasterDao da;
+    @Autowired
+    private Message message;
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.status(200).body(da.getAll("from BusMaster"));
@@ -26,7 +28,7 @@ public class BusMasterServiceImp implements BusMasterService {
 
     @Override
     public ResponseEntity save(BusMaster obj) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -53,7 +55,7 @@ public class BusMasterServiceImp implements BusMasterService {
 
     @Override
     public ResponseEntity update(BusMaster obj, long id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -72,7 +74,7 @@ public class BusMasterServiceImp implements BusMasterService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

@@ -25,6 +25,8 @@ public class TeachersHomeworkRestController {
     TeachersHomeworkService service;
     @Autowired
     private AuthenticationFacade facade;
+    @Autowired
+    private Message message;
     @GetMapping
     public ResponseEntity index(@RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup) {
         return service.getAll(academicYear, program, classId, subjectGroup);
@@ -72,7 +74,7 @@ public class TeachersHomeworkRestController {
 
     @PostMapping("/HomeworkCheck")
     public Object doSave(@RequestBody StudentHomework obj) throws IOException {
-        Message message = new Message();
+        
          AuthenticatedUser td = facade.getAuthentication();;
         String msg = "", remark = obj.getRemark();
         long homeworkId = obj.getHomework();

@@ -8,18 +8,20 @@ import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.exam.ExamResultPublishDao;
 import com.ms.ware.online.solution.school.entity.exam.ExamResultPublish;
 import com.ms.ware.online.solution.school.entity.exam.ExamResultPublishPK;
-import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExamResultPublishServiceImp implements ExamResultPublishService {
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
-    ExamResultPublishDao da;
-    Message message = new Message();
+   private ExamResultPublishDao da;
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

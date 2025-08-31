@@ -7,19 +7,22 @@ import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.setup.AllowanceMasterDao;
 import com.ms.ware.online.solution.school.entity.setup.AllowanceMaster;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class AllowanceMasterServiceImp implements AllowanceMasterService {
 
     @Autowired
-    AllowanceMasterDao da;
-
+    private AllowanceMasterDao da;
+    @Autowired
+    private Message message;
     @Autowired
     private AuthenticationFacade facade;
+
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.status(200).body(da.getAll("from AllowanceMaster"));
@@ -27,7 +30,7 @@ public class AllowanceMasterServiceImp implements AllowanceMasterService {
 
     @Override
     public ResponseEntity save(AllowanceMaster obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "", sql;
         try {
@@ -54,7 +57,7 @@ public class AllowanceMasterServiceImp implements AllowanceMasterService {
 
     @Override
     public ResponseEntity update(AllowanceMaster obj, long id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "";
@@ -73,7 +76,7 @@ public class AllowanceMasterServiceImp implements AllowanceMasterService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

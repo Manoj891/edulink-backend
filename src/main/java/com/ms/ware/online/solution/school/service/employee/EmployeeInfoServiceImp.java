@@ -31,7 +31,8 @@ public class EmployeeInfoServiceImp implements EmployeeInfoService {
     private ChartOfAccountService service;
     @Autowired
     private AuthenticationFacade facade;
-
+    @Autowired
+    private Message message;
     @Override
     public List<EmployeeInfo> getAll() {
         return da.getAll("from EmployeeInfo");
@@ -158,7 +159,7 @@ public class EmployeeInfoServiceImp implements EmployeeInfoService {
     @Override
     public void doSavePhoto(Long empId, MultipartFile photo) {
         File f;
-        Message message = new Message();
+        
         String location = message.getFilepath(DatabaseName.getDocumentUrl());
 
         try {

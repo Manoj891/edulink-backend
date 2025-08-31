@@ -24,9 +24,11 @@ public class HomeworkRestController {
     private AuthenticationFacade facade;
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
     @GetMapping
     public Object homework(@RequestParam(required = false) String date) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -50,7 +52,7 @@ public class HomeworkRestController {
 
     @GetMapping("/{id}")
     public Object homework(@PathVariable Long id) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -70,7 +72,7 @@ public class HomeworkRestController {
 
     @GetMapping("/Completed")
     public Object index(@RequestParam Long academicYear, @RequestParam(required = false) String homeworkDate) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -91,7 +93,7 @@ public class HomeworkRestController {
 
     @GetMapping("/Do")
     public Object doHomework(@RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

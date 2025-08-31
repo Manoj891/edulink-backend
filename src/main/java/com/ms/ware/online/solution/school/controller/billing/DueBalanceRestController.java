@@ -28,7 +28,8 @@ import java.util.*;
 @RestController
 @RequestMapping("/Payment/Billing/")
 public class DueBalanceRestController {
-
+    @Autowired
+    private Message message;
     @Autowired
     StuBillingMasterDao da;
     @Autowired
@@ -39,7 +40,7 @@ public class DueBalanceRestController {
         System.gc();
         Map map;
         String schoolCode = "", regNo = "", year = "", month = "";
-        Message message = new Message();
+        
         try {
             map = new ObjectMapper().readValue(jsonData, new TypeReference<Map<String, String>>() {
             });
@@ -106,7 +107,7 @@ public class DueBalanceRestController {
         long regNo;
         String sql, endDateAd, startDateAd, schoolCode = "", referenceId, year = "", month = "", paymentFromName = "";
         double payAmount = 0;
-        Message message = new Message();
+        
         try {
             map = new ObjectMapper().readValue(jsonData, new TypeReference<>() {
             });
@@ -340,7 +341,7 @@ public class DueBalanceRestController {
         System.gc();
         Map map;
         String schoolCode = "", regNo = "", ReferenceID = "";
-        Message message = new Message();
+        
         try {
             map = new ObjectMapper().readValue(jsonData, new TypeReference<>() {
             });

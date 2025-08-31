@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.ms.ware.online.solution.school.config.Message;
+
 import java.io.IOException;
 import java.util.Map;
 
@@ -21,22 +22,25 @@ import java.util.Map;
 public class UploadTeachersVideoRestController {
     @Autowired
     private AuthenticationFacade facade;
-   
     @Autowired
-    TeachersHomeworkDao da;
+    private Message message;
+    @Autowired
+    private TeachersHomeworkDao da;
 
 
     @GetMapping
     public Object index(@RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId, @RequestParam Long subjectGroup, @RequestParam Long subject) {
-        Message message = new Message();
-         AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         return da.getAll("from UploadTeachersVideo where teacher='" + td.getUserId() + "' and academicYear=ifnull(" + academicYear + ",academicYear) and subjectGroup=ifnull(" + subjectGroup + ",subjectGroup) and program=ifnull(" + program + ",program) and classId=ifnull(" + classId + ",classId) and subject=IFNULL(" + subject + ",subject)");
     }
 
     @PostMapping
     public Object doSave(@RequestBody UploadTeachersVideo obj) throws IOException {
-        Message message = new Message();
-         AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         String msg = "", sql;
         try {
             sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM upload_teachers_video";
@@ -60,8 +64,9 @@ public class UploadTeachersVideoRestController {
     @PutMapping
     public Object doUpdate(@RequestBody UploadTeachersVideo obj) throws IOException {
         System.out.println(obj);
-        Message message = new Message();
-         AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
 
         String msg = "";
         try {
@@ -82,8 +87,9 @@ public class UploadTeachersVideoRestController {
 
     @DeleteMapping("/{id}")
     public Object doDelete(@PathVariable Long id) {
-        Message message = new Message();
-         AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         String msg = "";
         try {
 

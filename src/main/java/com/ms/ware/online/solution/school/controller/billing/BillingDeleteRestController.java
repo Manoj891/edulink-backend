@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/Billing/Delete")
 public class BillingDeleteRestController {
     @Autowired
-    private AuthenticationFacade facade;
-    @Autowired
     private DB db;
+    @Autowired
+    private Message message;
 
     @GetMapping
     public Object index(@RequestParam String dateFrom, @RequestParam String dateTo) {
@@ -36,7 +36,7 @@ public class BillingDeleteRestController {
     @GetMapping("/{billNo}")
     public Object index(@PathVariable String billNo) {
 
-        Message message = new Message();
+
         String sql = "SELECT BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class',IFNULL(B.REMARK,'') remark,'' rollNo FROM billing_delete_master B,program_master P,class_master C WHERE REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND BILL_NO='" + billNo + "' "
                 + " UNION "
                 + " SELECT BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,S.STU_NAME studentName,S.FATHERS_NAME fatherName,S.MOBILE_NO mobileNo,CONCAT(DISTRICT,' ',MUNICIPAL,' ',WARD_NO,' ',TOL) address,P.NAME program,C.NAME 'class',IFNULL(B.REMARK,'') remark,S.ROLL_NO rollNo  FROM billing_delete_master B,program_master P,class_master C,student_info S WHERE B.REG_NO=S.ID AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND BILL_NO='" + billNo + "'";

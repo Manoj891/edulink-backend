@@ -37,7 +37,8 @@ public class StudentInfoServiceImp implements StudentInfoService {
     private StudentInfoDao da;
     @Autowired
     private CreditBillAutoGenerate crBill;
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String msg = "", sql;
     int row;
 

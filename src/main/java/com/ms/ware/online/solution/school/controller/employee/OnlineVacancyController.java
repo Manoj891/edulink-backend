@@ -21,7 +21,8 @@ public class OnlineVacancyController {
     private EmployeeInfoDao da;
     @Autowired
     private EmailService es;
-
+    @Autowired
+    private Message message;
     @GetMapping("/Online/Vacancy")
     public Object onlineVacancy(@RequestParam String email, @RequestParam String code) {
         List<OnlineVacancy> list = da.getOnlineVacancy("from OnlineVacancy where email='" + email + "' and code='" + code + "'");
@@ -84,7 +85,7 @@ public class OnlineVacancyController {
 
     @PostMapping("/Online/Vacancy")
     public Object onlineVacancySave(HttpServletRequest request, @RequestBody OnlineVacancy obj) {
-        Message message = new Message();
+        
         String msg, sql;
         try {
 
@@ -124,7 +125,7 @@ public class OnlineVacancyController {
     @PutMapping("/Online/Vacancy")
     public Object onlineVacancyUpdate(@RequestBody OnlineVacancy obj) {
 
-        Message message = new Message();
+        
 
         String msg = "";
         try {

@@ -36,17 +36,18 @@ public class CashBillRestController {
     private AuthenticationFacade facade;
     @Autowired
     CashBillDao dao;
-
+    @Autowired
+    private Message message;
     @GetMapping
     public Object index() {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         return dao.getAll("from CashBill where approveDate is null");
     }
 
     @GetMapping("/{billNo}")
     public Object index(@PathVariable String billNo) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         List list = dao.getAll("from CashBill where billNo='" + billNo + "'");
         if (list.isEmpty()) {
@@ -57,7 +58,7 @@ public class CashBillRestController {
 
     @PostMapping
     public Object doSave(@Valid @RequestBody CashBill obj) throws IOException {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String billNo;
         Map map;
@@ -137,7 +138,7 @@ public class CashBillRestController {
 
     @PutMapping("/{date}/{receiveAc}")
     public Object doApprove(@PathVariable String date, @PathVariable String receiveAc, @RequestBody List<String> list) {
-        Message message = new Message();
+        
         AuthenticatedUser td = facade.getAuthentication();
         String dateAd = DateConverted.bsToAd(date);
         String userName = td.getUserName();

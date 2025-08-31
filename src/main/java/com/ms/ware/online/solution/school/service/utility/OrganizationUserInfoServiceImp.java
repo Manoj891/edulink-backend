@@ -26,7 +26,8 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
     private AuthenticationFacade facade;
     @Autowired
     private EmailService e;
-    private final Message message = new Message();
+    @Autowired
+    private Message message;
 
     String msg = "", sql;
     int row;
@@ -38,7 +39,8 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
 
     @Override
     public Object save(OrganizationUserInfo obj, HttpServletRequest request) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
 
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -48,7 +50,7 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
         try {
 
             sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM organization_user_info";
-            message.map = (Map) da.getRecord(sql).get(0);
+            message.map = da.getRecord(sql).get(0);
             obj.setId(Long.parseLong(message.map.get("id").toString()));
 
             if (obj.getCashAccount().length() == 0) {
@@ -57,9 +59,9 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
                 if (message.list.isEmpty()) {
                     return message.respondWithError("Please define STUDENT FEE INCOME ACCOUNT in organization master");
                 }
-                message.map = (Map) message.list.get(0);
+                message.map = message.list.get(0);
                 String mgrCode = message.map.get("mgrCode").toString();
-                if (mgrCode.length() == 0) {
+                if (mgrCode.isEmpty()) {
                     return message.respondWithError("Please define STUDENT FEE INCOME ACCOUNT in organization master");
                 }
                 obj.setCashAccount(getAcCode(mgrCode, obj.getEmpName() + " Cash in Hand"));
@@ -73,7 +75,7 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
                 sql = "UPDATE organization_user_info SET LOGIN_PASS=CONCAT('*', UPPER(SHA1(UNHEX(SHA1('" + password + "'))))) WHERE ID='" + obj.getId() + "'";
                 da.delete(sql);
 
-                Map map = new HashMap();
+                Map<String, Object> map = new HashMap<>();
                 String url = request.getRequestURL().toString();
                 url = url.substring(0, url.indexOf("api/Utility/OrganizationUserInfo"));
                 String body = "Dear " + obj.getEmpName() + ",<br/> Your login id " + obj.getLoginId() + " and login password " + password + "<br/>" + "Please login and change password!!<br> link " + url;
@@ -96,7 +98,8 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
 
     @Override
     public Object update(OrganizationUserInfo obj, long id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
 
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
@@ -123,11 +126,8 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
-
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        } else if (!td.getUserType().equalsIgnoreCase("ADM")) {
+        AuthenticatedUser td = facade.getAuthentication();
+        if (!td.getUserType().equalsIgnoreCase("ADM")) {
             return message.respondWithError("You have hot access this feature!!");
         }
 
@@ -175,7 +175,8 @@ public class OrganizationUserInfoServiceImp implements OrganizationUserInfoServi
 
     @Override
     public Object resetPassword(long id, HttpServletRequest request) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
 
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");

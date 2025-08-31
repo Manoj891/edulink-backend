@@ -14,7 +14,8 @@ public class EmpWorkingHourServiceImpl implements EmpWorkingHourService {
 
     @Autowired
     EmployeeInfoDao da;
-    Message message = new Message();
+    @Autowired
+    private Message message;
     String days[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
     @Override

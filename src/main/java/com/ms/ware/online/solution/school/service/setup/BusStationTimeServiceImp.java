@@ -9,16 +9,19 @@ import com.ms.ware.online.solution.school.dao.setup.BusStationTimeDao;
 import com.ms.ware.online.solution.school.entity.setup.BusStationTime;
 import com.ms.ware.online.solution.school.entity.setup.BusStationTimePK;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BusStationTimeServiceImp implements BusStationTimeService {
 
     @Autowired
-    BusStationTimeDao da;
+    private BusStationTimeDao da;
     @Autowired
     private AuthenticationFacade facade;
+    @Autowired
+    private Message message;
+
     @Override
     public ResponseEntity getAll(Long bus) {
         return ResponseEntity.status(200).body(da.getAll("from BusStationTime where bus=" + bus));
@@ -26,7 +29,7 @@ public class BusStationTimeServiceImp implements BusStationTimeService {
 
     @Override
     public ResponseEntity save(BusStationTime obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         String msg = "";
         try {
@@ -47,7 +50,7 @@ public class BusStationTimeServiceImp implements BusStationTimeService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         int row;
         String msg = "", sql;

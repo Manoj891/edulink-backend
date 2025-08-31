@@ -20,14 +20,17 @@ import java.util.Map;
 public class NotesServiceImp implements NotesService {
 
     @Autowired
-    NotesDao da;
+    private NotesDao da;
     @Autowired
     private AuthenticationFacade facade;
+    @Autowired
+    private Message message;
 
     @Override
     public Object getAll() {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -36,8 +39,9 @@ public class NotesServiceImp implements NotesService {
 
     @Override
     public Object save(Notes obj) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -68,8 +72,9 @@ public class NotesServiceImp implements NotesService {
 
     @Override
     public Object update(Notes obj, long id) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -92,8 +97,9 @@ public class NotesServiceImp implements NotesService {
 
     @Override
     public Object delete(String id) {
-        Message message = new Message();
-        AuthenticatedUser td = facade.getAuthentication();;
+
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

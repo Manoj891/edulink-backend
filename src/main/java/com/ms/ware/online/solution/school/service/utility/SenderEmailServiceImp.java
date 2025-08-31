@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 public class SenderEmailServiceImp implements SenderEmailService {
 
     @Autowired
-    SenderEmailDao da;
+    private SenderEmailDao da;
+    @Autowired
+    private Message message;
     @Autowired
     private AuthenticationFacade facade;
     @Autowired
@@ -27,7 +29,7 @@ public class SenderEmailServiceImp implements SenderEmailService {
 
     @Override
     public ResponseEntity getAll() {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
             return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
@@ -37,7 +39,7 @@ public class SenderEmailServiceImp implements SenderEmailService {
 
     @Override
     public ResponseEntity save(SenderEmail obj) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         ;
 
@@ -67,7 +69,7 @@ public class SenderEmailServiceImp implements SenderEmailService {
 
     @Override
     public ResponseEntity update(SenderEmail obj, long id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
             return ResponseEntity.status(200).body(message.respondWithError("invalid token"));
@@ -89,7 +91,7 @@ public class SenderEmailServiceImp implements SenderEmailService {
 
     @Override
     public ResponseEntity delete(String id) {
-        Message message = new Message();
+
         AuthenticatedUser td = facade.getAuthentication();
         if (!td.getUserName().equalsIgnoreCase("ADMIN")) {
             return ResponseEntity.status(200).body(message.respondWithError("invalid token"));

@@ -22,11 +22,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ReceiptUploadService {
     @Autowired
     private DB db;
+    @Autowired
+    private Message message;
     public Object doUpload(MultipartFile receipt, long academicYear, long fiscalYear) {
         AtomicInteger count = new AtomicInteger();
         int error = 0;
         ReadJetkingExcelData dd = new ReadJetkingExcelData();
-        Message message = new Message();
+        
         if (receipt.getSize() < 100) {
             return message.respondWithError("Please provide file");
         }
