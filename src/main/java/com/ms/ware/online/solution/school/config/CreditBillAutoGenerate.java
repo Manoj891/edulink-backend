@@ -2,13 +2,13 @@
 package com.ms.ware.online.solution.school.config;
 
 import com.ms.ware.online.solution.school.exception.CustomException;
+import com.ms.ware.online.solution.school.model.HibernateUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import com.ms.ware.online.solution.school.model.HibernateUtilImpl;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,8 @@ import java.util.Map;
 public class CreditBillAutoGenerate {
 
     private String msg = "";
-
+    @Autowired
+    private HibernateUtil util;
     public boolean generate(long academicYear, long program, long classId, long subjectGroup, long regNo, String enterBy) {
         String sql;
         Session session = util.getSession();
