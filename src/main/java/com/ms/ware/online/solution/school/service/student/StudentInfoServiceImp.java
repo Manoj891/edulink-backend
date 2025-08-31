@@ -78,10 +78,7 @@ public class StudentInfoServiceImp implements StudentInfoService {
     @Override
     public Object save(StudentInfo obj) {
         AuthenticatedUser td = facade.getAuthentication();
-        if (!td.isStatus()) {
-            return message.respondWithError("invalid token");
-        }
-        try {
+               try {
             long program = obj.getProgram();
             long classId = obj.getClassId();
             long academicYear = obj.getAcademicYear();

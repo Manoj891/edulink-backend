@@ -1,6 +1,7 @@
 
 package com.ms.ware.online.solution.school.config;
 
+import com.ms.ware.online.solution.school.exception.CustomException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
@@ -48,6 +49,8 @@ public class CreditBillAutoGenerate {
             String billNo;
             sql = "SELECT ID id FROM fiscal_year WHERE '" + startDate + "' BETWEEN START_DATE AND END_DATE;";
             list = session.createSQLQuery(sql).setResultTransformer(org.hibernate.Criteria.ALIAS_TO_ENTITY_MAP).list();
+            if (list.isEmpty())
+                throw new CustomException("Fiscal Year not found on date at " + startDate + ", Education Session start from " + startDate);
             map = list.get(0);
             long fiscalYear = Long.parseLong(map.get("id").toString());
             sql = "SELECT BILL_NO billNo FROM stu_billing_master WHERE REG_NO='" + regNo + "' AND ACADEMIC_YEAR='" + academicYear + "' and CLASS_ID=" + classId + " AND AUTO_GENERATE='Y' AND BILL_TYPE='CR'";
