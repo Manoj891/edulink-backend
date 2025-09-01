@@ -104,7 +104,7 @@ public class VoucherEntry {
     }
 
     public boolean save(long fiscalYear, String enterDate, String enterBy, String voucherType, String narration, String chequeNo, String feeReceiptNo, String acCode[], String particular[], double drAmount[], double crAmount[]) {
-        VoucherDao da = new VoucherDaoImp();
+
         Voucher obj = new Voucher();
 
         String sql;

@@ -18,8 +18,8 @@ import java.util.Map;
 public class MarkReportGenerate {
     @Autowired
     private Message message;
-
-    private final ExamMarkEntryDao da = new ExamMarkEntryDaoImp();
+    @Autowired
+    private  ExamMarkEntryDao da ;
 
     Object getFinalReport(int system, Long exam, Long program, Long classId, Long subjectGroup, Long sId) {
         String sql;
