@@ -23,7 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Service
-public class ConfigureServiceImpl {
+public class ConfigureServiceImpl implements ConfigureService {
     @Autowired
     private DistrictMunicipalData data;
     @Autowired
@@ -33,11 +33,12 @@ public class ConfigureServiceImpl {
     @Autowired
     private Message message;
 
+    @Override
     public void functionConfigure() {
         function();
     }
 
-
+    @Override
     public Object databaseConfigure(@RequestParam String dbUser, @RequestParam String dbPassword) {
         String msg = "";
         try {
@@ -89,6 +90,7 @@ public class ConfigureServiceImpl {
         return message.respondWithMessage("Success");
     }
 
+    @Override
     public void configureDistrictMunicipality() {
         function();
         configure();
@@ -97,8 +99,9 @@ public class ConfigureServiceImpl {
 
     }
 
-    void configure() {
-       
+    @Override
+    public void configure() {
+
         System.gc();
         String sql;
         sql = "INSERT INTO fiscal_year (ID, END_DATE, START_DATE, STATUS, YEAR) VALUES (8081, '2024-07-17', '2023-07-17', 'Y', '2080-2081');\n" +
@@ -429,9 +432,10 @@ public class ConfigureServiceImpl {
         db.save(sql);
     }
 
-    void function() {
+    @Override
+    public void function() {
         String sql;
-       
+
         System.gc();
         sql = "SET GLOBAL log_bin_trust_function_creators = 1;";
         db.save(sql);
@@ -546,11 +550,11 @@ public class ConfigureServiceImpl {
         System.gc();
     }
 
-
+    @Override
     public Object configureCalender() {
         java.sql.Connection con = null;
 
-        
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = java.sql.DriverManager.getConnection("jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase(), DatabaseName.getUsername(), DatabaseName.getPassword());
@@ -575,11 +579,11 @@ public class ConfigureServiceImpl {
         return message.respondWithMessage("Database configuration starting");
     }
 
-    @PostMapping("/Calender")
+    @Override
     public Object calender() {
 
         StringBuilder sql;
-       
+
         Date date = DateConverted.toDate("1943-04-14");
         Calendar c = Calendar.getInstance();
         c.setTime(date);
@@ -621,7 +625,7 @@ public class ConfigureServiceImpl {
         return message.respondWithMessage(adDate + "Till Created!!");
     }
 
-    @PostMapping("/District")
+    @Override
     public Object districtConfig() {
         new DistrictMunicipalData().setDistrict();
         new DistrictMunicipalData().setMunicipal();
