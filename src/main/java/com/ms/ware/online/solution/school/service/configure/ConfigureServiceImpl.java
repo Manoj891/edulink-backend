@@ -32,6 +32,7 @@ public class ConfigureServiceImpl {
     private DB db;
     @Autowired
     private Message message;
+
     public void functionConfigure() {
         function();
     }
@@ -79,9 +80,9 @@ public class ConfigureServiceImpl {
             ps.close();
             con.close();
             util.init();
-            ConfigureServiceImpl c = new ConfigureServiceImpl();
-            c.function();
-            c.configure();
+
+            function();
+            configure();
         } catch (Exception e) {
             return message.respondWithError(e.getMessage());
         }
