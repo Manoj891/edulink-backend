@@ -8,14 +8,14 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
-@Component
+@Service
 public class LibBookIssueDaoImp implements LibBookIssueDao {
     @Autowired
     private HibernateUtil util;

@@ -10,10 +10,10 @@ import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.employee.EmpLevelMaster;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
-@Component
+@Service
 public class EmpLevelMasterDaoImp implements EmpLevelMasterDao {
     @Autowired
     private HibernateUtil util;

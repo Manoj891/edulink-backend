@@ -10,12 +10,12 @@ import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.setup.BusStationTime;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import  javax.persistence.PersistenceException;
 
 
-@Component
+@Service
 public class BusStationTimeDaoImp implements BusStationTimeDao {
 
     String msg = "";

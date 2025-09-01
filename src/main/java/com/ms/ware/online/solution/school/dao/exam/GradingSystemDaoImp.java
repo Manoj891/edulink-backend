@@ -12,9 +12,9 @@ import com.ms.ware.online.solution.school.entity.exam.GradingSystemTwo;
 import com.ms.ware.online.solution.school.entity.exam.PercentageSystem;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class GradingSystemDaoImp implements GradingSystemDao {
     @Autowired
     private HibernateUtil util;

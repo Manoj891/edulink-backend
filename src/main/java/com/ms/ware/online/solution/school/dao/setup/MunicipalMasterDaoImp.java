@@ -7,13 +7,13 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import  javax.persistence.PersistenceException;
 
-@Component
+@Service
 public class MunicipalMasterDaoImp implements MunicipalMasterDao {
 
     String msg = "";

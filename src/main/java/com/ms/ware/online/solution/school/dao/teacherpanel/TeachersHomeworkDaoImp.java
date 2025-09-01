@@ -11,9 +11,9 @@ import com.ms.ware.online.solution.school.entity.teacherpanel.TeachersHomework;
 import com.ms.ware.online.solution.school.entity.teacherpanel.UploadTeachersVideo;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
     @Autowired
     private HibernateUtil util;

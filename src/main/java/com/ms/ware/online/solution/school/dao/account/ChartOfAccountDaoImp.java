@@ -10,9 +10,9 @@ import org.hibernate.Transaction;
 import com.ms.ware.online.solution.school.entity.account.ChartOfAccount;
 import org.hibernate.HibernateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ChartOfAccountDaoImp implements ChartOfAccountDao {
 
     String msg = "";
