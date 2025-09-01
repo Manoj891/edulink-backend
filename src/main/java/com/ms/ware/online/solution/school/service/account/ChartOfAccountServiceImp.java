@@ -3,14 +3,14 @@
 package com.ms.ware.online.solution.school.service.account;
 
 
+import com.ms.ware.online.solution.school.config.Message;
 import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
 import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.account.ChartOfAccountDao;
-import com.ms.ware.online.solution.school.dao.account.ChartOfAccountDaoImp;
 import com.ms.ware.online.solution.school.entity.account.ChartOfAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ms.ware.online.solution.school.config.Message;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,8 @@ public class ChartOfAccountServiceImp implements ChartOfAccountService {
 
     @Autowired
     private AuthenticationFacade facade;
-    ChartOfAccountDao da = new ChartOfAccountDaoImp();
+    @Autowired
+    private ChartOfAccountDao da;
     @Autowired
     private Message message;
     String msg = "", sql = "";
@@ -39,7 +40,8 @@ public class ChartOfAccountServiceImp implements ChartOfAccountService {
 
     @Override
     public Object save(ChartOfAccount obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid authorization");
         }
@@ -96,7 +98,8 @@ public class ChartOfAccountServiceImp implements ChartOfAccountService {
 
     @Override
     public Object update(ChartOfAccount obj) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }
@@ -116,7 +119,8 @@ public class ChartOfAccountServiceImp implements ChartOfAccountService {
 
     @Override
     public Object delete(String id) {
-        AuthenticatedUser td = facade.getAuthentication();;
+        AuthenticatedUser td = facade.getAuthentication();
+        ;
         if (!td.isStatus()) {
             return message.respondWithError("invalid token");
         }

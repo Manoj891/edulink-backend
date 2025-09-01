@@ -38,6 +38,8 @@ public class CashBillRestController {
     CashBillDao dao;
     @Autowired
     private Message message;
+    @Autowired
+    private VoucherEntry ve ;
     @GetMapping
     public Object index() {
         
@@ -99,7 +101,7 @@ public class CashBillRestController {
         String[] acCode = new String[detail.size() + 1], particular = new String[detail.size() + 1];
         double[] drAmount = new double[detail.size() + 1], crAmount = new double[detail.size() + 1];
         int i = 0;
-        VoucherEntry ve = new VoucherEntry();
+
         for (i = 0; i < detail.size(); i++) {
             detail.get(i).setBillNo(billNo);
             detail.get(i).setBillSn(i + 1);
@@ -143,9 +145,9 @@ public class CashBillRestController {
         String dateAd = DateConverted.bsToAd(date);
         String userName = td.getUserName();
         String sql = "SELECT ID id FROM fiscal_year WHERE '" + dateAd + "' BETWEEN START_DATE AND END_DATE;";
-        message.map = (Map) dao.getRecord(sql).get(0);
+        message.map =  dao.getRecord(sql).get(0);
         long fiscalYear = Long.parseLong(message.map.get("id").toString());
-        VoucherEntry ve = new VoucherEntry();
+
         List<CashBillDetail> detail = new ArrayList<>();
         CashBill cashBill = new CashBill();
         int count = 0;

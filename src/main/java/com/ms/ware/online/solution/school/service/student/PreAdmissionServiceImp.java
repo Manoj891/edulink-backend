@@ -23,6 +23,8 @@ public class PreAdmissionServiceImp implements PreAdmissionService {
     @Autowired
     private PreAdmissionDao da;
     @Autowired
+    private VoucherEntry ve;
+    @Autowired
     private Message message;
     String msg = "", sql;
     int row;
@@ -183,7 +185,7 @@ public class PreAdmissionServiceImp implements PreAdmissionService {
         double crAmount[] = {billAmount, 0};
 
         String narration = "Being cash Receive from " + studentName + " .";
-        VoucherEntry ve = new VoucherEntry();
+
         if (!ve.save(fiscalYear, date, enterBy, "BRV", narration, "", billNo, acCode, particular, drAmount, crAmount)) {
             sql = "DELETE FROM stu_billing_detail WHERE BILL_NO='" + billNo + "';";
             da.delete(sql);

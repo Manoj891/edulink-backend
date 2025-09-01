@@ -30,10 +30,11 @@ import java.util.Map;
 public class ReadDBStudentData {
     @Autowired
     private DB db;
-
+    @Autowired
+    private  StudentInfoDao da;
     public void doImport(String fileName) {
 
-        StudentInfoDao da = new StudentInfoDaoImp();
+
         String gender, sql;
         try {
             File file = new File(fileName);

@@ -35,6 +35,8 @@ public class StuBillingMasterRestController {
     private DB db;
     @Autowired
     private Message message;
+    @Autowired
+    private  VoucherEntry ve ;
     @GetMapping
     public Object index(@RequestParam(required = false) String regNo, @RequestParam String year, @RequestParam String month) {
         return service.getAll(regNo, year, month);
@@ -192,7 +194,7 @@ public class StuBillingMasterRestController {
             acCode[i] = cashAccount;
             particular[i] = "Being cash Receive from  (" + regNo + ")";
             crAmount[i] = totalAmount;
-            VoucherEntry ve = new VoucherEntry();
+
             String narration = "Being cash Receive from  (" + regNo + "), .";
             boolean veStatus = ve.save(fiscalYear, billDate, userName, "BRV", narration, "", billNo, acCode, particular, crAmount, drAmount);
             if (veStatus) {

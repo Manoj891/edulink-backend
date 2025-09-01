@@ -27,7 +27,8 @@ public class ReadLibraryData {
     @Autowired
     private DB db;
     public List<LibBookStock> bookStocks = new ArrayList<>();
-
+    @Autowired
+    private LibBookStockDao da;
     private Map<String, Object> map;
     String sql;
     List<SubjectMaster> subjectMasters = new ArrayList<>();
@@ -67,7 +68,7 @@ public class ReadLibraryData {
     }
 
     public void run(String fileName) {
-        LibBookStockDao da = new LibBookStockDaoImp();
+
         String bId, id, purchaseDate, name, publication, author, edition, rackNo;
         long subject, qty, bookId, program, classId;
         double price;

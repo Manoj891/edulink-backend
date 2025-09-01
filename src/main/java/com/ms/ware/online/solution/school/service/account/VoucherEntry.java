@@ -9,17 +9,23 @@ import com.ms.ware.online.solution.school.dao.account.VoucherDao;
 import com.ms.ware.online.solution.school.dao.account.VoucherDaoImp;
 import com.ms.ware.online.solution.school.entity.account.Voucher;
 import com.ms.ware.online.solution.school.entity.account.VoucherDetail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class VoucherEntry {
 
     String msg = "";
     String voucherNo;
+    @Autowired
+    private VoucherDao da;
 
     public boolean save(String enterDate, String enterBy, String voucherType, String narration, String chequeNo, String feeReceiptNo, String acCode[], String particular[], double drAmount[], double crAmount[]) {
-        VoucherDao da = new VoucherDaoImp();
+
         Voucher obj = new Voucher();
         List<VoucherDetail> l = new ArrayList();
         String sql;
