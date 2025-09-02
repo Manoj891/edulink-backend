@@ -34,7 +34,8 @@ public class PostHostelTransportationController {
 
     @PostMapping
     public ResponseEntity<String> save(@RequestBody HostelTransportation r) {
-        AuthenticatedUser user = facade.getAuthentication();;
+        AuthenticatedUser user = facade.getAuthentication();
+        ;
         String username = user.getUserName();
         String today = DateConverted.today();
         String effectDate = DateConverted.bsToAd(r.getYear() + "-" + r.getMonth() + "-01");
@@ -80,13 +81,19 @@ public class PostHostelTransportationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PostHostelTransportation>> index(@RequestParam(required = false) Long regNo, @RequestParam String year, @RequestParam String month, @RequestParam Long academicYear, @RequestParam Long program, @RequestParam Long classId) {
-        return ResponseEntity.status(HttpStatus.OK).body(getRecord(year, month, academicYear, program, classId));
+    public ResponseEntity<List<PostHostelTransportation>> index(@RequestParam(required = false) Long regNo, @RequestParam String year, @RequestParam String month, @RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long program, @RequestParam(required = false) Long classId) {
+        return ResponseEntity.status(HttpStatus.OK).body(getRecord(year, month, academicYear, program, classId, regNo));
     }
 
-    private List<PostHostelTransportation> getRecord(String year, String month, Long academicYear, Long program, Long classId) {
+    private List<PostHostelTransportation> getRecord(String year, String month, Long academicYear, Long program, Long classId, Long regNo) {
         List<PostHostelTransportation> data = new ArrayList<>();
-        String sql = "select s.id,s.stu_name name,s.subject_group subject_group,ifnull(t.status,'N') tStatus , ifnull(h.status,'N') hStatus,ifnull(t.monthly_charge,0) transportationCharge,ifnull(h.monthly_charge,0) hostelCharge from student_info s left join student_transportation t on s.id = t.reg_no left join school_hostal h on s.id = h.reg_no left join transportation_hostel_bill_generated g on s.id = g.reg_no and g.generated_month=" + year + month + " where academic_year = " + academicYear + " and s.class_id = " + classId + " and s.program = " + program + " and (t.status ='Y' or h.status ='Y') and ifnull(g.generated_month,0)!=" + year + month + " ";
+        String cond;
+        if(regNo == null) {
+            cond=" academic_year = " + academicYear + " and s.class_id = " + classId + " and s.program = " + program + " and ";
+        }else{
+         cond=" s.id=ifnull("+regNo+",s.id) and ";
+        }
+        String sql = "select s.id,s.stu_name name,s.subject_group subject_group,ifnull(t.status,'N') tStatus , ifnull(h.status,'N') hStatus,ifnull(t.monthly_charge,0) transportationCharge,ifnull(h.monthly_charge,0) hostelCharge from student_info s left join student_transportation t on s.id = t.reg_no left join school_hostal h on s.id = h.reg_no left join transportation_hostel_bill_generated g on s.id = g.reg_no and g.generated_month=" + year + month + " where  "+cond+" (t.status ='Y' or h.status ='Y') and ifnull(g.generated_month,0)!=" + year + month + " ";
         List<Map<String, Object>> list = da.getRecord(sql);
 
         list.forEach(s -> {
