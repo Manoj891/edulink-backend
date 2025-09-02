@@ -15,7 +15,7 @@ public class HostelTransportation {
     private long program;
     private long year;
     private String month;
-
+    private List<Integer> monthData;
     private List<PostHostelTransportation> detail;
 
     @Override

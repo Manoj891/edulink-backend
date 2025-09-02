@@ -7,6 +7,7 @@ import com.ms.ware.online.solution.school.dao.student.StudentTransportationDao;
 import com.ms.ware.online.solution.school.dto.HostelTransportation;
 import com.ms.ware.online.solution.school.dto.PostHostelTransportation;
 import com.ms.ware.online.solution.school.config.DateConverted;
+import com.ms.ware.online.solution.school.exception.CustomException;
 import com.ms.ware.online.solution.school.model.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -15,10 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("api/billing/post-hostel-transportation")
@@ -35,48 +33,56 @@ public class PostHostelTransportationController {
     @PostMapping
     public ResponseEntity<String> save(@RequestBody HostelTransportation r) {
         AuthenticatedUser user = facade.getAuthentication();
-        ;
         String username = user.getUserName();
         String today = DateConverted.today();
         String effectDate = DateConverted.bsToAd(r.getYear() + "-" + r.getMonth() + "-01");
         String sql = "select id from fiscal_year where '" + today + "' between start_date and end_date";
         long fiscalYear = Long.parseLong(db.getRecord(sql).get(0).get("id").toString());
-        r.getDetail().forEach(d -> generate(effectDate, today, fiscalYear, r.getAcademicYear(), r.getClassId(), r.getProgram(), r.getYear(), r.getMonth(), d, username));
+        r.getDetail().forEach(d -> generate(effectDate, today, fiscalYear, r.getAcademicYear(), r.getClassId(), r.getProgram(), r.getYear(), r.getMonth(), d, r.getMonthData(), username));
         return ResponseEntity.status(HttpStatus.OK).body("{\"message\":\"Success\"}");
     }
 
-    private void generate(String effectDate, String today, long fiscalYear, long academicYear, long classId, long program, long year, String month, PostHostelTransportation d, String enterBy) {
+    private void generate(String effectDate, String today, long fiscalYear, long academicYear, long classId, long program, long year, String month, PostHostelTransportation d, List<Integer> monthData, String enterBy) {
         Session session = util.getSession();
         Transaction tr = session.beginTransaction();
-        String sql = "SELECT IFNULL(max(BILL_SN),0)+1 AS billSn FROM stu_billing_master WHERE FISCAL_YEAR='" + fiscalYear + "' AND BILL_TYPE='CR'";
-        Map<String, Object> map = da.getRecord(sql).get(0);
-        long billSn = Long.parseLong(map.get("billSn").toString());
-        String billNo;
-        if (billSn < 10) {
-            billNo = "CR" + fiscalYear + "000" + billSn;
-        } else if (billSn < 100) {
-            billNo = "CR" + fiscalYear + "00" + billSn;
-        } else if (billSn < 1000) {
-            billNo = "CR" + fiscalYear + "0" + billSn;
-        } else {
-            billNo = "CR" + fiscalYear + billSn;
+        if (monthData.isEmpty()) {
+            monthData = List.of(Integer.parseInt(month));
         }
         try {
-            sql = "INSERT INTO stu_billing_master(BILL_NO,BILL_SN,BILL_TYPE,REG_NO,ACADEMIC_YEAR,PROGRAM,CLASS_ID,SUBJECT_GROPU,FISCAL_YEAR,ENTER_BY,ENTER_DATE,APPROVE_BY,APPROVE_DATE,AUTO_GENERATE) VALUES('" + billNo + "'," + billSn + ",'CR', '" + d.getId() + "', '" + academicYear + "'," + program + ",'" + classId + "','" + d.getGroup() + "','" + fiscalYear + "','" + enterBy + "','" + today + "','" + enterBy + "','" + today + "','N')";
-            session.createSQLQuery(sql).executeUpdate();
-            if (d.getTransportationAmount() > 0) {
-                sql = "INSERT INTO stu_billing_detail(BILL_NO,BILL_SN,REG_NO,BILL_ID,ACADEMIC_YEAR,PROGRAM,CLASS_ID,CR,DR,PAYMENT_DATE) VALUES('" + billNo + "',1," + d.getId() + ",-1," + academicYear + "," + program + "," + classId + "," + d.getTransportationAmount() + ",0,'" + effectDate + "')";
+            for (Integer monthDatum : monthData) {
+                month = monthDatum < 10 ? "0" + monthDatum : monthDatum + "";
+
+                String sql = "SELECT IFNULL(max(BILL_SN),0)+1 AS billSn FROM stu_billing_master WHERE FISCAL_YEAR='" + fiscalYear + "' AND BILL_TYPE='CR'";
+                Map<String, Object> map = da.getRecord(sql).get(0);
+                long billSn = Long.parseLong(map.get("billSn").toString());
+                String billNo;
+                if (billSn < 10) {
+                    billNo = "CR" + fiscalYear + "000" + billSn;
+                } else if (billSn < 100) {
+                    billNo = "CR" + fiscalYear + "00" + billSn;
+                } else if (billSn < 1000) {
+                    billNo = "CR" + fiscalYear + "0" + billSn;
+                } else {
+                    billNo = "CR" + fiscalYear + billSn;
+                }
+
+                sql = "INSERT INTO stu_billing_master(BILL_NO,BILL_SN,BILL_TYPE,REG_NO,ACADEMIC_YEAR,PROGRAM,CLASS_ID,SUBJECT_GROPU,FISCAL_YEAR,ENTER_BY,ENTER_DATE,APPROVE_BY,APPROVE_DATE,AUTO_GENERATE) VALUES('" + billNo + "'," + billSn + ",'CR', '" + d.getId() + "', '" + academicYear + "'," + program + ",'" + classId + "','" + d.getGroup() + "','" + fiscalYear + "','" + enterBy + "','" + today + "','" + enterBy + "','" + today + "','N')";
+                session.createSQLQuery(sql).executeUpdate();
+                if (d.getTransportationAmount() > 0) {
+                    sql = "INSERT INTO stu_billing_detail(BILL_NO,BILL_SN,REG_NO,BILL_ID,ACADEMIC_YEAR,PROGRAM,CLASS_ID,CR,DR,PAYMENT_DATE) VALUES('" + billNo + "',1," + d.getId() + ",-1," + academicYear + "," + program + "," + classId + "," + d.getTransportationAmount() + ",0,'" + effectDate + "')";
+                    session.createSQLQuery(sql).executeUpdate();
+                }
+                if (d.getHostelAmount() > 0) {
+                    sql = "INSERT INTO stu_billing_detail(BILL_NO,BILL_SN,REG_NO,BILL_ID,ACADEMIC_YEAR,PROGRAM,CLASS_ID,CR,DR,PAYMENT_DATE) VALUES('" + billNo + "',1," + d.getId() + ",-2," + academicYear + "," + program + "," + classId + "," + d.getHostelAmount() + ",0,'" + effectDate + "')";
+                    session.createSQLQuery(sql).executeUpdate();
+                }
+                sql = "insert into transportation_hostel_bill_generated(id, generated_month,reg_no, hostel_amount,  transportation_amount) values ('" + UUID.randomUUID() + "'," + year + month + "," + d.getId() + "," + d.getHostelAmount() + "," + d.getTransportationAmount() + ")";
                 session.createSQLQuery(sql).executeUpdate();
             }
-            if (d.getHostelAmount() > 0) {
-                sql = "INSERT INTO stu_billing_detail(BILL_NO,BILL_SN,REG_NO,BILL_ID,ACADEMIC_YEAR,PROGRAM,CLASS_ID,CR,DR,PAYMENT_DATE) VALUES('" + billNo + "',1," + d.getId() + ",-2," + academicYear + "," + program + "," + classId + "," + d.getHostelAmount() + ",0,'" + effectDate + "')";
-                session.createSQLQuery(sql).executeUpdate();
-            }
-            sql = "insert into transportation_hostel_bill_generated(id, generated_month,reg_no, hostel_amount,  transportation_amount) values ('" + UUID.randomUUID() + "'," + year + month + "," + d.getId() + "," + d.getHostelAmount() + "," + d.getTransportationAmount() + ")";
-            session.createSQLQuery(sql).executeUpdate();
             tr.commit();
         } catch (Exception e) {
             tr.rollback();
+            throw new CustomException(e.getMessage());
         }
     }
 
@@ -88,12 +94,12 @@ public class PostHostelTransportationController {
     private List<PostHostelTransportation> getRecord(String year, String month, Long academicYear, Long program, Long classId, Long regNo) {
         List<PostHostelTransportation> data = new ArrayList<>();
         String cond;
-        if(regNo == null) {
-            cond=" academic_year = " + academicYear + " and s.class_id = " + classId + " and s.program = " + program + " and ";
-        }else{
-         cond=" s.id=ifnull("+regNo+",s.id) and ";
+        if (regNo == null) {
+            cond = " academic_year = " + academicYear + " and s.class_id = " + classId + " and s.program = " + program + " and ";
+        } else {
+            cond = " s.id=ifnull(" + regNo + ",s.id) and ";
         }
-        String sql = "select s.id,s.stu_name name,s.subject_group subject_group,ifnull(t.status,'N') tStatus , ifnull(h.status,'N') hStatus,ifnull(t.monthly_charge,0) transportationCharge,ifnull(h.monthly_charge,0) hostelCharge from student_info s left join student_transportation t on s.id = t.reg_no left join school_hostal h on s.id = h.reg_no left join transportation_hostel_bill_generated g on s.id = g.reg_no and g.generated_month=" + year + month + " where  "+cond+" (t.status ='Y' or h.status ='Y') and ifnull(g.generated_month,0)!=" + year + month + " ";
+        String sql = "select s.id,s.stu_name name,s.subject_group subject_group,ifnull(t.status,'N') tStatus , ifnull(h.status,'N') hStatus,ifnull(t.monthly_charge,0) transportationCharge,ifnull(h.monthly_charge,0) hostelCharge from student_info s left join student_transportation t on s.id = t.reg_no left join school_hostal h on s.id = h.reg_no left join transportation_hostel_bill_generated g on s.id = g.reg_no and g.generated_month=" + year + month + " where  " + cond + " (t.status ='Y' or h.status ='Y') and ifnull(g.generated_month,0)!=" + year + month + " ";
         List<Map<String, Object>> list = da.getRecord(sql);
 
         list.forEach(s -> {
