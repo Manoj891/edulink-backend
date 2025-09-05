@@ -49,6 +49,8 @@ public class OrganizationMaster implements java.io.Serializable {
     private String biometricDataId;
     @Column(name = "BIOMETRIC_DATA_URL", insertable = false, updatable = false)
     private String biometricDataUrl;
+    @Column(name = "organization_name")
+    private String organizationName;
 
     @Column(name = "SMS_SEND_API", updatable = false, insertable = false)
     private String smsSendApi;
