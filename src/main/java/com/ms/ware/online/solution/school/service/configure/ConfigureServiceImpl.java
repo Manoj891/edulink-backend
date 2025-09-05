@@ -8,26 +8,16 @@ package com.ms.ware.online.solution.school.service.configure;
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
 import com.ms.ware.online.solution.school.config.Message;
-import com.ms.ware.online.solution.school.model.DatabaseName;
-import com.ms.ware.online.solution.school.model.HibernateUtil;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.PostConstruct;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 @Service
 public class ConfigureServiceImpl implements ConfigureService {
     @Autowired
     private DistrictMunicipalData data;
-     @Autowired
+    @Autowired
     private DB db;
     @Autowired
     private Message message;
