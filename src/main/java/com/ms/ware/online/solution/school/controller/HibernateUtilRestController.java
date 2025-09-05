@@ -30,22 +30,12 @@ public class HibernateUtilRestController {
         return message.respondWithMessage("Success");
     }
 
-    @PostMapping("configure/database")
-    public Object databaseConfigure(@RequestParam String dbUser, @RequestParam String dbPassword) {
-        return configure.databaseConfigure(dbUser, dbPassword);
-    }
 
     @PostMapping("configure/district-municipal")
     public Object configureDistrictMunicipality() {
         configure.configureDistrictMunicipality();
         return message.respondWithMessage("Success");
     }
-
-    @PostMapping("configure/calender")
-    public Object configureCalender() {
-        return configure.configureCalender();
-    }
-
 
     @GetMapping("/hibernate-util")
     public Object get() {

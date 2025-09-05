@@ -14,8 +14,6 @@ public class DistrictMunicipalData {
     @Autowired
     private DB db;
     void setDistrict() {
-
-       
         String sql = "INSERT INTO district_master (ID, NAME, PROVINCE) 	VALUES (1, 'TAPLEJUNG', 1);"
                 + "INSERT INTO district_master (ID, NAME, PROVINCE) VALUES (2, 'PANCHTHAR', 1);"
                 + "INSERT INTO district_master (ID, NAME, PROVINCE) VALUES (3, 'ILAM', 1);"

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.PostConstruct;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -26,69 +27,17 @@ import java.util.Date;
 public class ConfigureServiceImpl implements ConfigureService {
     @Autowired
     private DistrictMunicipalData data;
-    @Autowired
-    private HibernateUtil util;
-    @Autowired
+     @Autowired
     private DB db;
     @Autowired
     private Message message;
+
 
     @Override
     public void functionConfigure() {
         function();
     }
 
-    @Override
-    public Object databaseConfigure(@RequestParam String dbUser, @RequestParam String dbPassword) {
-        String msg = "";
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            java.sql.Connection con = java.sql.DriverManager.getConnection("jdbc:mysql://localhost:" + DatabaseName.getPort() + "/mysql", dbUser, dbPassword);
-            String sql;
-
-            sql = "CREATE USER '" + DatabaseName.getUsername() + "'@'localhost' IDENTIFIED BY '" + DatabaseName.getPassword() + "';";
-            PreparedStatement ps = con.prepareStatement(sql);
-            try {
-                ps.executeUpdate();
-                System.out.println("Success " + sql);
-            } catch (Exception e) {
-            }
-            sql = "GRANT ALL PRIVILEGES ON *.* TO '" + DatabaseName.getUsername() + "'@'localhost';";
-            try {
-                ps.executeUpdate(sql);
-                System.out.println("Success " + sql);
-            } catch (Exception e) {
-                msg = e.getMessage();
-
-            }
-            sql = "CREATE DATABASE " + DatabaseName.getDatabase();
-            try {
-                ps.executeUpdate(sql);
-                System.out.println("Success " + sql);
-            } catch (Exception e) {
-                msg = e.getMessage();
-
-            }
-            con = java.sql.DriverManager.getConnection("jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase(), DatabaseName.getUsername(), DatabaseName.getPassword());
-            sql = "CREATE TABLE temp_not_import (`ID` BIGINT, `MSG` TEXT);";
-            ps = con.prepareStatement(sql);
-            try {
-                ps.executeUpdate();
-            } catch (Exception e) {
-                msg = e.getMessage();
-
-            }
-            ps.close();
-            con.close();
-            util.init();
-
-            function();
-            configure();
-        } catch (Exception e) {
-            return message.respondWithError(e.getMessage());
-        }
-        return message.respondWithMessage("Success");
-    }
 
     @Override
     public void configureDistrictMunicipality() {
@@ -270,9 +219,7 @@ public class ConfigureServiceImpl implements ConfigureService {
         sql = "INSERT INTO sundry_creditors (ID, AC_CODE, ADDRESS, CONTACT_NO, NAME, PAN_VAT_NO) VALUES (-1, '1', '', '', 'Student inventory Issue', '');"
                 + "INSERT INTO sundry_creditors (ID, AC_CODE, ADDRESS, CONTACT_NO, NAME, PAN_VAT_NO) VALUES (0, '101', '', '', 'Direct Purchase', '');";
         db.save(sql);
-        sql = "INSERT INTO purchase_order (ORDER_NO, APPROVE_BY, APPROVE_DATE, ENTER_BY, ENTER_DATE, FISCAL_YEAR, NARRATION, ORDER_SN, STATUS, SUPPLIER, WITHIN_DATE) VALUES (-1, '', '2020-03-08', '', '2020-03-08', 7677, '', 1, 'A', -1, '2020-03-08');\n"
-                + "INSERT INTO purchase_order (ORDER_NO, APPROVE_BY, APPROVE_DATE, ENTER_BY, ENTER_DATE, FISCAL_YEAR, NARRATION, ORDER_SN, STATUS, SUPPLIER, WITHIN_DATE) VALUES (0, '', '2020-03-08', '', '2020-03-08', 7677, '', 1, 'A', 0, '2020-03-08');";
-        db.save(sql);
+
         sql = "alter table stu_billing_master add unique key(REFERENCE_ID,REG_NO)";
         db.save(sql);
         sql = "delete from menu_user_access;\n" +
@@ -550,85 +497,11 @@ public class ConfigureServiceImpl implements ConfigureService {
         System.gc();
     }
 
-    @Override
-    public Object configureCalender() {
-        java.sql.Connection con = null;
-
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            con = java.sql.DriverManager.getConnection("jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase(), DatabaseName.getUsername(), DatabaseName.getPassword());
-            String sql;
-            sql = "select ifnull(max(ad_date),'') from ad_bs_calender ";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            rs.next();
-            String date = rs.getString(1);
-            con.close();
-            ps.close();
-            rs.close();
-            return message.respondWithMessage(date + " till imported!! ");
-
-        } catch (Exception e) {
-            System.out.println(e);
-            try {
-                con.close();
-            } catch (Exception ex) {
-            }
-        }
-        return message.respondWithMessage("Database configuration starting");
-    }
 
     @Override
-    public Object calender() {
-
-        StringBuilder sql;
-
-        Date date = DateConverted.toDate("1943-04-14");
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        String adDate, bsDate;
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat day = new SimpleDateFormat("EEE");
-
-        try {
-            Runtime.getRuntime().gc();
-        } catch (Exception ignored) {
-        }
-
-        int row = 0;
-        sql = new StringBuilder();
-        while (true) {
-            c.add(Calendar.DATE, 1);
-            date = c.getTime();
-            adDate = df.format(c.getTime());
-            bsDate = DateConverted.adToBs(adDate);
-            try {
-                if (bsDate.contains("01-01")) {
-                    row = row + db.save(sql.toString());
-                    sql = new StringBuilder();
-
-                    try {
-                        Runtime.getRuntime().gc();
-                    } catch (Exception e) {
-                    }
-                }
-                sql.append("\nINSERT INTO ad_bs_calender (AD_DATE,BS_DATE,DAY) VALUES ('").append(adDate).append("', '").append(bsDate).append("', '").append(day.format(date)).append("');");
-
-                if (adDate.equalsIgnoreCase("2034-04-13")) {
-                    row = row + db.save(sql.toString());
-                    break;
-                }
-            } catch (Exception e) {
-            }
-        }
-        return message.respondWithMessage(adDate + "Till Created!!");
-    }
-
-    @Override
-    public Object districtConfig() {
-        new DistrictMunicipalData().setDistrict();
-        new DistrictMunicipalData().setMunicipal();
+    public String districtConfig() {
+        data.setDistrict();
+        data.setMunicipal();
         return message.respondWithMessage("Success");
     }
 

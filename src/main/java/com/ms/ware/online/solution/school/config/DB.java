@@ -25,7 +25,7 @@ public class DB {
     public int save(String sql) {
         Session session = util.getSession();
         Transaction tr = session.beginTransaction();
-        int a;
+        int a=0;
         try {
             a = session.createSQLQuery(sql).executeUpdate();
             tr.commit();
@@ -34,7 +34,8 @@ public class DB {
         } catch (Exception e) {
             tr.rollback();
             session.close();
-            throw new PersistenceException();
+            System.out.println(e.getMessage());
+//            throw new PersistenceException();
         }
 
         return a;
