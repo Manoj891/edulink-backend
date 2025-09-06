@@ -7,11 +7,12 @@ package com.ms.ware.online.solution.school.service.configure;
 
 import com.ms.ware.online.solution.school.config.DB;
 import com.ms.ware.online.solution.school.config.DateConverted;
-import com.ms.ware.online.solution.school.config.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ConfigureServiceImpl implements ConfigureService {
@@ -19,9 +20,19 @@ public class ConfigureServiceImpl implements ConfigureService {
     private DistrictMunicipalData data;
     @Autowired
     private DB db;
-    @Autowired
-    private Message message;
 
+    @Override
+    public boolean configured() {
+        try {
+            List<Map<String, Object>> list = db.getRecord("select * from organization_user_info where id=1");
+            if (!list.isEmpty()) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     @Override
     public void configure() {
@@ -355,7 +366,7 @@ public class ConfigureServiceImpl implements ConfigureService {
     }
 
     @Override
-    public void function() {
+    public void functionConfig() {
         String sql;
 
         System.gc();
@@ -474,10 +485,9 @@ public class ConfigureServiceImpl implements ConfigureService {
 
 
     @Override
-    public String districtConfig() {
+    public void districtConfig() {
         data.setDistrict();
         data.setMunicipal();
-        return message.respondWithMessage("Success");
     }
 
 }

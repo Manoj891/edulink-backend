@@ -44,12 +44,18 @@ public class SmsService {
     private EmailService emailService;
     @Autowired
     private HibernateUtil util;
+    @Autowired
+    private ConfigureService configureService;
 
     @PostConstruct
     public void setConfigured() {
-
         BikramSambatConverter.set();
         util.init();
+        if (!configureService.configured()) {
+            configureService.configure();
+            configureService.districtConfig();
+            configureService.functionConfig();
+        }
         new Thread(() -> {
 
             emailService.init();
