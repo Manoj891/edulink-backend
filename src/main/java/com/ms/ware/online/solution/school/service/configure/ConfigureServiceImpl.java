@@ -386,8 +386,7 @@ public class ConfigureServiceImpl implements ConfigureService {
         db.save(sql);
         sql = "DROP FUNCTION IF EXISTS GET_PAID_AMOUNT;";
         db.save(sql);
-        sql = "DROP FUNCTION GET_EMPLOYEE_ID;";
-        db.save(sql);
+
         sql = "DROP FUNCTION GET_MALE_FEMALE;";
         db.save(sql);
         sql = " CREATE FUNCTION GET_AD_DATE \n"
@@ -398,8 +397,9 @@ public class ConfigureServiceImpl implements ConfigureService {
                 + "SELECT AD_DATE INTO AD FROM ad_bs_calender WHERE BS_DATE=BS;\n"
                 + " RETURN AD;\n"
                 + "END;";
-        db.save(sql);
         System.out.println(sql);
+        db.save(sql);
+
         sql = " CREATE FUNCTION GET_BS_DATE \n"
                 + "(AD DATE) \n"
                 + " RETURNS varchar(10) CHARSET latin1 \n"
@@ -408,8 +408,9 @@ public class ConfigureServiceImpl implements ConfigureService {
                 + "SELECT BS_DATE INTO BS FROM ad_bs_calender WHERE AD_DATE=AD;\n"
                 + " RETURN BS;       \n"
                 + "END  ;";
-        db.save(sql);
         System.out.println(sql);
+        db.save(sql);
+
         sql = " CREATE FUNCTION GET_CR_BALANCE \n"
                 + "(acCode VARCHAR(30), dateFrom DATE, dateTo DATE) \n"
                 + " RETURNS double \n"
@@ -417,8 +418,9 @@ public class ConfigureServiceImpl implements ConfigureService {
                 + " SELECT SUM(IFNULL(CR_AMT,0)) INTO balance FROM ledger WHERE CONCAT(AC_CODE,'') LIKE CONCAT(acCode,'%') AND ENTER_DATE >=dateFrom AND ENTER_DATE<=dateTo;\n"
                 + " RETURN ROUND(IFNULL(balance,0),2);\n"
                 + " END; ";
-        db.save(sql);
         System.out.println(sql);
+        db.save(sql);
+
         sql = "  CREATE FUNCTION GET_DR_BALANCE \n"
                 + "(acCode VARCHAR(30), dateFrom DATE, dateTo DATE) \n"
                 + " RETURNS double \n"
@@ -426,8 +428,9 @@ public class ConfigureServiceImpl implements ConfigureService {
                 + "SELECT SUM(IFNULL(DR_AMT,0)) INTO balance FROM ledger WHERE CONCAT(AC_CODE,'') LIKE CONCAT(acCode,'%') AND ENTER_DATE >=dateFrom AND ENTER_DATE<=dateTo; \n"
                 + "RETURN ROUND(IFNULL(balance,0),2);\n"
                 + "END ;";
-        db.save(sql);
         System.out.println(sql);
+        db.save(sql);
+
         sql = "CREATE FUNCTION GET_DUE_BALANCE \n"
                 + "(regNo BIGINT,billType VARCHAR(3),paymentDate DATE) \n"
                 + " RETURNS double \n"
@@ -436,8 +439,9 @@ public class ConfigureServiceImpl implements ConfigureService {
                 + "RETURN ROUND(IFNULL(balance,0),2);\n"
                 + "END;";
 
-        db.save(sql);
         System.out.println(sql);
+        db.save(sql);
+
         sql = " CREATE FUNCTION GET_OPENING_BALANCE \n"
                 + "(acCode VARCHAR(30), dateFrom DATE) \n"
                 + " RETURNS double \n"
@@ -445,8 +449,9 @@ public class ConfigureServiceImpl implements ConfigureService {
                 + "SELECT SUM(IFNULL(DR_AMT,0))-SUM(IFNULL(CR_AMT,0)) INTO balance FROM ledger WHERE CONCAT(AC_CODE,'') LIKE CONCAT(acCode,'%') AND ENTER_DATE < dateFrom; \n"
                 + "RETURN ROUND(IFNULL(balance,0),2);\n"
                 + "END;";
-        db.save(sql);
         System.out.println(sql);
+        db.save(sql);
+
         sql = " CREATE FUNCTION GET_PAID_AMOUNT \n"
                 + "(regNo BIGINT,feeId BIGINT,classId BIGINT,academicYear BIGINT) \n"
                 + " RETURNS double \n"
@@ -456,18 +461,10 @@ public class ConfigureServiceImpl implements ConfigureService {
                 + "AND D.CLASS_ID=IFNULL(classId,D.CLASS_ID) AND D.ACADEMIC_YEAR=IFNULL(academicYear,D.ACADEMIC_YEAR);\n"
                 + "RETURN ROUND(IFNULL(balance,0),2);\n"
                 + "END;";
-        db.save(sql);
         System.out.println(sql);
-        sql = "CREATE FUNCTION GET_EMPLOYEE_ID\n"
-                + "(companyId BIGINT,deviceId BIGINT)\n"
-                + "RETURNS BIGINT\n"
-                + "BEGIN\n"
-                + " DECLARE empId BIGINT;\n"
-                + "SELECT id INTO empId FROM employee_info WHERE `BIOMETRIC_COMPANY_ID`=companyId AND `BIOMETRIC_EMP_ID`=deviceId;\n"
-                + " RETURN empId;\n"
-                + "END;";
         db.save(sql);
-        System.out.println(sql);
+
+
         sql = "CREATE FUNCTION GET_MALE_FEMALE\n"
                 + "(vAcademicYear BIGINT,vProgram BIGINT,vClassId BIGINT,vCast BIGINT)\n"
                 + "RETURNS varchar(25) CHARSET latin1\n"
@@ -478,8 +475,9 @@ public class ConfigureServiceImpl implements ConfigureService {
                 + "SELECT COUNT(ID) INTO F FROM student_info where ACADEMIC_YEAR=IFNULL(vAcademicYear,ACADEMIC_YEAR) AND PROGRAM=IFNULL(vProgram,PROGRAM) AND CLASS_ID=IFNULL(vClassId,CLASS_ID) AND IFNULL(CAST_ETHNICITY,0)=IFNULL(vCast,IFNULL(CAST_ETHNICITY,0)) AND GENDER='F';\n"
                 + "RETURN CONCAT(IFNULL(M,0),',',IFNULL(F,0));\n"
                 + "END;";
-        db.save(sql);
         System.out.println(sql);
+        db.save(sql);
+
         System.gc();
     }
 
