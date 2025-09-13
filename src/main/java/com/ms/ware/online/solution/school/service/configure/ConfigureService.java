@@ -1,15 +1,13 @@
 package com.ms.ware.online.solution.school.service.configure;
 
 public interface ConfigureService {
-    void functionConfigure();
 
-    void configureDistrictMunicipality();
+    boolean configured();
 
     void configure();
 
-    void function();
+    void functionConfig();
 
-
-    String districtConfig();
+    void districtConfig();
 
 }

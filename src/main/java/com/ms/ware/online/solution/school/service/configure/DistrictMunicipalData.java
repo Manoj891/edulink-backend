@@ -91,6 +91,7 @@ public class DistrictMunicipalData {
                 + "INSERT INTO district_master (ID, NAME, PROVINCE) VALUES (76, 'DARCHULA', 7);"
                 + "INSERT INTO district_master (ID, NAME, PROVINCE) VALUES (77, 'NAWALPARASI WEST', 5);"
                 + "INSERT INTO district_master (ID, NAME, PROVINCE) VALUES (78, 'RUKUM WEST', 6);";
+        System.out.println(sql);
         db.save(sql);
     }
 
@@ -1609,6 +1610,7 @@ public class DistrictMunicipalData {
                 + "	VALUES (754, 'YANGBARAK RURAL MUNICIPALITY', 'PANCHTHAR');"
                 + "INSERT INTO municipal_master (ID, NAME, DISTRICT)"
                 + "	VALUES (755, 'YASHODHARA RURAL MUNICIPALITY', 'KAPILBASTU');";
+        System.out.println(sql);
         db.save(sql);
     }
 }
