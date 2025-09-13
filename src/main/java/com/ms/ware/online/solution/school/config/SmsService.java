@@ -47,7 +47,6 @@ public class SmsService {
 
     @PostConstruct
     public void setConfigured() {
-
         BikramSambatConverter.set();
         util.init();
         new Thread(() -> {

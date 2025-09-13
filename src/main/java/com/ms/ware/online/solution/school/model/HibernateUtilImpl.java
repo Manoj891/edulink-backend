@@ -23,11 +23,18 @@ import java.util.Properties;
 public class HibernateUtilImpl implements HibernateUtil {
     private SessionFactory sessionFactory;
 
+
     //CREATE USER 'schoolking'@'localhost' IDENTIFIED BY 'SchoolKing@123';
 //GRANT ALL PRIVILEGES ON * . * TO 'schoolking'@'localhost';
     @Override
-    public void init() {
-        String url = "jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase() + "?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false";
+    public synchronized void init() {
+        try {
+            if (sessionFactory != null && !sessionFactory.isClosed()) {
+                return;
+            }
+        } catch (Exception ignored) {
+        }
+        String url = "jdbc:mysql://localhost:" + DatabaseName.getPort() + "/" + DatabaseName.getDatabase() + "?allowPublicKeyRetrieval=true&useSSL=false&autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true";
         Properties prop = new Properties();
         prop.setProperty("hibernate.show_sql", "true");
         prop.setProperty("hibernate.format_sql", "false");
@@ -37,115 +44,121 @@ public class HibernateUtilImpl implements HibernateUtil {
         prop.setProperty("hibernate.connection.username", DatabaseName.getUsername());
         prop.setProperty("hibernate.connection.password", DatabaseName.getPassword());
         prop.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
-        prop.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "true"); // set true if not sure
+        prop.setProperty("hibernate.temp.use_jdbc_metadata_defaults", "true");
         prop.setProperty("javax.persistence.validation.mode", "none");
+        final Configuration configuration = new Configuration();
+        configuration.addProperties(prop);
+        // ✅ Register all annotated classes here
+        configuration.addAnnotatedClass(OnlineClass.class);
+        configuration.addAnnotatedClass(Routing.class);
+        configuration.addAnnotatedClass(OrganizationTeam.class);
+        configuration.addAnnotatedClass(OnlineAdmission.class);
+        configuration.addAnnotatedClass(AboutApp.class);
+        configuration.addAnnotatedClass(EmployeeAttendance.class);
+        configuration.addAnnotatedClass(MenuMaster.class);
+        configuration.addAnnotatedClass(MenuUserAccess.class);
+        configuration.addAnnotatedClass(EmpLevelMaster.class);
+        configuration.addAnnotatedClass(DepartmentMaster.class);
+        configuration.addAnnotatedClass(CashBill.class);
+        configuration.addAnnotatedClass(CashBillDetail.class);
+        configuration.addAnnotatedClass(CastEthnicityMaster.class);
+        configuration.addAnnotatedClass(AdBsCalender.class);
+        configuration.addAnnotatedClass(BusMaster.class);
+        configuration.addAnnotatedClass(BusStationTime.class);
+        configuration.addAnnotatedClass(ReligionMaster.class);
+        configuration.addAnnotatedClass(OrganizationMaster.class);
+        configuration.addAnnotatedClass(OrganizationUserInfo.class);
+        configuration.addAnnotatedClass(ProgramMaster.class);
+        configuration.addAnnotatedClass(BillMaster.class);
+        configuration.addAnnotatedClass(SubjectMaster.class);
+        configuration.addAnnotatedClass(SubjectGroup.class);
+        configuration.addAnnotatedClass(SubjectGroupDetail.class);
+        configuration.addAnnotatedClass(AcademicYear.class);
+        configuration.addAnnotatedClass(DistrictMaster.class);
+        configuration.addAnnotatedClass(MunicipalMaster.class);
+        configuration.addAnnotatedClass(ClassMaster.class);
+        configuration.addAnnotatedClass(SchoolClassSession.class);
+        configuration.addAnnotatedClass(SchoolClassSessionBillDate.class);
+        configuration.addAnnotatedClass(FeeSetup.class);
+        configuration.addAnnotatedClass(ChartOfAccount.class);
+        configuration.addAnnotatedClass(FiscalYear.class);
+        configuration.addAnnotatedClass(StuBillingMaster.class);
+        configuration.addAnnotatedClass(StuBillingDetail.class);
+        configuration.addAnnotatedClass(PreAdmission.class);
+        configuration.addAnnotatedClass(StudentInfo.class);
+        configuration.addAnnotatedClass(ClassTransfer.class);
+        configuration.addAnnotatedClass(Voucher.class);
+        configuration.addAnnotatedClass(VoucherDetail.class);
+        configuration.addAnnotatedClass(VoucherDelete.class);
+        configuration.addAnnotatedClass(Ledger.class);
+        configuration.addAnnotatedClass(ExamTerminal.class);
+        configuration.addAnnotatedClass(ExamMaster.class);
+        configuration.addAnnotatedClass(GradingSystem.class);
+        configuration.addAnnotatedClass(GradingSystemTwo.class);
+        configuration.addAnnotatedClass(ExamStudentRegistration.class);
+        configuration.addAnnotatedClass(ExamMarkEntry.class);
+        configuration.addAnnotatedClass(ExamResultPublish.class);
+        configuration.addAnnotatedClass(ExamResultPublishSubject.class);
+        configuration.addAnnotatedClass(StudentTransportation.class);
+        configuration.addAnnotatedClass(SchoolHostal.class);
+        configuration.addAnnotatedClass(SundryCreditors.class);
+        configuration.addAnnotatedClass(PurchaseOrder.class);
+        configuration.addAnnotatedClass(PurchaseOrderDetail.class);
+        configuration.addAnnotatedClass(InventoryLedger.class);
+        configuration.addAnnotatedClass(BusStationMaster.class);
+        configuration.addAnnotatedClass(HostalTypeMaster.class);
+        configuration.addAnnotatedClass(NoticeBoard.class);
+        configuration.addAnnotatedClass(StudentAttendance.class);
+        configuration.addAnnotatedClass(TeachersClassSubject.class);
+        configuration.addAnnotatedClass(TeachersHomework.class);
+        configuration.addAnnotatedClass(StudentHomework.class);
+        configuration.addAnnotatedClass(PreviousEducation.class);
+        configuration.addAnnotatedClass(Annex4bMaster.class);
+        configuration.addAnnotatedClass(Annex4bDetail.class);
+        configuration.addAnnotatedClass(LibBookType.class);
+        configuration.addAnnotatedClass(LibBookStock.class);
+        configuration.addAnnotatedClass(LibBookIssue.class);
+        configuration.addAnnotatedClass(BookRemoved.class);
+        configuration.addAnnotatedClass(UploadTeachersVideo.class);
+        configuration.addAnnotatedClass(BillingDeleteMaster.class);
+        configuration.addAnnotatedClass(BillingDeleteDetail.class);
+        configuration.addAnnotatedClass(EmployeeInfo.class);
+        configuration.addAnnotatedClass(OnlineVacancy.class);
+        configuration.addAnnotatedClass(EmpWorkingHour.class);
+        configuration.addAnnotatedClass(TaxSlab.class);
+        configuration.addAnnotatedClass(EmployeeSalaryInfo.class);
+        configuration.addAnnotatedClass(LeaveApplication.class);
+        configuration.addAnnotatedClass(EmpLeaveDetail.class);
+        configuration.addAnnotatedClass(EmpMonthlySalary.class);
+        configuration.addAnnotatedClass(PercentageSystem.class);
+        configuration.addAnnotatedClass(AllowanceMaster.class);
+        configuration.addAnnotatedClass(MonthlyAllowance.class);
+        configuration.addAnnotatedClass(RegularAllowance.class);
+        configuration.addAnnotatedClass(CharacterIssue.class);
+        configuration.addAnnotatedClass(EmailNotificationService.class);
+        configuration.addAnnotatedClass(ShareHolder.class);
+        configuration.addAnnotatedClass(SmsCreditAmount.class);
+        configuration.addAnnotatedClass(SentSms.class);
+        configuration.addAnnotatedClass(SenderEmail.class);
+        configuration.addAnnotatedClass(Notes.class);
+        configuration.addAnnotatedClass(SmsConfiguration.class);
+        configuration.addAnnotatedClass(Section.class);
+        configuration.addAnnotatedClass(BiometricDeviceMap.class);
+        configuration.addAnnotatedClass(BiometricLog.class);
+        configuration.addAnnotatedClass(StudentImport.class);
+        configuration.addAnnotatedClass(CertificateData.class);
+        configuration.addAnnotatedClass(ExamSchedule.class);
 
-        sessionFactory = new Configuration()
-                .addProperties(prop)
-                .addAnnotatedClass(OnlineClass.class)
-                .addAnnotatedClass(Routing.class)
-                .addAnnotatedClass(OrganizationTeam.class)
-                .addAnnotatedClass(OnlineAdmission.class)
-                .addAnnotatedClass(AboutApp.class)
-                .addAnnotatedClass(EmployeeAttendance.class)
-                .addAnnotatedClass(MenuMaster.class)
-                .addAnnotatedClass(MenuUserAccess.class)
-                .addAnnotatedClass(EmpLevelMaster.class)
-                .addAnnotatedClass(DepartmentMaster.class)
-                .addAnnotatedClass(CashBill.class)
-                .addAnnotatedClass(CashBillDetail.class)
-                .addAnnotatedClass(CastEthnicityMaster.class)
-                .addAnnotatedClass(AdBsCalender.class)
-                .addAnnotatedClass(BusMaster.class)
-                .addAnnotatedClass(BusStationTime.class)
-                .addAnnotatedClass(ReligionMaster.class)
-                .addAnnotatedClass(OrganizationMaster.class)
-                .addAnnotatedClass(OrganizationUserInfo.class)
-                .addAnnotatedClass(ProgramMaster.class)
-                .addAnnotatedClass(BillMaster.class)
-                .addAnnotatedClass(SubjectMaster.class)
-                .addAnnotatedClass(SubjectGroup.class)
-                .addAnnotatedClass(SubjectGroupDetail.class)
-                .addAnnotatedClass(AcademicYear.class)
-                .addAnnotatedClass(DistrictMaster.class)
-                .addAnnotatedClass(MunicipalMaster.class)
-                .addAnnotatedClass(ClassMaster.class)
-                .addAnnotatedClass(SchoolClassSession.class)
-                .addAnnotatedClass(SchoolClassSessionBillDate.class)
-                .addAnnotatedClass(FeeSetup.class)
-                .addAnnotatedClass(ChartOfAccount.class)
-                .addAnnotatedClass(FiscalYear.class)
-                .addAnnotatedClass(StuBillingMaster.class)
-                .addAnnotatedClass(StuBillingDetail.class)
-                .addAnnotatedClass(PreAdmission.class)
-                .addAnnotatedClass(StudentInfo.class)
-                .addAnnotatedClass(ClassTransfer.class)
-                .addAnnotatedClass(Voucher.class)
-                .addAnnotatedClass(VoucherDetail.class)
-                .addAnnotatedClass(VoucherDelete.class)
-                .addAnnotatedClass(Ledger.class)
-                .addAnnotatedClass(ExamTerminal.class)
-                .addAnnotatedClass(ExamMaster.class)
-                .addAnnotatedClass(GradingSystem.class)
-                .addAnnotatedClass(GradingSystemTwo.class)
-                .addAnnotatedClass(ExamStudentRegistration.class)
-                .addAnnotatedClass(ExamMarkEntry.class)
-                .addAnnotatedClass(ExamResultPublish.class)
-                .addAnnotatedClass(ExamResultPublishSubject.class)
-                .addAnnotatedClass(StudentTransportation.class)
-                .addAnnotatedClass(SchoolHostal.class)
-                .addAnnotatedClass(SundryCreditors.class)
-                .addAnnotatedClass(PurchaseOrder.class)
-                .addAnnotatedClass(PurchaseOrderDetail.class)
-                .addAnnotatedClass(InventoryLedger.class)
-                .addAnnotatedClass(BusStationMaster.class)
-                .addAnnotatedClass(HostalTypeMaster.class)
-                .addAnnotatedClass(NoticeBoard.class)
-                .addAnnotatedClass(StudentAttendance.class)
-                .addAnnotatedClass(TeachersClassSubject.class)
-                .addAnnotatedClass(TeachersHomework.class)
-                .addAnnotatedClass(StudentHomework.class)
-                .addAnnotatedClass(PreviousEducation.class)
-                .addAnnotatedClass(Annex4bMaster.class)
-                .addAnnotatedClass(Annex4bDetail.class)
-                .addAnnotatedClass(LibBookType.class)
-                .addAnnotatedClass(LibBookStock.class)
-                .addAnnotatedClass(LibBookIssue.class)
-                .addAnnotatedClass(BookRemoved.class)
-                .addAnnotatedClass(UploadTeachersVideo.class)
-                .addAnnotatedClass(BillingDeleteMaster.class)
-                .addAnnotatedClass(BillingDeleteDetail.class)
-                .addAnnotatedClass(EmployeeInfo.class)
-                .addAnnotatedClass(OnlineVacancy.class)
-                .addAnnotatedClass(EmpWorkingHour.class)
-                .addAnnotatedClass(TaxSlab.class)
-                .addAnnotatedClass(EmployeeSalaryInfo.class)
-                .addAnnotatedClass(LeaveApplication.class)
-                .addAnnotatedClass(EmpLeaveDetail.class)
-                .addAnnotatedClass(EmpMonthlySalary.class)
-                .addAnnotatedClass(PercentageSystem.class)
-                .addAnnotatedClass(AllowanceMaster.class)
-                .addAnnotatedClass(MonthlyAllowance.class)
-                .addAnnotatedClass(RegularAllowance.class)
-                .addAnnotatedClass(CharacterIssue.class)
-                .addAnnotatedClass(EmailNotificationService.class)
-                .addAnnotatedClass(ShareHolder.class)
-                .addAnnotatedClass(SmsCreditAmount.class)
-                .addAnnotatedClass(SentSms.class)
-                .addAnnotatedClass(SenderEmail.class)
-                .addAnnotatedClass(Notes.class)
-                .addAnnotatedClass(SmsConfiguration.class)
-                .addAnnotatedClass(Section.class)
-                .addAnnotatedClass(BiometricDeviceMap.class)
-                .addAnnotatedClass(BiometricLog.class)
-                .addAnnotatedClass(StudentImport.class)
-                .addAnnotatedClass(CertificateData.class)
-                .addAnnotatedClass(ExamSchedule.class)
-                .buildSessionFactory();
+        // ✅ Build session factory
+        sessionFactory = configuration.buildSessionFactory();
     }
+
 
     @Override
     public Session getSession() {
+        if (sessionFactory == null || sessionFactory.isClosed()) {
+            init(); // lazy init in case it's not called before
+        }
         return sessionFactory.openSession();
     }
 }
