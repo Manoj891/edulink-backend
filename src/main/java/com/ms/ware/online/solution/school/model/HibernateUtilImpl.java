@@ -153,7 +153,6 @@ public class HibernateUtilImpl implements HibernateUtil {
         sessionFactory = configuration.buildSessionFactory();
     }
 
-
     @Override
     public Session getSession() {
         if (sessionFactory == null || sessionFactory.isClosed()) {
