@@ -72,7 +72,7 @@ public class OnlineClassTeacherRestController {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         if (row == 1) {
             return message.respondWithMessage("Success");

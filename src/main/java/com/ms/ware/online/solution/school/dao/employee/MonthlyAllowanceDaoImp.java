@@ -37,7 +37,7 @@ public class MonthlyAllowanceDaoImp implements MonthlyAllowanceDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -59,7 +59,7 @@ public class MonthlyAllowanceDaoImp implements MonthlyAllowanceDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -82,7 +82,7 @@ public class MonthlyAllowanceDaoImp implements MonthlyAllowanceDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -125,7 +125,7 @@ public class MonthlyAllowanceDaoImp implements MonthlyAllowanceDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

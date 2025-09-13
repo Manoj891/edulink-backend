@@ -36,7 +36,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -58,7 +58,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -79,7 +79,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -121,7 +121,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -148,7 +148,7 @@ public class SchoolClassSessionDaoImp implements SchoolClassSessionDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

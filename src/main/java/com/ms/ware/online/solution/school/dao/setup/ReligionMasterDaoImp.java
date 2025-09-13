@@ -36,7 +36,7 @@ public class ReligionMasterDaoImp implements ReligionMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -58,7 +58,7 @@ public class ReligionMasterDaoImp implements ReligionMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -79,7 +79,7 @@ public class ReligionMasterDaoImp implements ReligionMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -121,7 +121,7 @@ public class ReligionMasterDaoImp implements ReligionMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

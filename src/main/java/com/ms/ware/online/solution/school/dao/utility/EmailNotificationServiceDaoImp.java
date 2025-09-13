@@ -37,7 +37,7 @@ public class EmailNotificationServiceDaoImp implements EmailNotificationServiceD
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -59,7 +59,7 @@ public class EmailNotificationServiceDaoImp implements EmailNotificationServiceD
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -80,7 +80,7 @@ public class EmailNotificationServiceDaoImp implements EmailNotificationServiceD
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -122,7 +122,7 @@ public class EmailNotificationServiceDaoImp implements EmailNotificationServiceD
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

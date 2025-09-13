@@ -44,7 +44,7 @@ public class EmpMonthlySalaryDaoImpl implements EmpMonthlySalaryDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -66,7 +66,7 @@ public class EmpMonthlySalaryDaoImpl implements EmpMonthlySalaryDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -91,7 +91,7 @@ public class EmpMonthlySalaryDaoImpl implements EmpMonthlySalaryDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -133,7 +133,7 @@ public class EmpMonthlySalaryDaoImpl implements EmpMonthlySalaryDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

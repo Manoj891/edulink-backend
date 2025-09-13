@@ -36,7 +36,7 @@ public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -58,7 +58,7 @@ public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -79,7 +79,7 @@ public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -121,7 +121,7 @@ public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -149,7 +149,7 @@ public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -171,7 +171,7 @@ public class TeachersHomeworkDaoImp implements TeachersHomeworkDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
      }

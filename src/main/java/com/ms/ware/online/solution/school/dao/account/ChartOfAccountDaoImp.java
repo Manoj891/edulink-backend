@@ -35,7 +35,7 @@ public class ChartOfAccountDaoImp implements ChartOfAccountDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -57,7 +57,7 @@ public class ChartOfAccountDaoImp implements ChartOfAccountDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -78,7 +78,7 @@ public class ChartOfAccountDaoImp implements ChartOfAccountDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -120,7 +120,7 @@ public class ChartOfAccountDaoImp implements ChartOfAccountDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

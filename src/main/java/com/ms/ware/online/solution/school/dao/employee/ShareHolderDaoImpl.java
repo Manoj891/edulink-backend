@@ -41,7 +41,7 @@ public class ShareHolderDaoImpl implements ShareHolderDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -64,7 +64,7 @@ public class ShareHolderDaoImpl implements ShareHolderDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -115,7 +115,7 @@ public class ShareHolderDaoImpl implements ShareHolderDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

@@ -37,7 +37,7 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -59,7 +59,7 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -80,7 +80,7 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -122,7 +122,7 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -151,7 +151,7 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -172,7 +172,7 @@ public class LeaveApplicationDaoImp implements LeaveApplicationDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

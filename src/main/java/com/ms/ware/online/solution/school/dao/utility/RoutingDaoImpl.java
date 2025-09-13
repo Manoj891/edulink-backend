@@ -40,7 +40,7 @@ public class RoutingDaoImpl implements RoutingDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -63,7 +63,7 @@ public class RoutingDaoImpl implements RoutingDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

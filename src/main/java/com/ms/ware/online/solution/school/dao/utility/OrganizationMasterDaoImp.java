@@ -39,7 +39,7 @@ public class OrganizationMasterDaoImp implements OrganizationMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -61,7 +61,7 @@ public class OrganizationMasterDaoImp implements OrganizationMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -82,7 +82,7 @@ public class OrganizationMasterDaoImp implements OrganizationMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -152,7 +152,7 @@ public class OrganizationMasterDaoImp implements OrganizationMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -174,7 +174,7 @@ public class OrganizationMasterDaoImp implements OrganizationMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -196,7 +196,7 @@ public class OrganizationMasterDaoImp implements OrganizationMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

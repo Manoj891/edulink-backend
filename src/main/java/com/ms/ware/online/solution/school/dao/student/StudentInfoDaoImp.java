@@ -38,7 +38,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -59,7 +59,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -152,7 +152,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -196,7 +196,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -224,7 +224,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -247,7 +247,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -270,7 +270,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
 
@@ -294,7 +294,7 @@ public class StudentInfoDaoImp implements StudentInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

@@ -40,7 +40,7 @@ public class BusStationTimeDaoImp implements BusStationTimeDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -62,7 +62,7 @@ public class BusStationTimeDaoImp implements BusStationTimeDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -104,7 +104,7 @@ Transaction tr = session.beginTransaction();
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

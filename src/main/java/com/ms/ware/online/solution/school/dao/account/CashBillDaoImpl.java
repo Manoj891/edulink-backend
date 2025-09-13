@@ -32,7 +32,7 @@ public class CashBillDaoImpl implements CashBillDao {
     public List<CashBill> getAll(String hql) {
         msg = "";
         Session session = util.getSession();
-        List<CashBill> list = new ArrayList<>();
+        List<CashBill> list;
         Transaction tr = session.beginTransaction();
         try {
             list = session.createQuery(hql).list();
@@ -45,7 +45,7 @@ public class CashBillDaoImpl implements CashBillDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -67,7 +67,7 @@ public class CashBillDaoImpl implements CashBillDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -88,7 +88,7 @@ public class CashBillDaoImpl implements CashBillDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -130,7 +130,7 @@ public class CashBillDaoImpl implements CashBillDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -153,7 +153,7 @@ public class CashBillDaoImpl implements CashBillDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

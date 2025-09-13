@@ -41,7 +41,7 @@ public class VoucherDaoImp implements VoucherDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -84,7 +84,7 @@ public class VoucherDaoImp implements VoucherDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -126,7 +126,7 @@ public class VoucherDaoImp implements VoucherDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -153,7 +153,7 @@ public class VoucherDaoImp implements VoucherDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -175,7 +175,7 @@ public class VoucherDaoImp implements VoucherDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -197,7 +197,7 @@ public class VoucherDaoImp implements VoucherDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

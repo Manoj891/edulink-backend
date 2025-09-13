@@ -39,7 +39,7 @@ public class AboutAppDaoImp implements AboutAppDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -61,7 +61,7 @@ public class AboutAppDaoImp implements AboutAppDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -82,7 +82,7 @@ public class AboutAppDaoImp implements AboutAppDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -124,7 +124,7 @@ public class AboutAppDaoImp implements AboutAppDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -152,7 +152,7 @@ public class AboutAppDaoImp implements AboutAppDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -218,7 +218,7 @@ public class AboutAppDaoImp implements AboutAppDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

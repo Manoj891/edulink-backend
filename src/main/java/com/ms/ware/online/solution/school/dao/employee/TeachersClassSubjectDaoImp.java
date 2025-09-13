@@ -37,7 +37,7 @@ public class TeachersClassSubjectDaoImp implements TeachersClassSubjectDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -59,7 +59,7 @@ public class TeachersClassSubjectDaoImp implements TeachersClassSubjectDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -101,7 +101,7 @@ public class TeachersClassSubjectDaoImp implements TeachersClassSubjectDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

@@ -36,7 +36,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -58,7 +58,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -79,7 +79,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -121,7 +121,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -148,7 +148,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -170,7 +170,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -193,7 +193,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -216,7 +216,7 @@ public class GradingSystemDaoImp implements GradingSystemDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

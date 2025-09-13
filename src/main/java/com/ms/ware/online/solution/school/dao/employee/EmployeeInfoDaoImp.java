@@ -38,7 +38,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -60,7 +60,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -81,7 +81,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -123,7 +123,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -151,7 +151,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -174,7 +174,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -196,7 +196,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -218,7 +218,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -240,7 +240,7 @@ public class EmployeeInfoDaoImp implements EmployeeInfoDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

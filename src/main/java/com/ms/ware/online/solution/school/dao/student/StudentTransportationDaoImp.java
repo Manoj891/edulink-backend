@@ -37,7 +37,7 @@ public class StudentTransportationDaoImp implements StudentTransportationDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

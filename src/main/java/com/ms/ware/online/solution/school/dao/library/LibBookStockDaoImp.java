@@ -38,7 +38,7 @@ public class LibBookStockDaoImp implements LibBookStockDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -60,7 +60,7 @@ public class LibBookStockDaoImp implements LibBookStockDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -105,7 +105,7 @@ public class LibBookStockDaoImp implements LibBookStockDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

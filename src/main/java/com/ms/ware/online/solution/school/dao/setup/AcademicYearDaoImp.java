@@ -36,7 +36,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -58,7 +58,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -102,7 +102,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -144,7 +144,7 @@ public class AcademicYearDaoImp implements AcademicYearDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

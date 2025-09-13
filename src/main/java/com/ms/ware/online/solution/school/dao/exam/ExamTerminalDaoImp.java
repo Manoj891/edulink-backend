@@ -38,7 +38,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -60,7 +60,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -81,7 +81,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -123,7 +123,7 @@ public class ExamTerminalDaoImp implements ExamTerminalDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }

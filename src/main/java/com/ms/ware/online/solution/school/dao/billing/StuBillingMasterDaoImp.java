@@ -41,7 +41,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -86,7 +86,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -156,7 +156,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -178,7 +178,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
@@ -230,7 +230,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -252,7 +252,7 @@ public class StuBillingMasterDaoImp implements StuBillingMasterDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }

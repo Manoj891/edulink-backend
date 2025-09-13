@@ -36,7 +36,7 @@ public class FeeSetupDaoImp implements FeeSetupDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -80,7 +80,7 @@ public class FeeSetupDaoImp implements FeeSetupDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return list;
     }
@@ -108,7 +108,7 @@ public class FeeSetupDaoImp implements FeeSetupDao {
         }
         try {
             session.close();
-        } catch (HibernateException e) {
+        } catch (HibernateException ignored) {
         }
         return row;
     }
