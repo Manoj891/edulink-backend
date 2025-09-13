@@ -28,7 +28,7 @@ public class DatabaseName {
 
     @Getter
     @Setter
-    private static String port = "3307";
+    private static String port = "3306";
     @Getter
     private static String documentUrl = "";
     @Getter
