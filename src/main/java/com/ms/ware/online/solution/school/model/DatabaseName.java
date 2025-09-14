@@ -5,7 +5,6 @@ import lombok.Setter;
 
 
 public class DatabaseName {
-
     @Getter
     @Setter
 //    private static String database = "school_of_scholars";
@@ -33,7 +32,6 @@ public class DatabaseName {
     private final static String username = "schoolking";
     @Getter
     private final static String password = "SchoolKing@123";
-
     public static void setDocumentUrl(String url) {
         documentUrl = "/" + url;
     }
