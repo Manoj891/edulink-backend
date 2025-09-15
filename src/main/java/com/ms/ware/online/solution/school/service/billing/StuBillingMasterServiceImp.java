@@ -611,7 +611,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
     }
 
     @Override
-    public Object saveOthers(String jsonData) {
+    public Object saveOthers(BillingMasterReq req) {
 
         AuthenticatedUser td = facade.getAuthentication();
 
@@ -624,24 +624,23 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
         StuBillingMaster obj = new StuBillingMaster();
         List<StuBillingDetail> detail = new ArrayList<>();
         try {
-            String[] jsonDataArray = message.jsonDataToStringArray(jsonData);
-            String stuName, programName, className, fathersName, address, mobileNo;
-            message.map = new com.fasterxml.jackson.databind.ObjectMapper().readValue(jsonDataArray[0], new com.fasterxml.jackson.core.type.TypeReference<>() {
-            });
 
-            String dateAd = DateConverted.bsToAd(message.map.get("date").toString());
-            academicYear = Long.parseLong(message.map.get("academicYear").toString());
-            program = Long.parseLong(message.map.get("program").toString());
-            classId = Long.parseLong(message.map.get("classId").toString());
-            subjectGroup = Long.parseLong(message.map.get("subjectGroup").toString());
-            stuName = message.map.get("studentName").toString();
-            fathersName = message.map.get("fathersName").toString();
-            address = message.map.get("address").toString();
-            mobileNo = message.map.get("mobileNo").toString();
-            double amount = 0, payAmount = Float.parseFloat(message.map.get("payAmount").toString());
-            String year = message.map.get("year").toString();
-            String month = message.map.get("month").toString();
-            String remark = message.map.get("remark").toString();
+            String stuName, programName, className, fathersName, address, mobileNo;
+
+
+            String dateAd = DateConverted.bsToAd(req.getBillDate());
+            academicYear = req.getAcademicYear();
+            program = req.getProgram();
+            classId = req.getClassId();
+            subjectGroup =req.getSubjectGroup();
+            stuName =req.getStudentName();
+            fathersName =req.getFathersName();
+            address = req.getAddress();
+            mobileNo = req.getMobileNo();
+            double amount , payAmount =req.getPayAmount();
+            String year =req.getYear();
+            String month = req.getMonth();
+            String remark = req.getRemark();
             String paymentDate = DateConverted.bsToAd(year + "-" + month + "-01");
 
             sql = "SELECT NAME programName FROM program_master WHERE ID='" + program + "' ";
@@ -684,17 +683,15 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             obj.setFatherName(fathersName);
             obj.setAddress(address);
             obj.setMobileNo(mobileNo);
-            message.list = new ObjectMapper().readValue(jsonDataArray[1], new TypeReference<List>() {
-            });
+          
             billSn = 1;
-            for (int i = 0; i < message.list.size(); i++) {
-                message.map = message.list.get(i);
-                amount = Float.parseFloat(message.map.get("amount").toString());
+            for (BillingDetailReq d : req.getList()) {
+
+                amount = d.getAmount();
                 if (amount <= 0) {
                     continue;
                 }
-                billId = Long.parseLong(message.map.get("billId").toString());
-
+                billId = d.getBillId();
                 detail.add(new StuBillingDetail(billNo, billSn, null, academicYear, program, classId, billId, 0, amount, paymentDate, "Y"));
 
                 detail.add(new StuBillingDetail(billNo, billSn * (-1), null, academicYear, program, classId, billId, amount, 0, paymentDate, "Y"));

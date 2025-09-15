@@ -13,7 +13,7 @@ public interface StuBillingMasterService {
 
     String save(BillingMasterReq req);
 
-    Object saveOthers(String jsonData);
+    Object saveOthers(BillingMasterReq req);
 
     Object wavFee(StuBillingMasterWav req);
 

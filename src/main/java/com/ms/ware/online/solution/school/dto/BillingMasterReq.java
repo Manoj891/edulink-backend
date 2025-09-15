@@ -12,12 +12,18 @@ public class BillingMasterReq {
     private long academicYear;
     private long program;
     private long classId;
+    private Long subjectGroup;
     private String remark;
     private long regNo;
     private double payAmount;
     private String year;
     private String month;
     private String acCode;
+    private String studentName;
+    private String fathersName;
+    private String mobileNo;
+    private String address;
+
     private List<BillingDetailReq> obj;
 
     public List<BillingDetailReq> getList() {

@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BillingDetailReq {
-    private long academicYear;
-    private long program;
-    private long classId;
+    private Long academicYear;
+    private Long program;
+    private Long classId;
     private long billId;
     private double amount;
     private String isExtra;

@@ -98,8 +98,8 @@ public class StuBillingMasterRestController {
     }
 
     @PostMapping("/Others")
-    public Object doSaveOthers(@RequestBody String jsonData) {
-        return service.saveOthers(jsonData);
+    public Object doSaveOthers(@RequestBody BillingMasterReq req) {
+        return service.saveOthers(req);
     }
 
     @PutMapping
