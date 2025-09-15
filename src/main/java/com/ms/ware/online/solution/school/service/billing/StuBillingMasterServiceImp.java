@@ -614,14 +614,13 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
     public Object saveOthers(String jsonData) {
 
         AuthenticatedUser td = facade.getAuthentication();
-        ;
 
         String userName = td.getUserName();
         String cashAccount = td.getCashAccount();
         if (cashAccount.isEmpty()) {
             return message.respondWithError("Please define cash Account of " + userName);
         }
-        long billId, academicYear, program, classId, subjectGroup = 1;
+        long billId, academicYear, program, classId, subjectGroup;
         StuBillingMaster obj = new StuBillingMaster();
         List<StuBillingDetail> detail = new ArrayList<>();
         try {
@@ -634,6 +633,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             academicYear = Long.parseLong(message.map.get("academicYear").toString());
             program = Long.parseLong(message.map.get("program").toString());
             classId = Long.parseLong(message.map.get("classId").toString());
+            subjectGroup = Long.parseLong(message.map.get("subjectGroup").toString());
             stuName = message.map.get("studentName").toString();
             fathersName = message.map.get("fathersName").toString();
             address = message.map.get("address").toString();
