@@ -359,7 +359,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
         OrganizationInformationData data = organizationInformation.getData();
 
         DecimalFormat df = new DecimalFormat("#.##");
-        sql = "SELECT BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class',IFNULL(B.REMARK,'') remark,'' rollNo,'' subjectGroup,'' as admissionYear FROM stu_billing_master B,program_master P,class_master C,subject_group G WHERE REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND G.`ID`=B.`SUBJECT_GROPU` AND BILL_NO='" + billNo + "' "
+        sql = "SELECT BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class',IFNULL(B.REMARK,'') remark,'' rollNo,G.`NAME` subjectGroup,'' as admissionYear FROM stu_billing_master B,program_master P,class_master C,subject_group G WHERE REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND G.`ID`=B.`SUBJECT_GROPU` AND BILL_NO='" + billNo + "' "
                 + " UNION "
                 + "SELECT BILL_NO billNo, IFNULL(REG_NO, 'N/A') regNo, GET_BS_DATE(B.ENTER_DATE) enterDate, B.ENTER_BY enterBy, S.STU_NAME studentName, S.fathers_name fatherName, S.MOBILE_NO mobileNo, CONCAT(DISTRICT, ' ', MUNICIPAL, ' ', WARD_NO, ' ', TOL) address, P.NAME program, case when B.class_id = S.class_id then CONCAT(C.NAME, ' ', section) else C.NAME end 'class', IFNULL(B.REMARK, '') remark, S.ROLL_NO rollNo, G.`NAME` subjectGroup,ifnull(S.admission_year,'') as admissionYear FROM stu_billing_master B join student_info S on B.REG_NO = S.ID join program_master P on B.PROGRAM = P.ID join class_master C on B.CLASS_ID = C.ID join subject_group G on B.`SUBJECT_GROPU` = G.`ID` WHERE BILL_NO='" + billNo + "'";
         List<Map<String, Object>> l = da.getRecord(sql);
@@ -367,7 +367,6 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             return message.respondWithError("Invalid Bill no");
         }
         Map<String, Object> map = l.get(0);
-
         sql = "SELECT D.DR amount,B.NAME name FROM stu_billing_detail D,bill_master B WHERE B.ID=D.BILL_ID AND BILL_NO='" + billNo + "'";
         List<Map<String, Object>> list = da.getRecord(sql);
 
