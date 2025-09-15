@@ -359,7 +359,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
         OrganizationInformationData data = organizationInformation.getData();
 
         DecimalFormat df = new DecimalFormat("#.##");
-        sql = "SELECT BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class',IFNULL(B.REMARK,'') remark,'' rollNo,G.`NAME` subjectGroup,'' as admissionYear FROM stu_billing_master B,program_master P,class_master C,subject_group G WHERE REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND G.`ID`=B.`SUBJECT_GROPU` AND BILL_NO='" + billNo + "' "
+        sql = "SELECT BILL_NO billNo,IFNULL(REG_NO,'N/A') regNo,GET_BS_DATE(B.ENTER_DATE) enterDate,B.ENTER_BY enterBy,STUDENT_NAME studentName,FATHER_NAME fatherName,MOBILE_NO mobileNo,ADDRESS address,P.NAME program,C.NAME 'class',IFNULL(B.REMARK,'') remark,'' rollNo,'' subjectGroup,'' as admissionYear FROM stu_billing_master B,program_master P,class_master C,subject_group G WHERE REG_NO IS NULL AND B.PROGRAM=P.ID AND B.CLASS_ID=C.ID AND G.`ID`=B.`SUBJECT_GROPU` AND BILL_NO='" + billNo + "' "
                 + " UNION "
                 + "SELECT BILL_NO billNo, IFNULL(REG_NO, 'N/A') regNo, GET_BS_DATE(B.ENTER_DATE) enterDate, B.ENTER_BY enterBy, S.STU_NAME studentName, S.fathers_name fatherName, S.MOBILE_NO mobileNo, CONCAT(DISTRICT, ' ', MUNICIPAL, ' ', WARD_NO, ' ', TOL) address, P.NAME program, case when B.class_id = S.class_id then CONCAT(C.NAME, ' ', section) else C.NAME end 'class', IFNULL(B.REMARK, '') remark, S.ROLL_NO rollNo, G.`NAME` subjectGroup,ifnull(S.admission_year,'') as admissionYear FROM stu_billing_master B join student_info S on B.REG_NO = S.ID join program_master P on B.PROGRAM = P.ID join class_master C on B.CLASS_ID = C.ID join subject_group G on B.`SUBJECT_GROPU` = G.`ID` WHERE BILL_NO='" + billNo + "'";
         List<Map<String, Object>> l = da.getRecord(sql);
@@ -367,6 +367,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             return message.respondWithError("Invalid Bill no");
         }
         Map<String, Object> map = l.get(0);
+
         sql = "SELECT D.DR amount,B.NAME name FROM stu_billing_detail D,bill_master B WHERE B.ID=D.BILL_ID AND BILL_NO='" + billNo + "'";
         List<Map<String, Object>> list = da.getRecord(sql);
 
@@ -551,67 +552,62 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
     @Override
     public String delete(String id, String reason) {
         AuthenticatedUser td = facade.getAuthentication();
-        ;
-        List<Voucher> voucher = da.getVoucher("from Voucher where feeReceiptNo='" + id + "'");
-        String voucherNo;
-        if (!voucher.isEmpty() || voucher.size() == 0) {
-            voucherNo = "--";
-        } else {
-            if (voucher.get(0).getApproveDate() != null) throw new CustomException("Voucher already approved");
-            voucherNo = voucher.get(0).getVoucherNo();
-        }
+        sql = "select voucher_no from voucher where FEE_RECEIPT_NO='" + id + "'";
+        List<Map<String, Object>> l = da.getRecord(sql);
+        l.forEach(m -> {
+            String voucherNo = m.get("voucher_no").toString();
+            List<StuBillingMaster> list = da.getAll("from StuBillingMaster where billNo='" + id + "'");
 
-        List<StuBillingMaster> list = da.getAll("from StuBillingMaster where billNo='" + id + "'");
-
-        BillingDeleteMaster obj = new BillingDeleteMaster();
-        obj.setAcademicYear(list.get(0).getAcademicYear());
-        obj.setAddress(list.get(0).getAddress());
-        obj.setApproveBy(list.get(0).getApproveBy());
-        obj.setApproveDate(list.get(0).getApproveDate());
-        obj.setAutoGenerate(list.get(0).getAutoGenerate());
-        obj.setBillAmount(list.get(0).getBillAmount());
-        obj.setBillNo(list.get(0).getBillNo());
-        obj.setBillSn(list.get(0).getBillSn());
-        obj.setBillType(list.get(0).getBillType());
-        obj.setClassId(list.get(0).getClassId());
-        obj.setEnterBy(list.get(0).getEnterBy());
-        obj.setEnterDate(list.get(0).getEnterDate());
-        obj.setFatherName(list.get(0).getFatherName());
-        obj.setFiscalYear(list.get(0).getFiscalYear());
-        obj.setMobileNo(list.get(0).getMobileNo());
-        obj.setProgram(list.get(0).getProgram());
-        obj.setReferenceId(list.get(0).getReferenceId());
-        obj.setRegNo(list.get(0).getRegNo());
-        obj.setStudentName(list.get(0).getStudentName());
-        obj.setSubjectGropu(list.get(0).getSubjectGropu());
-        obj.setDeleteBy(td.getUserName());
-        obj.setDeleteDate(DateConverted.now());
-        obj.setReason(reason);
-        List<StuBillingDetail> detail = list.get(0).getDetail();
-        List<BillingDeleteDetail> details1 = new ArrayList<>();
-        BillingDeleteDetail objd;
-        for (StuBillingDetail stuBillingDetail : detail) {
-            objd = new BillingDeleteDetail();
-            objd.setAcademicYear(stuBillingDetail.getAcademicYear());
-            objd.setClassId(stuBillingDetail.getClassId());
-            objd.setCr(stuBillingDetail.getCr());
-            objd.setDr(stuBillingDetail.getDr());
-            objd.setInventoryIssue(stuBillingDetail.getInventoryIssue());
-            objd.setInventoryIssueBy(stuBillingDetail.getInventoryIssueBy());
-            objd.setInventoryIssueDate(stuBillingDetail.getInventoryIssueDate());
-            objd.setIsExtra(stuBillingDetail.getIsExtra());
-            objd.setPaymentDate(stuBillingDetail.getPaymentDate());
-            objd.setProgram(stuBillingDetail.getProgram());
-            objd.setRegNo(stuBillingDetail.getRegNo());
-            objd.setBillId(stuBillingDetail.getBillIds());
-            objd.setPk(new StuBillingDetailPK(obj.getBillNo(), stuBillingDetail.getPk().getBillSn()));
-            details1.add(objd);
-        }
-        obj.setDetail(details1);
-        row = da.save(obj, voucherNo);
-        if (row == 0) {
-            throw new CustomException("Bill Backup not Generated");
-        }
+            BillingDeleteMaster obj = new BillingDeleteMaster();
+            obj.setAcademicYear(list.get(0).getAcademicYear());
+            obj.setAddress(list.get(0).getAddress());
+            obj.setApproveBy(list.get(0).getApproveBy());
+            obj.setApproveDate(list.get(0).getApproveDate());
+            obj.setAutoGenerate(list.get(0).getAutoGenerate());
+            obj.setBillAmount(list.get(0).getBillAmount());
+            obj.setBillNo(list.get(0).getBillNo());
+            obj.setBillSn(list.get(0).getBillSn());
+            obj.setBillType(list.get(0).getBillType());
+            obj.setClassId(list.get(0).getClassId());
+            obj.setEnterBy(list.get(0).getEnterBy());
+            obj.setEnterDate(list.get(0).getEnterDate());
+            obj.setFatherName(list.get(0).getFatherName());
+            obj.setFiscalYear(list.get(0).getFiscalYear());
+            obj.setMobileNo(list.get(0).getMobileNo());
+            obj.setProgram(list.get(0).getProgram());
+            obj.setReferenceId(list.get(0).getReferenceId());
+            obj.setRegNo(list.get(0).getRegNo());
+            obj.setStudentName(list.get(0).getStudentName());
+            obj.setSubjectGropu(list.get(0).getSubjectGropu());
+            obj.setDeleteBy(td.getUserName());
+            obj.setDeleteDate(DateConverted.now());
+            obj.setReason(reason);
+            List<StuBillingDetail> detail = list.get(0).getDetail();
+            List<BillingDeleteDetail> details1 = new ArrayList<>();
+            BillingDeleteDetail objd;
+            for (StuBillingDetail stuBillingDetail : detail) {
+                objd = new BillingDeleteDetail();
+                objd.setAcademicYear(stuBillingDetail.getAcademicYear());
+                objd.setClassId(stuBillingDetail.getClassId());
+                objd.setCr(stuBillingDetail.getCr());
+                objd.setDr(stuBillingDetail.getDr());
+                objd.setInventoryIssue(stuBillingDetail.getInventoryIssue());
+                objd.setInventoryIssueBy(stuBillingDetail.getInventoryIssueBy());
+                objd.setInventoryIssueDate(stuBillingDetail.getInventoryIssueDate());
+                objd.setIsExtra(stuBillingDetail.getIsExtra());
+                objd.setPaymentDate(stuBillingDetail.getPaymentDate());
+                objd.setProgram(stuBillingDetail.getProgram());
+                objd.setRegNo(stuBillingDetail.getRegNo());
+                objd.setBillId(stuBillingDetail.getBillIds());
+                objd.setPk(new StuBillingDetailPK(obj.getBillNo(), stuBillingDetail.getPk().getBillSn()));
+                details1.add(objd);
+            }
+            obj.setDetail(details1);
+            row = da.save(obj, voucherNo);
+            if (row == 0) {
+                throw new CustomException("Bill Backup not Generated");
+            }
+        });
         return "{\"message\":\"Success\"}";
     }
 
