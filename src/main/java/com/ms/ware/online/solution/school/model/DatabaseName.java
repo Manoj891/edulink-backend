@@ -11,7 +11,7 @@ public class DatabaseName {
 //   private static String database = "school_king_demo";
 //   private static String database = "sidhhababa_plustwo_campus";
 //   private static String database = "bhanubhakta";
-    private static String database = "rrm_campus";
+    private static String database = "motherland_bardibas";
 //   private static String database = "gaushala_mother_teresa";
 //   private static String database = "janakpur_mother_teresa";
 //   private static String database = "kamalamai_multiple_college";
