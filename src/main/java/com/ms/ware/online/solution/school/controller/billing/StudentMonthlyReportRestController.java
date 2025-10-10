@@ -84,10 +84,10 @@ public class StudentMonthlyReportRestController {
 
         month = month.isEmpty() ? "12" : month;
         if (type.contains("D")) {
-            sql = "SELECT B.NAME billName,M.ENTER_DATE billDate,D.BILL_SN billSn, D.REG_NO,M.BILL_NO billNo,M.BILL_TYPE billType, D.DR dr,D.CR cr,D.ACADEMIC_YEAR academicYear,C.NAME className,P.NAME program,ifnull(M.REMARK,'') remark FROM stu_billing_detail D,stu_billing_master M,program_master P,class_master C,bill_master B WHERE D.BILL_ID=B.ID AND M.BILL_NO=D.BILL_NO AND D.PROGRAM=P.ID AND D.CLASS_ID=C.ID AND M.REG_NO='" + regNo + "' ORDER BY D.payment_date,billName,billType";
+            sql = "SELECT B.NAME billName,GET_BS_DATE(M.ENTER_DATE) billDate,D.BILL_SN billSn, D.REG_NO,M.BILL_NO billNo,M.BILL_TYPE billType, D.DR dr,D.CR cr,D.ACADEMIC_YEAR academicYear,C.NAME className,P.NAME program,ifnull(M.REMARK,'') remark FROM stu_billing_detail D,stu_billing_master M,program_master P,class_master C,bill_master B WHERE D.BILL_ID=B.ID AND M.BILL_NO=D.BILL_NO AND D.PROGRAM=P.ID AND D.CLASS_ID=C.ID AND M.REG_NO='" + regNo + "' ORDER BY D.payment_date,billName,billType";
             return db.getMapRecord(sql);
         } else if (type.contains("B")) {
-            sql = "select d.BILL_NO billNo,sum(CR) billAmount,sum(DR) paid, m.ENTER_DATE billDate,m.ENTER_BY entryBy from stu_billing_master m join stu_billing_detail d on m.BILL_NO = d.BILL_NO and d.REG_NO = '" + regNo + "' group by d.bill_no, m.ENTER_DATE, m.ENTER_BY order by billDate";
+            sql = "select d.BILL_NO billNo,sum(CR) billAmount,sum(DR) paid, GET_BS_DATE(m.ENTER_DATE) billDate,m.ENTER_BY entryBy from stu_billing_master m join stu_billing_detail d on m.BILL_NO = d.BILL_NO and d.REG_NO = '" + regNo + "' group by d.bill_no, m.ENTER_DATE, m.ENTER_BY order by billDate";
             return db.getMapRecord(sql);
         }
 
