@@ -11,7 +11,7 @@ public class DatabaseName {
 //   private static String database = "school_king_demo";
 //   private static String database = "sidhhababa_plustwo_campus";
 //   private static String database = "bhanubhakta";
-    private static String database = "motherland_bardibas";
+//    private static String database = "motherland_bardibas";
 //   private static String database = "gaushala_mother_teresa";
 //   private static String database = "janakpur_mother_teresa";
 //   private static String database = "kamalamai_multiple_college";
@@ -23,9 +23,10 @@ public class DatabaseName {
 //   private static String database = "bardibas_siddhartha";
 //private static String database = "sunrise_aurahi";
 //    private static String database = "new_vision_baluwa";
+    private static String database = "tribhuwan_gaushala";
     @Getter
     @Setter
-    private static String port = "3306";
+    private static String port = "3307";
     @Getter
     private static String documentUrl = "";
     @Getter
