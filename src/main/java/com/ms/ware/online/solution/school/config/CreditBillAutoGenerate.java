@@ -71,13 +71,13 @@ public class CreditBillAutoGenerate {
             long billSn = Long.parseLong(map.get("billSn").toString());
 
             if (billSn < 10) {
-                billNo = "CR" + academicYear + "-" + classId + "-000" + billSn;
+                billNo = "CR" + fiscalYear + "-" + classId + "-000" + billSn;
             } else if (billSn < 100) {
-                billNo = "CR" + academicYear + "-" + classId + "-00" + billSn;
+                billNo = "CR" + fiscalYear + "-" + classId + "-00" + billSn;
             } else if (billSn < 1000) {
-                billNo = "CR" + academicYear + "-" + classId + "-0" + billSn;
+                billNo = "CR" + fiscalYear + "-" + classId + "-0" + billSn;
             } else {
-                billNo = "CR" + academicYear + "-" + classId + "-" + billSn;
+                billNo = "CR" + fiscalYear + "-" + classId + "-" + billSn;
             }
             sql = "INSERT INTO stu_billing_master(BILL_NO,BILL_SN,BILL_TYPE,REG_NO,ACADEMIC_YEAR,PROGRAM,CLASS_ID,SUBJECT_GROPU,FISCAL_YEAR,ENTER_BY,ENTER_DATE,APPROVE_BY,APPROVE_DATE,AUTO_GENERATE) VALUES('" + billNo + "'," + billSn + ",'CR', '" + regNo + "', '" + academicYear + "'," + program + ",'" + classId + "','" + subjectGroup + "','" + fiscalYear + "','" + enterBy + "','" + startDate + "','" + enterBy + "','" + startDate + "','Y');";
             row = session.createSQLQuery(sql).executeUpdate();

@@ -43,19 +43,19 @@ public class PreAdmissionServiceImp implements PreAdmissionService {
         }
         String userName = td.getUserName();
         String cashAccount = td.getCashAccount();
-        if (cashAccount.length() == 0) {
+        if (cashAccount.isEmpty()) {
             return message.respondWithError("Please define cash Account of " + userName);
         }
         String date = DateConverted.toString(obj.getEnterDateAd());
         try {
             sql = "SELECT ifnull(MAX(ID),0)+1 AS id FROM pre_admission";
-            message.map = (Map) da.getRecord(sql).get(0);
+            message.map = da.getRecord(sql).get(0);
             obj.setId(Long.parseLong(message.map.get("id").toString()));
             sql = "SELECT ID id FROM fiscal_year WHERE '" + date + "' BETWEEN START_DATE AND END_DATE;";
-            message.map = (Map) da.getRecord(sql).get(0);
+            message.map = da.getRecord(sql).get(0);
             long fiscalYear = Long.parseLong(message.map.get("id").toString());
             sql = "SELECT IFNULL(max(BILL_SN),0)+1 AS billSn FROM stu_billing_master WHERE FISCAL_YEAR='" + fiscalYear + "' AND BILL_TYPE='DR'";
-            message.map = (Map) da.getRecord(sql).get(0);
+            message.map = da.getRecord(sql).get(0);
             long billSn = Long.parseLong(message.map.get("billSn").toString());
 
             String billNo = "";

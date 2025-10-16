@@ -156,17 +156,17 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
                 }
 
                 try {
-                    academicYear = d.getAcademicYear();
+                    academicYear = Long.parseLong(d.getAcademicYear());
                 } catch (Exception e) {
                     academicYear = obj.getAcademicYear();
                 }
                 try {
-                    program = d.getProgram();
+                    program = Long.parseLong(d.getProgram());
                 } catch (Exception e) {
                     program = obj.getProgram();
                 }
                 try {
-                    classId = d.getClassId();
+                    classId = Long.parseLong(d.getClassId());
                 } catch (Exception e) {
                     classId = obj.getClassId();
                 }
@@ -669,7 +669,7 @@ public class StuBillingMasterServiceImp implements StuBillingMasterService {
             sql = "SELECT IFNULL(max(BILL_SN),0)+1 AS billSn FROM stu_billing_master WHERE FISCAL_YEAR='" + fiscalYear + "' AND BILL_TYPE='DR'";
             message.map = da.getRecord(sql).get(0);
             int billSn = Integer.parseInt(message.map.get("billSn").toString());
-            String billNo = "";
+            String billNo;
             if (billSn < 10) {
                 billNo = fiscalYear + "000" + billSn;
             } else if (billSn < 100) {

@@ -24,6 +24,7 @@ public class DatabaseName {
 //   private static String database = "bardibas_siddhartha";
 private static String database = "sunrise_aurahi";
 //    private static String database = "new_vision_baluwa";
+    private static String database = "tribhuwan_gaushala";
     @Getter
     @Setter
     private static String port = "3307";
