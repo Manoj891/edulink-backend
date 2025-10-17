@@ -19,7 +19,7 @@ public class MarkReportGenerate {
     @Autowired
     private Message message;
     @Autowired
-    private  ExamMarkEntryDao da ;
+    private ExamMarkEntryDao da;
 
     Object getFinalReport(int system, Long exam, Long program, Long classId, Long subjectGroup, Long sId) {
         String sql;
@@ -425,7 +425,6 @@ public class MarkReportGenerate {
             s.setGrade("F");
             s.setRemark("------------------------------");
         }
-
         return s;
     }
 
