@@ -405,8 +405,10 @@ public class MarkReportGenerate {
         s.setTotalThMark(df.format(totalThObtainMark));
         s.setTotalPrMark(df.format(totalPrObtainMark));
         s.setTotalObtain(df.format(((totalThObtainMark + totalPrObtainMark) / totalFullMark) * 100));
-        s.setRemark(resultRemark);
+
+
         if (failCount == 0) {
+            s.setRemark(resultRemark);
             if (system == 3) {
                 float f = Float.parseFloat(s.getTotalObtain());
                 getGrading(f);
@@ -421,6 +423,7 @@ public class MarkReportGenerate {
         } else {
             s.setGpa("-");
             s.setGrade("F");
+            s.setRemark("------------------------------");
         }
 
         return s;
