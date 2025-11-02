@@ -163,6 +163,7 @@ public class StudentInfoRestController {
 
     @GetMapping("/StudentInfo/By")
     public Object byNameRollNoRegNo(@RequestParam String name) {
+        name=name.trim();
         String dd[] = name.split(" ");
         name = " AND S.STU_NAME LIKE '" + dd[0] + "%'";
         if (dd.length > 1) {
