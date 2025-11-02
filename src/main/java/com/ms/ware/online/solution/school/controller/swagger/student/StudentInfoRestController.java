@@ -163,16 +163,7 @@ public class StudentInfoRestController {
 
     @GetMapping("/StudentInfo/By")
     public Object byNameRollNoRegNo(@RequestParam String name) {
-        name=name.trim();
-        String dd[] = name.split(" ");
-        name = " AND S.STU_NAME LIKE '" + dd[0] + "%'";
-        if (dd.length > 1) {
-            name = name + " AND S.STU_NAME LIKE '%" + dd[1] + "%'";
-        }
-        if (dd.length > 2) {
-            name = name + " AND S.STU_NAME LIKE '%" + dd[2] + "'";
-        }
-        return db.getRecord("SELECT P.NAME program,C.NAME 'class',ACADEMIC_YEAR 'academicYear',S.ID regNo,STU_NAME name,FATHERS_NAME fatherName,ROLL_NO rollNo,IFNULL(S.MOBILE_NO,'') mobileNo,IFNULL(S.EMAIL,'') email FROM student_info S,program_master P,class_master C WHERE C.ID=S.CLASS_ID AND P.ID=S.PROGRAM " + name + " ORDER BY name LIMIT 200");
+        return db.getRecord("SELECT P.NAME program,C.NAME 'class',ACADEMIC_YEAR 'academicYear',S.ID regNo,STU_NAME name,FATHERS_NAME fatherName,ROLL_NO rollNo,IFNULL(S.MOBILE_NO,'') mobileNo,IFNULL(S.EMAIL,'') email FROM student_info S,program_master P,class_master C WHERE C.ID=S.CLASS_ID AND P.ID=S.PROGRAM AND S.STU_NAME LIKE '" + name.trim() + "%'  ORDER BY name LIMIT 200");
     }
 
     @GetMapping("/ByStuFathers")
