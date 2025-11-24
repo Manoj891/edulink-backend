@@ -166,7 +166,7 @@ public class EmailNotificationServiceServiceImp implements EmailNotificationServ
         }
     }
 
-    @Scheduled(cron = "00 00 20 * * ?")
+    @Scheduled(cron = "00 30 20 * * ?")
     public void runEveryDay() {
         send();
     }
