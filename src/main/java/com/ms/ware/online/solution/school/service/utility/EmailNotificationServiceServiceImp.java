@@ -1,11 +1,8 @@
-/*    map = new com.fasterxml.jackson.databind.ObjectMapper().readValue(jsonData, new com.fasterxml.jackson.core.type.TypeReference<>() {});
- */
+
 package com.ms.ware.online.solution.school.service.utility;
 
 import com.ms.ware.online.solution.school.config.EmailService;
 import com.ms.ware.online.solution.school.config.Message;
-import com.ms.ware.online.solution.school.config.security.AuthenticatedUser;
-import com.ms.ware.online.solution.school.config.security.AuthenticationFacade;
 import com.ms.ware.online.solution.school.dao.utility.EmailNotificationServiceDao;
 import com.ms.ware.online.solution.school.entity.utility.EmailNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,13 +20,12 @@ import java.util.UUID;
 @Service
 public class EmailNotificationServiceServiceImp implements EmailNotificationServiceService {
     @Autowired
-    private AuthenticationFacade facade;
-    @Autowired
     private EmailNotificationServiceDao da;
     @Autowired
     private EmailService service;
     @Autowired
     private Message message;
+
     @Override
     public ResponseEntity getAll() {
         return ResponseEntity.status(200).body(da.getAll("from EmailNotificationService"));
@@ -38,7 +33,7 @@ public class EmailNotificationServiceServiceImp implements EmailNotificationServ
 
     @Override
     public ResponseEntity save(EmailNotificationService obj) {
-        
+
 
         String msg = "";
         try {
@@ -59,7 +54,7 @@ public class EmailNotificationServiceServiceImp implements EmailNotificationServ
 
     @Override
     public ResponseEntity update(EmailNotificationService obj, String id) {
-        
+
 
         int row;
         String msg = "";
@@ -78,7 +73,7 @@ public class EmailNotificationServiceServiceImp implements EmailNotificationServ
 
     @Override
     public ResponseEntity delete(String id) {
-        
+
 
         int row;
         String msg = "", sql;

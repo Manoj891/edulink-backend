@@ -14,8 +14,8 @@ public class BillingMasterReq {
     private long classId;
     private Long subjectGroup;
     private String remark;
-    private long regNo;
-    private double payAmount;
+    private Long regNo;
+    private Double payAmount;
     private String year;
     private String month;
     private String acCode;
