@@ -27,7 +27,7 @@ public class CertificateDataController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CertificateData>> index(@RequestParam Long academicYear, @RequestParam(required = false) String regNo) {
+    public ResponseEntity<List<CertificateData>> index(@RequestParam(required = false) Long academicYear, @RequestParam(required = false) Long regNo) {
         return ResponseEntity.status(HttpStatus.OK).body(service.getAll(academicYear, regNo));
     }
 

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface CertificateDataService {
 
-    List<CertificateData> getAll(long year, String regNo);
+    List<CertificateData> getAll(Long year, Long regNo);
 
     String save(CertificateData obj);
 
